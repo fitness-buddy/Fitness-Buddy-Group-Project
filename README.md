@@ -4,7 +4,7 @@
 
 ## Problem Statements
 
-**Problem 1:** It is hard to go gym alone <br/>
+**Problem 1:** Working out alone is boring <br/>
 
 ## Proposed Solution
 
