@@ -1,6 +1,6 @@
-# Fitness Pals
+# Uber Workout
 
-**Fitness Pals** is an android app that allows an user to find a workout buddy or a instructor who can train the user. The app utilizes geolocation and preferences to easily match users
+**Uber Workout** is an android app that allows an user to find a workout buddy or a instructor who can train the user. The app utilizes geolocation and preferences to easily match users
 
 ## Problem Statements
 
