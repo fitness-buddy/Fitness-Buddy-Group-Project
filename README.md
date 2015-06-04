@@ -1,48 +1,41 @@
-# Uber Workout
+# Strength Coach
 
-**Uber Workout** is an android app that allows an user to find a workout buddy or a instructor who can train the user. The app utilizes geolocation and preferences to easily match users
+**Strength Coach** is an android app that allows an user to find a fitness trainer. The app utilizes geolocation to match users with trainers.
 
 ## Problem Statements
 
-**Problem 1:** Working out alone is boring <br/>
+**Problem Statement:** Fitness trainers are really expensive <br/>
 
 ## Proposed Solution
 
-We plan to build an android app that provides a platform for finding a workout partner based on the user's location or user's choice of gym. Our app provides an option of filtering the users based on the preferences like workout time, schedule or routine. Our app provides additional features such as inbuilt chat system, camera and maps for picking up the location.
+The trainers who work at well known Gyms are really expensive. The reason is that Gym decides how much they would charge for trainer's time and take a huge cut from the same.
 
-Our application will have a feature of registering as a **Instructor** if the user would like to train other co-users with a much lower hourly rate. The app has a rating system to rate the service of the instructor which allows the users to avail the services of the instructor. The payment to the service of the Premium Users is processed through the app.
+If you look around in your Gym, there are lot of people who unserstand fitmess and can help you reach your goal. There is just no way of knowing if they are interested and what would they charge.
 
+Our app is the marketplace which brings the trainers and users together. Trainers can sign up and choose the price and time that suits them. User can browse through trainers, look at their pictures, read reviews and book training sessions.
 
 ## User Stories
 
 The following **required** functionality:
 
-* [ ] User can **login** to the app using Facebook login details
-* [ ] User can **signup** to the app:
-  * [ ] The app fetches the name, email, photos of the user from facebook
-  * [ ] User can enter details for about me, workout time, routine, **instructor ** 
-  * [ ] If **instructor**, User can enter the details for pay rate, expereince, account details
-  * [ ] User can select gym or enter zip code and can pick from the list of available gyms near that zip code
-  * [ ] User can view list of friends from facebook and can invite freinds. User has the option to skip this page (optional)
-* [ ] User can swipe through the list of users
-  * [ ] User can see picture, tagline, workout time, routine, location of the other users
-  * [ ] If **instructor**, user can see details for pay rate, rating (optional) 
-* [ ] User can change the settings of the app to view the modified list of users.
-* [ ] User can view their profile and edit the details as required
+* [ ] User can open the app and see a list of trainers in near by Gyms.
+* [ ] User sees a picture, brief description, Gym information and location for each trainer in the list view.
+* [ ] User can click on a trainer picture and see details of this trainer.
+* [ ] User can read recent review of a trainer in details view.
+* [ ] User sees a map with location of Gym where trainer is located.
+* [ ] User can click on "book" button and block 1 hr long session with the trainer.
+* [ ] User is asked to login using phone number before he can book a session.
+* [ ] User's phone number is validated via sms.
+* [ ] User can complete a booking.
 
 The following **optional** functionality:
-
-* [ ] User can initiate chat and communicate with other users
-* [ ] User can take a picture using the inbuilt camera option
-* [ ] User can pick the location using inbuilt maps option
-* [ ] User gets a notification if any co-user intiated chat with them 
-* [ ] User can provide rating for the premium user after availing the service 
+* [ ] User can mark a trainer as favourite and view favorites from hamburger menu later.
+* [ ] User can select several sessions with trainer and book together.
+* [ ] User can "Ask a question" about trainer and trainer can reply to the same.
+* [ ] User starts to see the phone number of a trainer after booking a session.
+* [ ] User can change location to see trainers in a different area.
+* [ ] User can scan credit card instead of adding it manually.
+* [ ] User can invite friends to use this app (Both user and friend get $10 credit for using invite feature in case friend books a session)
 * [ ] Improving UI/UX
-
-The following **additional** functionality:
-* [ ] User has the option of adding the users to their favourites as they swipe through the user list.
-* [ ] User can view their favourite users list
-* [ ] User can process payment to premium user for the service
-* [ ] Robust Error Handling
 
 App mock screens can be found [here](https://cloud.box.com/s/37qyy0w3027j9gdecoemwxz3wux1lxuy).
