@@ -11,6 +11,7 @@ import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.helpers.DataLoader;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -22,11 +23,15 @@ public class HomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         // User login
-        if (ParseUser.getCurrentUser() != null) { // start with existing user
-            startWithCurrentUser();
-        } else { // If not logged in, login as a new anonymous user
-            login();
-        }
+//        if (ParseUser.getCurrentUser() != null) { // start with existing user
+//            startWithCurrentUser();
+//        } else { // If not logged in, login as a new anonymous user
+//            login();
+//        }
+
+        // Populates a single row in all tables with fake data
+        DataLoader dataLoader = new DataLoader();
+        dataLoader.populate();
     }
 
     // Get the userId from the cached currentUser object

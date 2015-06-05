@@ -2,61 +2,73 @@ package com.strengthcoach.strengthcoach.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 @ParseClassName("Trainer")
 public class Trainer extends ParseObject {
-    int id;
-    String name;
-    Gym gym;
-    String aboutMe;
-    int price;
-    String phoneNumber;
+    /**
+     * COLUMN NAMES: Multi-word names should be separated by '_' (underscore)
+     * int id
+     * String name
+     * ArrayList<User> clients
+     * String about_me
+     * String phone_number
+     */
 
+    // Accessors
     public int getId() {
-        return id;
+        return getInt("id");
     }
 
     public String getName() {
-        return name;
+        return getString("name");
     }
 
-    public Gym getGym() {
-        return gym;
+    public ArrayList<ParseUser> getClients() {
+        return (ArrayList<ParseUser>) get("clients");
     }
 
     public String getAboutMe() {
-        return aboutMe;
+        return getString("about_me");
     }
 
     public int getPrice() {
-        return price;
+        return getInt("price");
+    }
+
+    // eg. $49
+    public String getPriceFormatted() {
+        return "$" +  getInt("price");
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return getString("phone_number");
     }
 
+    // Modifiers
     public void setId(int id) {
-        this.id = id;
+        put("id", id);
     }
 
     public void setName(String name) {
-        this.name = name;
+        put("name", name);
     }
 
-    public void setGym(Gym gym) {
-        this.gym = gym;
+    public void setClients(ArrayList<ParseUser> clients) {
+        put("clients", clients);
     }
 
     public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
+        put("about_me", aboutMe);
     }
 
     public void setPrice(int price) {
-        this.price = price;
+        put("price", price);
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        put("phone_number", phoneNumber);
     }
 }

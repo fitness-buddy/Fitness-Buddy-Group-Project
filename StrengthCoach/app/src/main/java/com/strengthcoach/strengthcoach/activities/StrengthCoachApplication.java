@@ -5,10 +5,10 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.strengthcoach.strengthcoach.models.Address;
+import com.strengthcoach.strengthcoach.models.CurrentUser;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Message;
 import com.strengthcoach.strengthcoach.models.Trainer;
-import com.strengthcoach.strengthcoach.models.User;
 
 public class StrengthCoachApplication extends Application {
     public static final String APPLICATION_ID = "7eAbPO86MugTvAXhQjBz3ctRoO1LwWeqoL2hDX6V";
@@ -21,7 +21,7 @@ public class StrengthCoachApplication extends Application {
         ParseObject.registerSubclass(Gym.class);
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(Trainer.class);
-        ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(CurrentUser.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
     }

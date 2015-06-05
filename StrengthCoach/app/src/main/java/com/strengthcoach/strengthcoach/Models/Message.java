@@ -2,43 +2,49 @@ package com.strengthcoach.strengthcoach.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
-    int id;
-    Trainer trainer;
-    User user;
-    String text;
+    /**
+     * COLUMN NAMES:
+     * int id;
+     * Trainer trainer;
+     * CurrentUser user;
+     * String text;
+     */
 
+    // Accessors
     public int getId() {
-        return id;
+        return getInt("id");
     }
 
     public Trainer getTrainer() {
-        return trainer;
+        return (Trainer) get("trainer");
     }
 
-    public User getUser() {
-        return user;
+    public ParseUser getUser() {
+        return (ParseUser) get("user");
     }
 
     public String getText() {
-        return text;
+        return getString("text");
     }
 
+    // Modifiers
     public void setId(int id) {
-        this.id = id;
+        put("id", id);
     }
 
     public void setTrainer(Trainer trainer) {
-        this.trainer = trainer;
+        put("trainer", trainer);
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(ParseUser user) {
+        put("user", user);
     }
 
     public void setText(String text) {
-        this.text = text;
+        put("text", text);
     }
 }
