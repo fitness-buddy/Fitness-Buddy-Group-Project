@@ -32,6 +32,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.strengthcoach.strengthcoach.activities.LoginActivity" />
         </activity>
+
+        <activity
+            android:name=".activities.BlockSlotActivity"
+            android:label="@string/title_activity_block_slot"
+            android:parentActivityName=".activities.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.strengthcoach.strengthcoach.activities.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>
