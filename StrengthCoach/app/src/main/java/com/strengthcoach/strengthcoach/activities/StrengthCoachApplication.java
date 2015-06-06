@@ -5,7 +5,6 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.strengthcoach.strengthcoach.models.Address;
-import com.strengthcoach.strengthcoach.models.CurrentUser;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Message;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
@@ -23,7 +22,6 @@ public class StrengthCoachApplication extends Application {
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(SimpleUser.class);
         ParseObject.registerSubclass(Trainer.class);
-        ParseObject.registerSubclass(CurrentUser.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
     }

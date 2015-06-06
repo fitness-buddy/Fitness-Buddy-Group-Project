@@ -10,7 +10,7 @@ public class Message extends ParseObject {
      * COLUMN NAMES:
      * int id;
      * Trainer trainer;
-     * CurrentUser user;
+     * SimpleUser user;
      * String text;
      */
 

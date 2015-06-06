@@ -22,12 +22,6 @@ public class HomeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        // User login
-//        if (ParseUser.getCurrentUser() != null) { // start with existing user
-//            startWithCurrentUser();
-//        } else { // If not logged in, login as a new anonymous user
-//            login();
-//        }
 
         // Populates a single row in all tables with fake data
         DataLoader dataLoader = new DataLoader();

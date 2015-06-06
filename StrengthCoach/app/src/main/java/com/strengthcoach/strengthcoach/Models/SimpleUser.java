@@ -3,10 +3,6 @@ package com.strengthcoach.strengthcoach.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Created by Neeraja on 6/5/2015.
- */
-
 @ParseClassName("SimpleUser")
 public class SimpleUser extends ParseObject {
 

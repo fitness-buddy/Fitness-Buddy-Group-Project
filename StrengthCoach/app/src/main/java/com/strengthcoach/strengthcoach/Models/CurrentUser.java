@@ -5,7 +5,7 @@ import com.parse.ParseUser;
 
 // This class extends the ParseUser and adds custom fields to _User table
 
-@ParseClassName("CurrentUser")
+@ParseClassName("_User")
 public class CurrentUser extends ParseUser {
     /**
      * COLUMN NAMES:
