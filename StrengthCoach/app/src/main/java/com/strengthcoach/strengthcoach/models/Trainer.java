@@ -43,7 +43,7 @@ public class Trainer extends ParseObject {
 
     // eg. $49
     public String getPriceFormatted() {
-        return "$" +  getInt("price");
+        return "$" +  getPrice();
     }
 
     public String getPhoneNumber() {
