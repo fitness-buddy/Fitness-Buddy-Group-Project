@@ -1,4 +1,4 @@
-package com.strengthcoach.strengthcoach.models;
+package com.strengthcoach.strengthcoach.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

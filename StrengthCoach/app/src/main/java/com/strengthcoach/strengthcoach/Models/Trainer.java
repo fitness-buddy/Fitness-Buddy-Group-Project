@@ -1,7 +1,9 @@
-package com.strengthcoach.strengthcoach.models;
+package com.strengthcoach.strengthcoach.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.strengthcoach.strengthcoach.Models.Review;
+import com.strengthcoach.strengthcoach.Models.SimpleUser;
 
 import java.util.ArrayList;
 
