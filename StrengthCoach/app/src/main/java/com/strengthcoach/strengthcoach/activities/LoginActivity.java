@@ -3,15 +3,19 @@ package com.strengthcoach.strengthcoach.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.helpers.Utils;
 
 public class LoginActivity extends ActionBarActivity {
     EditText etName, etPhoneNumber;
@@ -38,33 +42,35 @@ public class LoginActivity extends ActionBarActivity {
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Do something here
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                if (currentUser == null) {
-                    // Create a new user and signup
-                    String verifyCode = generateRandomCode();
-                    Intent intent = new Intent(LoginActivity.this, PhoneNoVerificationActivity.class);
-                    intent.putExtra("etName",etName.getText().toString());
-                    intent.putExtra("etPhoneNumber",etPhoneNumber.getText().toString());
-                    intent.putExtra("verifyCode",verifyCode);
-                    startActivity(intent);
-                } else {
-                    user = currentUser;
-                    /*PFQuery *query = [PFUser query];
-                    [query whereKey:@"username" equalTo:@"actualUsername"];
-                    PFUser *user = (PFUser *)[query getFirstObject];*/
-                }
 
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
+                query.whereEqualTo("phone_number", etPhoneNumber.getText().toString());
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (object == null) {
+                            // Create a new user and signup
+                            String verifyCode = Utils.generateRandomCode();
+
+                            // TO DO: Send SMS with verify code
+
+                            Intent intent = new Intent(LoginActivity.this, PhoneNoVerificationActivity.class);
+                            intent.putExtra("etName", etName.getText().toString());
+                            intent.putExtra("etPhoneNumber", etPhoneNumber.getText().toString());
+                            intent.putExtra("verifyCode", verifyCode);
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(LoginActivity.this, BlockSlotActivity.class);
+                            intent.putExtra("etName", etName.getText().toString());
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
         });
     }
 
-    public String generateRandomCode() {
-        //generate a 4 digit integer
-        int randomCode = (int) (Math.random() * 9000) + 1000;
-        Log.v("Login", "generated code " + String.valueOf(randomCode));
-        return String.valueOf(randomCode);
-    }
+
         @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
