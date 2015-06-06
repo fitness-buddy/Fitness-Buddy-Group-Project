@@ -4,11 +4,11 @@ import android.util.Log;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
-import com.strengthcoach.strengthcoach.Models.Address;
-import com.strengthcoach.strengthcoach.Models.Gym;
-import com.strengthcoach.strengthcoach.Models.Review;
-import com.strengthcoach.strengthcoach.Models.SimpleUser;
-import com.strengthcoach.strengthcoach.Models.Trainer;
+import com.strengthcoach.strengthcoach.models.Address;
+import com.strengthcoach.strengthcoach.models.Gym;
+import com.strengthcoach.strengthcoach.models.Review;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
+import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
 
