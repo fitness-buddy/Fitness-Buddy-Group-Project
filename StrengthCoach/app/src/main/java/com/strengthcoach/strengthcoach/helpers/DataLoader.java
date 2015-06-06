@@ -1,5 +1,9 @@
 package com.strengthcoach.strengthcoach.helpers;
 
+import android.util.Log;
+
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.models.Address;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Review;
@@ -13,19 +17,28 @@ public class DataLoader {
     Gym gym;
     Trainer trainer;
     SimpleUser user;
-    public void populate() {
-        instantiateUser();
-        instantiateTrainer();
-        instantiateAddress();
-        instantiateGym();
-        instantiateReview();
-//        instantiateMessage();
-    }
 
-    private void instantiateUser() {
+    public void populate() {
         user = new SimpleUser();
         user.setPhoneNumber("555-555-5555");
         user.setName("Mickey Mouse");
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Saved successfully.
+                    Log.d("DEBUG", "User update saved!");
+                    String id = user.getObjectId();
+                    Log.d("DEBUG", "The object id is: " + id);
+                    instantiateAddress();
+                    instantiateTrainer();
+                    instantiateGym();
+                } else {
+                    // The save failed.
+                    Log.d("DEBUG", "User update error: " + e);
+                }
+            }
+        });
     }
 
     private void instantiateTrainer() {
@@ -55,7 +68,16 @@ public class DataLoader {
         ArrayList<Trainer> trainers = new ArrayList<>();
         trainers.add(trainer);
         gym.setTrainers(trainers);
-        gym.saveInBackground();
+        gym.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                } else {
+                    instantiateReview();
+                }
+            }
+        });
     }
 
     // Creates an address object and saves in Parse cloud

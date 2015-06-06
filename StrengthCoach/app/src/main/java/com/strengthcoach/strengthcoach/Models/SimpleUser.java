@@ -27,4 +27,16 @@ public class SimpleUser extends ParseObject {
     public void setPhoneNumber(String phoneNumber) {
         put("phone_number", phoneNumber);
     }
+
+    // Formats phone numbers like 555-555-5555 => 5555555555
+    public static String formatString(String string) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
+            if (Character.isDigit(c)) {
+                builder.append(c);
+            }
+        }
+        return builder.toString();
+    }
 }

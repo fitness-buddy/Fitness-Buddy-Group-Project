@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 import com.strengthcoach.strengthcoach.models.Address;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Message;
+import com.strengthcoach.strengthcoach.models.Review;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
@@ -22,6 +23,7 @@ public class StrengthCoachApplication extends Application {
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(SimpleUser.class);
         ParseObject.registerSubclass(Trainer.class);
+        ParseObject.registerSubclass(Review.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
     }
