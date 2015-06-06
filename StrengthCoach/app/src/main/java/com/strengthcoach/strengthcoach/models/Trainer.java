@@ -50,8 +50,8 @@ public class Trainer extends ParseObject {
         return getString("phone_number");
     }
 
-    public int getRatings() {
-        return getInt("rating");
+    public double getRatings() {
+        return getDouble("rating");
     }
 
     public ArrayList<Review> getReviews() {
@@ -65,6 +65,10 @@ public class Trainer extends ParseObject {
     public ArrayList<String> getImages() {
         return (ArrayList<String>) get("images");
     }
+
+    public ArrayList<String> getEducationAndCertifications() { return (ArrayList<String>) get("educationAndCertifications"); }
+
+    public ArrayList<String> getInterestsAndAchievements() { return (ArrayList<String>) get("interestsAndAchievements"); }
 
     // Modifiers
     public void setId(int id) {
@@ -91,7 +95,7 @@ public class Trainer extends ParseObject {
         put("phone_number", phoneNumber);
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         put("rating", rating);
     }
 
@@ -110,5 +114,9 @@ public class Trainer extends ParseObject {
     public void addImage(String imageUrl) {
         add("images", imageUrl);
     }
+
+    public void setEducationAndCertifications(ArrayList<String> educationAndCertifications) { add("educationAndCertifications", educationAndCertifications); }
+
+    public void setInterestsAndAchievements(ArrayList<String> interestsAndAchievements) { add("interestsAndAchievements", interestsAndAchievements); }
 
 }

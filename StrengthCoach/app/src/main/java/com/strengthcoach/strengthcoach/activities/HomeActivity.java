@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -63,6 +64,10 @@ public class HomeActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            // TODO: Open this activity on itemclicked event.
+            // TODO: Pass a trainer here
+            Intent intent = new Intent(this, TrainerDetailsActivity.class);
+            startActivity(intent);
             return true;
         }
 
