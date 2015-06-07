@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvReviewerName"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#555555"/>
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvReviewDate"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#555555"/>
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvReviewText"
+        android:gravity="left"
+        android:textSize="18sp"
+        android:textColor="#555555"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#555555"
+        android:layout_marginTop="10dp"></RelativeLayout>
+</LinearLayout>

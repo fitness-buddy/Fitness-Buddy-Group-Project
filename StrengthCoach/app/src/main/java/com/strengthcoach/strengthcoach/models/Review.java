@@ -3,6 +3,8 @@ package com.strengthcoach.strengthcoach.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.Date;
+
 @ParseClassName("Review")
 public class Review extends ParseObject {
 
@@ -30,6 +32,8 @@ public class Review extends ParseObject {
         return getString("reviewee");
     }
 
+    public Date getDate() { return (Date)get("date"); }
+
     // Modifiers
     public void setReviewText(String body) {
         put("body", body);
@@ -45,5 +49,9 @@ public class Review extends ParseObject {
 
     public void setReviewee(String reviewee) {
         put("reviewee", reviewee);
+    }
+
+    public void setDate(Date date) {
+        put("date", date);
     }
 }
