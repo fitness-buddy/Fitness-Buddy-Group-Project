@@ -1,12 +1,16 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -65,6 +69,11 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         }
         tvTrainerInterests.setText(Html.fromHtml(interestsAndAchievements));
 
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        ratingBar.setRating((float)m_trainer.getRatings());
+        Drawable progress = ratingBar.getProgressDrawable();
+        DrawableCompat.setTint(progress, Color.parseColor("#FFD700"));
+
         ImageView ivProfileImage2 = (ImageView) findViewById(R.id.ivProfileImage2);
         Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage2);
     }
@@ -112,7 +121,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         trainer.setInterestsAndAchievements(interestsAndAchievements);
         trainer.setPrice(20);
 
-        trainer.setRating(4.8);
+        trainer.setRating(4.5);
 
         trainer.setProfileImageUrl("http://iptfitness.co.uk/wp-content/uploads/2015/03/Aimee-stevens-personal-trainer.jpg");
 
