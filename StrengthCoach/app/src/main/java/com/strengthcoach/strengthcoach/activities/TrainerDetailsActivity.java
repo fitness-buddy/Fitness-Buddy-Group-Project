@@ -2,6 +2,7 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,33 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
         TextView tvAboutTrainer = (TextView) findViewById(R.id.tvAboutTrainer);
         tvAboutTrainer.setText(m_trainer.getAboutMe());
+
+        TextView tvTrainerEducation = (TextView) findViewById(R.id.tvTrainerEducation);
+        String educationAndCertifications = "";
+        ArrayList<String> educationAndCertificationsArrayList = m_trainer.getEducationAndCertifications();
+        for (int i = 0; i < educationAndCertificationsArrayList.size(); i++) {
+            educationAndCertifications += "&#8226; " + educationAndCertificationsArrayList.get(i);
+
+            if (i != educationAndCertificationsArrayList.size() - 1) {
+                educationAndCertifications += "<br/>";
+            }
+        }
+        tvTrainerEducation.setText(Html.fromHtml(educationAndCertifications));
+
+        TextView tvTrainerInterests = (TextView) findViewById(R.id.tvTrainerInterests);
+        String interestsAndAchievements = "";
+        ArrayList<String> interestsAndAchievementsArrayList = m_trainer.getInterestsAndAchievements();
+        for (int i = 0; i < interestsAndAchievementsArrayList.size(); i++) {
+            interestsAndAchievements += "&#8226; " + interestsAndAchievementsArrayList.get(i);
+
+            if (i != interestsAndAchievementsArrayList.size() - 1) {
+                interestsAndAchievements += "<br/>";
+            }
+        }
+        tvTrainerInterests.setText(Html.fromHtml(interestsAndAchievements));
+
+        ImageView ivProfileImage2 = (ImageView) findViewById(R.id.ivProfileImage2);
+        Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage2);
     }
 
     @Override
@@ -66,20 +94,17 @@ public class TrainerDetailsActivity extends ActionBarActivity {
     private Trainer createFakeTrainer() {
         Trainer trainer = new Trainer();
         trainer.setName("Brendon Miller");
-        trainer.setAboutMe("Good health is the key to living and enjoying life. If you enjoy the competition that participating in a sport offers or exploring the great Northwest, incorporating fitness and healthy nutritional choices helps each of us achieve our goals and enjoy our passions.\n" +
-                "I am a driven, energetic and hardworking individual who has an inner drive to compete in sports and enjoy the great outdoors. Through fitness, I have been able to build physical and mental strength that allow me to compete in ice hockey and motocross and enjoy leisure activities like hiking, snowboarding, kayaking, waterskiing and snowshoeing. \n" +
-                "Incorporating fitness into one’s lifestyle offers many rewards, including; improved overall health, increased self-esteem and greater focus. I enjoy the opportunity to work with individuals who are ready to make a change and enjoy the benefits of physical fitness. Together we will build a workout plan that is fun and sustainable.");
+        trainer.setAboutMe("Whether you want to lose weight and keep it off, build lean muscle, or just look and feel better in the clothes you’re in, I'll help you get there.");
 
         ArrayList<String> educationAndCertifications = new ArrayList<>();
         educationAndCertifications.add("MS in Nutrition and Food Science from San Jose State University");
-        educationAndCertifications.add("BodyBuilding Calorie Management System Certification");
+        educationAndCertifications.add("Calorie Management System Certification");
         educationAndCertifications.add("CPR Certification");
         educationAndCertifications.add("National Academy of Sports Medicine - Corrective Exercise Specialist");
         educationAndCertifications.add("National Exercise and Sports Trainers Association - Personal Fitness Trainer");
         trainer.setEducationAndCertifications(educationAndCertifications);
 
         ArrayList<String> interestsAndAchievements = new ArrayList<>();
-        interestsAndAchievements.add("Climbed Mount Everest in 2015");
         interestsAndAchievements.add("Completed Silicon Valley Marathon in 2014");
         interestsAndAchievements.add("Completed San Francisco Marathon in 2013");
         interestsAndAchievements.add("Climbed Kilimanjaro in 2011");

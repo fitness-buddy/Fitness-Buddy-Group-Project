@@ -115,8 +115,8 @@ public class Trainer extends ParseObject {
         add("images", imageUrl);
     }
 
-    public void setEducationAndCertifications(ArrayList<String> educationAndCertifications) { add("educationAndCertifications", educationAndCertifications); }
+    public void setEducationAndCertifications(ArrayList<String> educationAndCertifications) { put("educationAndCertifications", educationAndCertifications); }
 
-    public void setInterestsAndAchievements(ArrayList<String> interestsAndAchievements) { add("interestsAndAchievements", interestsAndAchievements); }
+    public void setInterestsAndAchievements(ArrayList<String> interestsAndAchievements) { put("interestsAndAchievements", interestsAndAchievements); }
 
 }

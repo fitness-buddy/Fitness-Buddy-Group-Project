@@ -8,53 +8,58 @@
         android:layout_height="fill_parent"
         tools:context="com.strengthcoach.strengthcoach.activities.TrainerDetailsActivity">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivTrainerImages"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:adjustViewBounds="true"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/ivProfileImage"
-                android:layout_alignRight="@+id/ivTrainerImages"
-                android:layout_below="@+id/ivTrainerImages"
-                android:layout_marginTop="-40dp"
-                android:layout_marginRight="20dp"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivFavorite"
-                android:layout_alignTop="@+id/ivTrainerImages"
-                android:layout_alignRight="@+id/ivTrainerImages"
-                android:padding="20dp"
-                android:src="@drawable/heart"
-                android:onClick="onFavoriteClicked"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvPrice"
-                android:layout_marginBottom="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
-                android:background="#999999"
-                android:textColor="#FFFFFF"
-                android:textSize="25dp"
-                android:gravity="center_vertical"
-                android:layout_alignLeft="@+id/ivTrainerImages"
-                android:layout_alignBottom="@+id/ivTrainerImages"/>
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivTrainerImages"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:id="@+id/ivProfileImage"
+                    android:layout_alignRight="@+id/ivTrainerImages"
+                    android:layout_below="@+id/ivTrainerImages"
+                    android:layout_marginTop="-40dp"
+                    android:layout_marginRight="20dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivFavorite"
+                    android:layout_alignTop="@+id/ivTrainerImages"
+                    android:layout_alignRight="@+id/ivTrainerImages"
+                    android:padding="20dp"
+                    android:src="@drawable/heart"
+                    android:onClick="onFavoriteClicked"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvPrice"
+                    android:layout_marginBottom="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
+                    android:background="#999999"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25dp"
+                    android:gravity="center_vertical"
+                    android:layout_alignLeft="@+id/ivTrainerImages"
+                    android:layout_alignBottom="@+id/ivTrainerImages"/>
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/llAbout"
                 android:orientation="vertical"
-                android:layout_below="@id/ivTrainerImages"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="20dp">
@@ -72,7 +77,79 @@
                     android:textSize="20sp"
                     android:textColor="#555555"/>
             </LinearLayout>
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llEducation"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="20dp">
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trainer_education_header"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTrainerEducation"
+                    android:textSize="20sp"
+                    android:textColor="#555555"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llInterests"
+                android:orientation="vertical"
+                android:layout_below="@id/llEducation"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="20dp">
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trainer_achievements_header"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTrainerInterests"
+                    android:textSize="20sp"
+                    android:textColor="#555555"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llContactTrainer"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="20dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="320dp"
+                    android:layout_height="320dp"
+                    android:id="@+id/ivProfileImage2"
+                    android:layout_gravity="center_horizontal" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Trainer"
+                    android:textColor="#C76F6F"
+                    android:textSize="20sp"
+                    android:gravity="center_horizontal"
+                    android:layout_margin="10dp"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+            </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
     <Button
         android:layout_width="match_parent"
@@ -80,7 +157,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="#AAC76F6F"
+        android:background="#CCC76F6F"
         android:text="@string/button_block_time"
         android:textSize="20dp"
         android:textColor="#FFFFFF"

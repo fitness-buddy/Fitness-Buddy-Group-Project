@@ -15,4 +15,6 @@
     <string name="title_activity_trainer_details">TrainerDetailsActivity</string>
     <string name="about_me_header">About</string>
     <string name="button_block_time">Block time</string>
+    <string name="trainer_education_header">Education and Certifications</string>
+    <string name="trainer_achievements_header">Interests and Achievements</string>
 </resources>
