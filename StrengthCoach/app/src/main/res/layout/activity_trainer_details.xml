@@ -68,14 +68,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/about_me_header"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"/>
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvAboutTrainer"
                     android:textSize="20sp"
-                    android:textColor="#555555"/>
+                    android:textColor="#555555"
+                    android:gravity="center_horizontal"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,14 +91,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/trainer_education_header"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"/>
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvTrainerEducation"
                     android:textSize="20sp"
-                    android:textColor="#555555"/>
+                    android:textColor="#555555"
+                    android:gravity="center_horizontal"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,14 +115,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/trainer_achievements_header"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"/>
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvTrainerInterests"
                     android:textSize="20sp"
-                    android:textColor="#555555"/>
+                    android:textColor="#555555"
+                    android:gravity="center_horizontal"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
