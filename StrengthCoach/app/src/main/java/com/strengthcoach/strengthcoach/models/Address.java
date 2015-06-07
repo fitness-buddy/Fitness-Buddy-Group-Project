@@ -31,11 +31,22 @@ public class Address extends ParseObject {
     }
 
     public String getState() {
-        return getString("State");
+        return getString("state");
     }
 
     public String getZip() {
         return getString("zip");
+    }
+
+    public String toString() {
+        String address = "";
+        address += getAddressLine1() + ", ";
+        if (!getAddressLine2().equals("")) {
+            address += getAddressLine2() + ", ";
+        }
+
+        address += getCity() + ", " + getState() + " " + getZip();
+        return address;
     }
 
     // Modifiers

@@ -12,9 +12,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseGeoPoint;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.models.Address;
+import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
@@ -22,6 +35,7 @@ import java.util.ArrayList;
 public class TrainerDetailsActivity extends ActionBarActivity {
 
     Trainer m_trainer;
+    GoogleMap m_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +84,40 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         tvTrainerInterests.setText(Html.fromHtml(interestsAndAchievements));
 
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        ratingBar.setRating((float)m_trainer.getRatings());
+        ratingBar.setRating((float) m_trainer.getRatings());
         Drawable progress = ratingBar.getProgressDrawable();
         DrawableCompat.setTint(progress, Color.parseColor("#FFD700"));
 
         ImageView ivProfileImage2 = (ImageView) findViewById(R.id.ivProfileImage2);
         Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage2);
+
+        SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap map) {
+                    m_map = map;
+                    ParseGeoPoint parseGeoPoint = m_trainer.getGym().point();
+                    LatLng point = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
+                    m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 16));
+
+                    BitmapDescriptor defaultMarker =
+                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                    // Extract content from alert dialog
+                    String title = m_trainer.getGym().getName();
+                    String snippet = m_trainer.getGym().getAddress().toString();
+                    // Creates and adds marker to the map
+                    Marker marker = m_map.addMarker(new MarkerOptions()
+                            .position(point)
+                            .title(title)
+                            .snippet(snippet)
+                            .icon(defaultMarker));
+                    marker.showInfoWindow();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -130,6 +172,20 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         images.add("http://gumbofitness.com/wp-content/uploads/2014/11/Depositphotos_10679691_original.jpg");
         trainer.setImages(images);
 
+        Address address = new Address();
+        address = new Address();
+        address.setAddressLine1("2550 W El Camino Real");
+        address.setAddressLine2("");
+        address.setCity("Mountain View");
+        address.setState("CA");
+        address.setZip("94040");
+
+        Gym gym = new Gym();
+        gym.setName("24 hour fitness");
+        gym.setAddress(address);
+        gym.setLocation(37.364511, -122.031336);
+        trainer.setGym(gym);
+
         return trainer;
     }
 
@@ -137,5 +193,21 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         // TODO: Get and set favorite information from trainer or user
         ImageView ivFavorite = (ImageView) findViewById(R.id.ivFavorite);
         ivFavorite.setImageResource(R.drawable.heart_selected);
+    }
+
+    // Display the alert that adds the marker
+    private void showAlertDialogForPoint(final LatLng point) {
+        BitmapDescriptor defaultMarker =
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        // Extract content from alert dialog
+        String title = m_trainer.getGym().getName();
+        String snippet = m_trainer.getGym().getAddress().toString();
+        // Creates and adds marker to the map
+        Marker marker = m_map.addMarker(new MarkerOptions()
+                .position(point)
+                .title(title)
+                .snippet(snippet)
+                .icon(defaultMarker));
+        marker.showInfoWindow();
     }
 }

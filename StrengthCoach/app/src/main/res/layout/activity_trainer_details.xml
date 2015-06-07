@@ -156,6 +156,11 @@
                     android:gravity="center_horizontal"
                     android:layout_margin="10dp"/>
             </LinearLayout>
+            <fragment
+                android:id="@+id/map"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="512dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp">

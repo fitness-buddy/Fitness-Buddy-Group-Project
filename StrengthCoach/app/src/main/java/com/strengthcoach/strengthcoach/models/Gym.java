@@ -34,9 +34,7 @@ public class Gym extends ParseObject {
         return (Address) get("address");
     }
 
-    public ParseGeoPoint point() {
-        return getParseGeoPoint("location");
-    }
+    public ParseGeoPoint point() { return getParseGeoPoint("location"); }
 
     // Modifiers
     public void setId(int id) {

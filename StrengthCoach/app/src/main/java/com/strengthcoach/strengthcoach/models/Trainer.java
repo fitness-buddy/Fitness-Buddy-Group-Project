@@ -70,6 +70,8 @@ public class Trainer extends ParseObject {
 
     public ArrayList<String> getInterestsAndAchievements() { return (ArrayList<String>) get("interestsAndAchievements"); }
 
+    public Gym getGym() { return (Gym) get("gym"); }
+
     // Modifiers
     public void setId(int id) {
         put("id", id);
@@ -118,5 +120,7 @@ public class Trainer extends ParseObject {
     public void setEducationAndCertifications(ArrayList<String> educationAndCertifications) { put("educationAndCertifications", educationAndCertifications); }
 
     public void setInterestsAndAchievements(ArrayList<String> interestsAndAchievements) { put("interestsAndAchievements", interestsAndAchievements); }
+
+    public void setGym(Gym gym) { put("gym", gym); }
 
 }
