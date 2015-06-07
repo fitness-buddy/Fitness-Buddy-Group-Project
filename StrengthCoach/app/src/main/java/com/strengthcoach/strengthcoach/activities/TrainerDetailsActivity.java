@@ -36,6 +36,9 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
         TextView tvPrice = (TextView) findViewById(R.id.tvPrice);
         tvPrice.setText(m_trainer.getPriceFormatted());
+
+        TextView tvAboutTrainer = (TextView) findViewById(R.id.tvAboutTrainer);
+        tvAboutTrainer.setText(m_trainer.getAboutMe());
     }
 
     @Override

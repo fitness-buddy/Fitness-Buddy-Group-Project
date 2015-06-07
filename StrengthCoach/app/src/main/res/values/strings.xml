@@ -13,4 +13,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_trainer_details">TrainerDetailsActivity</string>
+    <string name="about_me_header">About</string>
+    <string name="button_block_time">Block time</string>
 </resources>
