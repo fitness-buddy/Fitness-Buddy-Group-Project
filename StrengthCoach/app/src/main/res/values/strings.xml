@@ -17,4 +17,5 @@
     <string name="button_block_time">Block time</string>
     <string name="trainer_education_header">Education and Certifications</string>
     <string name="trainer_achievements_header">Interests and Achievements</string>
+    <string name="title_activity_recycler_view">RecyclerViewActivity</string>
 </resources>

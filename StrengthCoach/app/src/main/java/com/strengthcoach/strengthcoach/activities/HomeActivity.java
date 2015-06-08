@@ -37,7 +37,7 @@ public class HomeActivity extends ActionBarActivity {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
                 // TODO: Pass a trainer here
-                Intent intent = new Intent(getBaseContext(), TrainerDetailsActivity.class);
+                Intent intent = new Intent(getBaseContext(), RecyclerViewActivity.class);
                 startActivity(intent);
             }
 
