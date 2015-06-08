@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StrengthCoach</string>
+    <string name="app_name">Strength Coach</string>
     <string name="phone_verification_text">Please enter the verification code from the text already sent to your mobile</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
