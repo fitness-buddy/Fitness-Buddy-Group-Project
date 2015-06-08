@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.TrainerListAdapter;
 import com.strengthcoach.strengthcoach.models.Trainer;
+import com.twotoasters.jazzylistview.effects.TiltEffect;
+import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,12 @@ public class TrainersListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_trainers_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvTrainersList);
+
+        // Setup animation
+        JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();
+        listener.setTransitionEffect(new TiltEffect());
+        recyclerView.setOnScrollListener(listener);
+
         // Initialize empty list
         this.trainers = new ArrayList<>();
         adapter = new TrainerListAdapter(getActivity(), trainers);

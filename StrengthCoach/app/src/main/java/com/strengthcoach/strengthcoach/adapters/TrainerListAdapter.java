@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -61,6 +63,14 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         setGymNameAndCity(holder, trainer);
         holder.tvRating.setText("Rating: " + trainer.getRatings() + "");
         setNumReviews(holder, trainer);
+       // animate(holder);
+    }
+
+    // DO NOT REMOVE: This will be used later for experimentation with animation
+    private void animate(TrainerViewHolder holder) {
+        YoYo.with(Techniques.Hinge)
+                .duration(2000)
+                .playOn(holder.itemView);
     }
 
     private void setNumReviews(TrainerViewHolder holder, Trainer trainer) {
