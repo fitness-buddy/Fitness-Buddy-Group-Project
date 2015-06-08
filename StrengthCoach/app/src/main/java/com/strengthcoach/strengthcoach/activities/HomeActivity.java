@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dexafree.materialList.controller.RecyclerItemClickListener;
+import com.dexafree.materialList.model.CardItemView;
 import com.dexafree.materialList.view.MaterialListView;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
@@ -31,6 +33,19 @@ public class HomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mListView = (MaterialListView) findViewById(R.id.material_listview);
+        mListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(CardItemView cardItemView, int i) {
+                // TODO: Pass a trainer here
+                Intent intent = new Intent(getBaseContext(), TrainerDetailsActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(CardItemView cardItemView, int i) {
+
+            }
+        });
         populateTrainers();
     }
 
