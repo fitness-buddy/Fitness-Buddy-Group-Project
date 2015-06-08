@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -53,6 +54,21 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         // Creating a fake trainer, Home activity will pass it
         // TODO: Get trainer from Home activity
         m_trainer = createFakeTrainer();
+
+        // Set toolbar
+        Toolbar actionBar = (Toolbar) findViewById(R.id.actionBar);
+        setSupportActionBar(actionBar);
+
+        TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
+        tvTitle.setText(m_trainer.getName());
+
+        ImageView iv_compose_actionbar_cancel = (ImageView) findViewById(R.id.iv_compose_actionbar_cancel);
+        iv_compose_actionbar_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Setup view
         ImageView ivTrainerImages = (ImageView) findViewById(R.id.ivTrainerImages);
