@@ -3,11 +3,11 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <com.dexafree.materialList.view.MaterialListView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/material_listview"
-        app:column_count="1"/>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.strengthcoach.strengthcoach.fragments.TrainersListFragment"
+        android:id="@+id/fragment"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>

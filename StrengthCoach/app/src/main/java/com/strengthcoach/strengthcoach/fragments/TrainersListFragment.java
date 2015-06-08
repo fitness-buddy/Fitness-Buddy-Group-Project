@@ -16,7 +16,7 @@ import com.strengthcoach.strengthcoach.models.Trainer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeTimelineFragment extends Fragment {
+public class TrainersListFragment extends Fragment {
     private RecyclerView recyclerView;
     private TrainerListAdapter adapter;
     private List<Trainer> trainers;
@@ -33,7 +33,7 @@ public class HomeTimelineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_recycler, container, false);
+        View view = inflater.inflate(R.layout.fragment_trainers_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvTrainersList);
         // Initialize empty list
         this.trainers = new ArrayList<>();

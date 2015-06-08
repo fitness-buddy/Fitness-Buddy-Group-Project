@@ -138,7 +138,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
         @Override
         public void onClick(View v) {
-//            mListener.click(v);
+            // View specific clicks will be handled here eg. click on the favorite icon
+            //  mListener.click(v);
             // Launch Trainer details activity
             final Intent intent;
             intent =  new Intent(context, TrainerDetailsActivity.class);
