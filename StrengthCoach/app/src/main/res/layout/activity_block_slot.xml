@@ -1,12 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="com.strengthcoach.strengthcoach.activities.BlockSlotActivity">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="250dp" android:id="@+id/llCalendar">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/flCalendar"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </FrameLayout>
+   </LinearLayout>
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_slot"
+        android:id="@+id/tvSelectSlot"
+        android:paddingTop="20dp"
+        android:layout_below="@+id/llCalendar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="43dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="47dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spSelectSlot"
+        android:prompt="@string/select_slot"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/tvSelectSlot"
+        android:layout_toEndOf="@+id/tvSelectSlot"
+        android:layout_alignTop="@+id/tvSelectSlot" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/payment"
+        android:paddingTop="20dp"
+
+        android:id="@+id/bProceedToPayment"
+        android:layout_below="@+id/spSelectSlot"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="45dp" />
+
 
 </RelativeLayout>

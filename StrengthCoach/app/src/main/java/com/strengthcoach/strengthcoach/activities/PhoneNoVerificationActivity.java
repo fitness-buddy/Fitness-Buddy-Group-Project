@@ -3,6 +3,7 @@ package com.strengthcoach.strengthcoach.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +13,7 @@ import android.widget.EditText;
 
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Utils;
-import com.strengthcoach.strengthcoach.models.SimpleUser;
+import com.strengthcoach.strengthcoach.Models.SimpleUser;
 
 public class PhoneNoVerificationActivity extends ActionBarActivity {
 
@@ -39,17 +40,16 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
         bVerify = (Button) findViewById(R.id.bVerify);
         regenerateCode = (Button) findViewById(R.id.bRegenerateCode);
         bVerify.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                Log.v("inside onlcik", "inside onlcick");
                 if (verifyCode.equals(etVerificationCode.getText().toString())) {
-                    Log.v("inside verify code", "inside verifycode");
-                    simpleUser = new SimpleUser();
+                    simpleUser = new com.strengthcoach.strengthcoach.Models.SimpleUser();
                     // need to save data to user model;
                     simpleUser.setPhoneNumber(phoneno);
                     simpleUser.setName(name);
                     simpleUser.saveInBackground();
+                    Intent intent = new Intent(PhoneNoVerificationActivity.this, BlockSlotActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -57,8 +57,14 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Log.v("inside onlcik", "inside onlcick");
                 String verifyCode = Utils.generateRandomCode();
+
+                // Send SMS with verify code starts here
+                SmsManager smsManager = SmsManager.getDefault();
+                String smsMessage = verifyCode + "is your Strength Coach verification code" ;
+                smsManager.sendTextMessage(phoneno, null, smsMessage, null, null);
+                // Send SMS with verify code ends here
+
                 Intent intent = new Intent(PhoneNoVerificationActivity.this, PhoneNoVerificationActivity.class);
                 intent.putExtra("etName", name);
                 intent.putExtra("etPhoneNumber", phoneno);

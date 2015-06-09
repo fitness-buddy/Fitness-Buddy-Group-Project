@@ -28,28 +28,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/etVerificationCode"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/tvVerificationCode"/>
+        android:layout_alignBottom="@+id/tvVerificationCode"
+        android:layout_centerHorizontal="true" />
+
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/verify_button_text"
         android:id="@+id/bVerify"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/verificationText"
-        android:layout_alignRight="@+id/verificationText"
-        android:layout_alignEnd="@+id/verificationText" />
+        android:layout_below="@+id/verificationText"
+        android:layout_toRightOf="@+id/etVerificationCode"
+        android:layout_toEndOf="@+id/etVerificationCode" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/verify_button_text"
+        android:text="@string/regenerate_code"
         android:id="@+id/bRegenerateCode"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/bVerify"
-        android:layout_alignRight="@+id/bVerify"
-        android:layout_alignEnd="@+id/bVerify" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -3,13 +3,13 @@
     <string name="phone_verification_text">Please enter the verification code from the text already sent to your mobile</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_phone_no_verification">PhoneNoVerificationActivity</string>
+    <string name="title_activity_phone_no_verification">Phone Number Verification</string>
     <string name="verification_code">Verification Code</string>
-    <string name="name">Name</string>
+    <string name="name">Full Name</string>
     <string name="login">Login/Sign Up</string>
     <string name="verify_button_text">Verify</string>
     <string name="regenerate_code">Regenerate Code</string>
-    <string name="title_activity_block_slot">BlockSlotActivity</string>
+    <string name="title_activity_block_slot">Book Slot</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_trainer_details">TrainerDetailsActivity</string>
@@ -18,4 +18,9 @@
     <string name="trainer_education_header">Education and Certifications</string>
     <string name="trainer_achievements_header">Interests and Achievements</string>
     <string name="title_activity_recycler_view">RecyclerViewActivity</string>
+
+
+    <string name="select_slot">Available Slots</string>
+    <string name="payment">Proceed to Payment ></string>
+    <string name="mobile_no_label">Phone No</string>
 </resources>
