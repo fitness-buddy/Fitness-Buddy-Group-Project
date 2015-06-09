@@ -8,8 +8,8 @@ import android.util.Log;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.strengthcoach.strengthcoach.Models.Trainer;
-import com.strengthcoach.strengthcoach.Models.TrainerSlots;
+import com.strengthcoach.strengthcoach.models.Trainer;
+import com.strengthcoach.strengthcoach.models.TrainerSlots;
 
 import java.text.DateFormat;
 import java.text.ParseException;

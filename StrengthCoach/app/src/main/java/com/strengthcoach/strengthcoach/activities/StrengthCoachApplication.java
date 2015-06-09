@@ -10,6 +10,7 @@ import com.strengthcoach.strengthcoach.models.Message;
 import com.strengthcoach.strengthcoach.models.Review;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
+import com.strengthcoach.strengthcoach.models.TrainerSlots;
 
 public class StrengthCoachApplication extends Application {
     public static final String APPLICATION_ID = "7eAbPO86MugTvAXhQjBz3ctRoO1LwWeqoL2hDX6V";
