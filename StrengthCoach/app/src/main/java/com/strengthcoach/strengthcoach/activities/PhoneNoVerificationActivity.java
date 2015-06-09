@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Utils;
-import com.strengthcoach.strengthcoach.Models.SimpleUser;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
 
 public class PhoneNoVerificationActivity extends ActionBarActivity {
 
@@ -43,7 +43,7 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (verifyCode.equals(etVerificationCode.getText().toString())) {
-                    simpleUser = new com.strengthcoach.strengthcoach.Models.SimpleUser();
+                    simpleUser = new SimpleUser();
                     // need to save data to user model;
                     simpleUser.setPhoneNumber(phoneno);
                     simpleUser.setName(name);
