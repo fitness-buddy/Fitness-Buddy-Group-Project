@@ -56,7 +56,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         Trainer trainer = trainers.get(position);
         // Set data in the viewholder obj
         holder.ivImage.setImageResource(0);
-        Picasso.with(context).load(trainer.getProfileImageUrl()).centerInside().fit().into(holder.ivImage);
+//        Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivImage);
+        Picasso.with(context).load(trainer.getImages().get(0)).into(holder.ivImage);
         holder.tvTrainerName.setText(trainer.getName());
         holder.tvPrice.setText(trainer.getPriceFormatted());
         holder.tvAboutMe.setText(trainer.getAboutMe());
