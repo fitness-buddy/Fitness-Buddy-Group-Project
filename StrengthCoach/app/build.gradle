@@ -42,6 +42,11 @@ dependencies {
 
     // CardView
     compile 'com.android.support:cardview-v7:21.0.+'
+
+    // for calendar view
+    compile 'com.roomorama:caldroid:2.0.0'
+    // for scanning the credit card
+    compile 'io.card:android-sdk:5.0.1'
 }
 
 repositories {
