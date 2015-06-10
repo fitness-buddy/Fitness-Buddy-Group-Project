@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -46,7 +47,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
     Trainer m_trainer;
     GoogleMap m_map;
-
+    Button bBookSlot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +112,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         ratingBar.setRating((float) m_trainer.getRatings());
         Drawable progress = ratingBar.getProgressDrawable();
-        DrawableCompat.setTint(progress, getResources().getColor(R.color.amber));
+        DrawableCompat.setTint(progress, Color.parseColor("#FFD700"));
 
         ImageView ivProfileImage2 = (ImageView) findViewById(R.id.ivProfileImage2);
         Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage2);
@@ -159,6 +160,18 @@ public class TrainerDetailsActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        // added by neeraja for booking slots starts
+        bBookSlot= (Button) findViewById(R.id.bBookSlot);
+        bBookSlot.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                intent.putExtra("trainer", m_trainer.getObjectId());
+                startActivity(intent);
+            }
+        });
+        // added by neeraja for booking slots ends
     }
 
     private void addReviewsInView(LinearLayout llReviews){
