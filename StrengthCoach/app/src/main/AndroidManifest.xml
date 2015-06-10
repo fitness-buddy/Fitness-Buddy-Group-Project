@@ -88,6 +88,15 @@
             android:name=".activities.ChatActivity"
             android:label="@string/title_activity_chat" >
         </activity>
+ 	<activity
+            android:name=".activities.PaymentActivity"
+            android:label="@string/title_activity_payment"
+            android:parentActivityName=".activities.BlockSlotActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.strengthcoach.strengthcoach.activities.BlockSlotActivity" />
+        </activity>
+
 
         <uses-library
             android:name="com.google.android.maps"

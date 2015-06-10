@@ -3,4 +3,5 @@
     <item name="black" type="color">#000000</item>
     <item name="pink" type="color">#ED3687</item>
     <item name="white" type="color">#FFFFFF</item>
+	<item name="gray" type="color">#7C7C7C</item>
 </resources>

@@ -47,6 +47,9 @@ dependencies {
     compile 'com.roomorama:caldroid:2.0.0'
     // for scanning the credit card
     compile 'io.card:android-sdk:5.0.1'
+
+    // for stripe
+    compile 'com.stripe:stripe-android:+'
 }
 
 repositories {

@@ -22,4 +22,17 @@
     <string name="payment">Proceed to Payment ></string>
     <string name="mobile_no_label">Phone No</string>
     <string name="title_activity_chat">ChatActivity</string>
+
+
+    <string name="cc_number">Number</string>
+    <string name="cc_number_hint">1234 1234 1234 1234</string>
+    <string name="cc_expiry">Expiry</string>
+    <string name="cc_expiry_hint">mm / yy</string>
+    <string name="scan_card">Scan your card using the camera!</string>
+    <string name="enter_manually">Enter your card details:</string>
+    <string name="ok">OK</string>
+    <string name="validationErrors">Validation Errors</string>
+    <string name="progressMessage">Creating Token</string>bSubmit
+    <string name="bSubmit">Submit</string>
+    <string name="not_saved">Card not saved</string>
 </resources>

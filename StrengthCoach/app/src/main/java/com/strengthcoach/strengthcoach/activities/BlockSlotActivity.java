@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.parse.FindCallback;
@@ -17,6 +19,8 @@ import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,18 +32,24 @@ import java.util.List;
 public class BlockSlotActivity extends ActionBarActivity {
     CaldroidFragment caldroidFragment;
     Date currentDate, dateAfterMonth;
+    Button bProceedToPayment;
     Spinner spSelectSlot;
     String dayOfTheWeek;
     SimpleDateFormat simpleDayFormat = new SimpleDateFormat(Constants.DAY_OF_WEEK_FORMAT);
     Date date = new Date();
     ArrayList<String> listOfSlots = new ArrayList<String>();
     ArrayList<String> listOfAvailableDays = new ArrayList<String>();
+    String name, phoneno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_slot);
         spSelectSlot = (Spinner) findViewById(R.id.spSelectSlot);
+        bProceedToPayment = (Button)findViewById(R.id.bProceedToPayment);
+        name =  getIntent().getStringExtra("etName");
+        phoneno =  getIntent().getStringExtra("etPhoneNumber");
+
         if (savedInstanceState == null) {
             caldroidFragment = new CaldroidFragment();
             Bundle args = new Bundle();
@@ -66,6 +76,7 @@ public class BlockSlotActivity extends ActionBarActivity {
 
         dayOfTheWeek = simpleDayFormat.format(date);
         populateAvailableSlots("vfH6nKhCN9", "a", dayOfTheWeek);
+        setupListener();
     }
 
     public void getDaysBetweenDates(final Date startdate, final Date enddate, String trainerId) {
@@ -114,7 +125,18 @@ public class BlockSlotActivity extends ActionBarActivity {
     }
 
 
+    public void setupListener(){
+        bProceedToPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intent = new Intent(BlockSlotActivity.this, PaymentActivity.class);
+                intent.putExtra("etPhoneNumber", phoneno);
+                startActivity(intent);
+            }
+        });
+
+    }
     public void setupCaldroidListener(){
         // Setup listener
         final CaldroidListener listener = new CaldroidListener() {

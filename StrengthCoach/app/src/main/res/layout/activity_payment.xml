@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.strengthcoach.strengthcoach.activities.PaymentActivity">
+    <TextView
+        android:id="@+id/tvEnterManually"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/enter_manually"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/tvCardNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/margin_10dp"
+        android:paddingRight="@dimen/margin_10dp"
+        android:paddingEnd="@dimen/margin_10dp"
+        android:textColor="@color/gray"
+        android:text="@string/cc_number"
+        android:background="@color/white"
+        android:textAlignment="center"
+        android:paddingLeft="@dimen/margin_42dp"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/tvEnterManually"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:id="@+id/etCCNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:singleLine="true"
+        android:inputType="number"
+        android:maxLength="19"
+        android:hint="@string/cc_number_hint"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/gray"
+        android:textAlignment="center"
+        android:paddingBottom="@dimen/margin_10dp"
+        android:layout_alignTop="@+id/tvCardNumber"
+        android:layout_toRightOf="@+id/tvEnterManually"
+        android:layout_toEndOf="@+id/tvEnterManually" />
+
+    <TextView
+        android:id="@+id/tvExpiry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/margin_10dp"
+        android:paddingLeft="@dimen/margin_42dp"
+        android:paddingRight="@dimen/margin_10dp"
+        android:paddingEnd="@dimen/margin_10dp"
+        android:textColor="@color/gray"
+        android:text="@string/cc_expiry"
+        android:background="@color/white"
+        android:layout_below="@+id/tvCardNumber"/>
+    <EditText
+        android:id="@+id/etExpiry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:singleLine="true"
+        android:inputType="date"
+        android:hint="@string/cc_expiry_hint"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/gray"
+        android:paddingBottom="@dimen/margin_10dp"
+        android:layout_below="@+id/etCCNumber"
+        android:layout_alignLeft="@+id/etCCNumber"
+        android:layout_alignStart="@+id/etCCNumber" />
+
+    <Button
+        android:id="@+id/bSubmit"
+        android:layout_width="@dimen/margin_70dp"
+        android:layout_height="@dimen/margin_70dp"
+        android:text="@string/bSubmit"
+        android:layout_below="@+id/etExpiry"
+        android:layout_toRightOf="@+id/etExpiry"
+        android:layout_alignRight="@+id/etCCNumber"
+        android:layout_alignEnd="@+id/etCCNumber" />
+
+</RelativeLayout>

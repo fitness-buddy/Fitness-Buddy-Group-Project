@@ -11,9 +11,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Utils;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
+
+import java.util.Arrays;
 
 public class PhoneNoVerificationActivity extends ActionBarActivity {
 
@@ -47,8 +54,22 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
                     // need to save data to user model;
                     simpleUser.setPhoneNumber(phoneno);
                     simpleUser.setName(name);
-                    simpleUser.saveInBackground();
+                    simpleUser.saveInBackground(new SaveCallback()
+                    {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e==null){
+                                Log.d("DEBUG!!!","inside if of user ");
+                                //saved successfully
+                                getCurrentUserId(phoneno);
+                            } else{
+                                Log.d("DEBUG!!!","User Not Found");
+                            }
+
+                        }
+                    });
                     Intent intent = new Intent(PhoneNoVerificationActivity.this, BlockSlotActivity.class);
+                    intent.putExtra("etPhoneNumber", phoneno);
                     startActivity(intent);
                 }
             }
@@ -96,4 +117,22 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void getCurrentUserId(String phoneNumber) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
+        query.whereEqualTo("phone_number", phoneNumber);
+        query.getFirstInBackground(new GetCallback<ParseObject>(){
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                   String currentUserObjId = object.getObjectId().toString();
+                    SimpleUser.currentUserObjectId = currentUserObjId;
+
+                                    } else {
+                    Log.d("DEBUG", "Error: " + e.getMessage());
+                }
+            }
+
+        });
+    }
+
 }

@@ -47,7 +47,6 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
                 query.whereEqualTo("phone_number", etPhoneNumber.getText().toString());
                 query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -71,6 +70,7 @@ public class LoginActivity extends ActionBarActivity {
                         } else {
                             Intent intent = new Intent(LoginActivity.this, BlockSlotActivity.class);
                             intent.putExtra("etName", etName.getText().toString());
+                            intent.putExtra("etPhoneNumber", etPhoneNumber.getText().toString());
                             startActivity(intent);
                         }
                     }
