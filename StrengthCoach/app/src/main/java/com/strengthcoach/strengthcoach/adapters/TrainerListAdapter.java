@@ -2,12 +2,15 @@ package com.strengthcoach.strengthcoach.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -66,7 +69,10 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         holder.tvPrice.setText(trainer.getPriceFormatted());
         holder.tvAboutMe.setText(trainer.getAboutMe());
 //        setGymNameAndCity(holder, trainer);
-//        holder.tvRating.setText("Rating: " + trainer.getRatings() + "");
+        holder.ratingBar.setRating((float) trainer.getRatings());
+        Drawable progress = holder.ratingBar.getProgressDrawable();
+        DrawableCompat.setTint(progress, context.getResources().getColor(R.color.amber));
+
         setNumReviews(holder, trainer);
        // animate(holder);
     }
@@ -86,7 +92,11 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             public void done(int count, ParseException e) {
                 if (e == null) {
                     Log.d("DEBUG", "Number of reviews: " + count);
-                    tvNumReviews.setText(count + " Reviews");
+                    if (count == 1) {
+                        tvNumReviews.setText(count + " Review");
+                    } else {
+                        tvNumReviews.setText(count + " Reviews");
+                    }
                 } else {
                     Log.d("DEBUG", "Failed to get number of reviews");
                 }
@@ -126,7 +136,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         TextView tvPrice;
         TextView tvTrainerName;
         TextView tvAboutMe;
-//        TextView tvRating;
+        RatingBar ratingBar;
         TextView tvNumReviews;
         public IMyViewHolderClicks mListener;
         private final Context context;
@@ -143,7 +153,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
             tvTrainerName = (TextView) itemView.findViewById(R.id.tvTrainerName);
             tvAboutMe = (TextView) itemView.findViewById(R.id.tvAboutMe);
-//            tvRating = (TextView) itemView.findViewById(R.id.tvRating);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             tvNumReviews = (TextView) itemView.findViewById(R.id.tvNumReviews);
             mListener = listener;
             itemView.setOnClickListener(this);

@@ -13,7 +13,8 @@
 
     <RelativeLayout
         android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -62,9 +63,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/llTrainerInfoHolder"
             android:layout_below="@+id/ivProfileImage"
             android:orientation="vertical"
-            android:layout_marginLeft="22dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <com.strengthcoach.strengthcoach.customui.RobotoTextView
                 android:layout_width="wrap_content"
@@ -91,21 +94,29 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvTrainerName">
+                android:layout_below="@id/tvTrainerName"
+                >
                 <RatingBar
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvRating"
+                    android:id="@+id/ratingBar"
                     android:numStars="5"
                     android:stepSize="0.1"
                     android:isIndicator="true"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_alignTop="@+id/tvNumReviews"
+                    android:layout_centerVertical="true"
                     />
 
-                <TextView
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvNumReviews"
+                    android:layout_toRightOf="@+id/ratingBar"
+                    android:layout_marginLeft="8dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/grey_accent"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
         </LinearLayout>

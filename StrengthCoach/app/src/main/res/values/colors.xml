@@ -6,4 +6,9 @@
     <item name="gray" type="color">#7C7C7C</item>
     <item name="dark_grey" type="color">#424242</item>
     <item name="grey_accent" type="color">#757575</item>
+<<<<<<< HEAD
 </resources>
+=======
+    <item name="amber" type="color">#FFC107</item>
+</resources>
+>>>>>>> Show rating bar along with number of reviews in the card layout

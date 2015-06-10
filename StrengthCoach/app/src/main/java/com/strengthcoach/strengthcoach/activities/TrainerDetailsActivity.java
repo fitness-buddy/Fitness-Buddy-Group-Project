@@ -111,7 +111,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         ratingBar.setRating((float) m_trainer.getRatings());
         Drawable progress = ratingBar.getProgressDrawable();
-        DrawableCompat.setTint(progress, Color.parseColor("#FFD700"));
+        DrawableCompat.setTint(progress, getResources().getColor(R.color.amber));
 
         ImageView ivProfileImage2 = (ImageView) findViewById(R.id.ivProfileImage2);
         Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage2);
