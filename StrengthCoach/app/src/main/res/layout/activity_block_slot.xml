@@ -45,7 +45,10 @@
         android:layout_height="wrap_content"
         android:text="@string/payment"
         android:paddingTop="20dp"
-
+        android:background="#CCC76F6F"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
         android:id="@+id/bProceedToPayment"
         android:layout_below="@+id/spSelectSlot"
         android:layout_alignParentRight="true"

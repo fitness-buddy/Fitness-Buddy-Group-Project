@@ -81,6 +81,10 @@
         android:layout_below="@+id/etExpiry"
         android:layout_toRightOf="@+id/etExpiry"
         android:layout_alignRight="@+id/etCCNumber"
-        android:layout_alignEnd="@+id/etCCNumber" />
+        android:layout_alignEnd="@+id/etCCNumber"
+        android:background="#CCC76F6F"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>
