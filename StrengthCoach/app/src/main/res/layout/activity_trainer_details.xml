@@ -184,6 +184,7 @@
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/tvContactTrainer"
                     android:text="Contact Trainer"
                     android:textColor="#C76F6F"
                     android:textSize="20sp"

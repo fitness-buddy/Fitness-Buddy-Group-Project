@@ -70,7 +70,11 @@
         <activity
             android:name=".activities.TrainerDetailsActivity"
             android:label="@string/title_activity_trainer_details"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".activities.ChatActivity"
+            android:label="@string/title_activity_chat" >
         </activity>
 
         <uses-library

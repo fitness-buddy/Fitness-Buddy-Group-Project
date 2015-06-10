@@ -1,6 +1,7 @@
 package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -148,6 +149,16 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
         LinearLayout llReviews = (LinearLayout) findViewById(R.id.llReviews);
         addReviewsInView(llReviews);
+
+        TextView tvContactTrainer = (TextView) findViewById(R.id.tvContactTrainer);
+        tvContactTrainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), ChatActivity.class);
+                intent.putExtra("trainer", m_trainer);
+                startActivity(intent);
+            }
+        });
     }
 
     private void addReviewsInView(LinearLayout llReviews){
@@ -199,6 +210,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
     private Trainer createFakeTrainer() {
         Trainer trainer = new Trainer();
+        trainer.setId(1);
         trainer.setName("Brendon Miller");
         trainer.setAboutMe("Whether you want to lose weight and keep it off, build lean muscle, or just look and feel better in the clothes you’re in, I'll help you get there.");
 

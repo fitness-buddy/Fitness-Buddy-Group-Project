@@ -3,10 +3,11 @@ package com.strengthcoach.strengthcoach.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @ParseClassName("Trainer")
-public class Trainer extends ParseObject {
+public class Trainer extends ParseObject implements Serializable {
     /**
      * COLUMN NAMES: Multi-word names should be separated by '_' (underscore)
      * int id
