@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.Transition;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,23 +15,18 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.dialog.ErrorDialogFragment;
 import com.strengthcoach.strengthcoach.dialog.ProgressDialogFragment;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
-import com.strengthcoach.strengthcoach.models.Trainer;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -45,10 +39,8 @@ import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Customer;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -70,13 +62,11 @@ public class PaymentActivity extends ActionBarActivity {
         setContentView(R.layout.activity_payment);
         progressFragment = ProgressDialogFragment.newInstance(R.string.progressMessage);
         phoneno = getIntent().getStringExtra("etPhoneNumber");
-        Log.v("phoneno ","phoneno>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+phoneno);
         etCCNumber = (EditText) findViewById(R.id.etCCNumber);
         etExpiry = (EditText) findViewById(R.id.etExpiry);
         bSubmit = (Button) findViewById(R.id.bSubmit);
         com.stripe.Stripe.apiKey = Constants.STRIPE_SECRET_KEY;
         final String cust_id = currentUser.getTokenId();
-        Log.v("token id ","cust_id>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+cust_id);
         if (cust_id != null) {
             new AsyncTask<Void, Void, Void>() {
 
@@ -180,10 +170,8 @@ public class PaymentActivity extends ActionBarActivity {
         bSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("onclick","inside onclick listener");
                 if (cardNumber == null) {
                     cardNumber = "";
-                    Log.v("onclick","inside if of card number listener");
                     String[] cardNumberParts = etCCNumber.getText().toString().split(" ");
                     for (int i = 0; i < cardNumberParts.length; i++) {
                         cardNumber = cardNumber + cardNumberParts[i];
@@ -200,7 +188,6 @@ public class PaymentActivity extends ActionBarActivity {
 
                 boolean validation = card.validateCard();
                 if (validation) {
-                    Log.v("onclick","inside validation fo card "+validation);
                     startProgress();
                     new Stripe().createToken(
                             card,
@@ -238,7 +225,6 @@ public class PaymentActivity extends ActionBarActivity {
 
                                         protected void onPostExecute(Void result) {
                                             if (cust != null) {
-                                                Log.v("currentUser","SimpleUser.currentUserObjectId ^&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+SimpleUser.currentUserObjectId);
                                                 ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
                                                 query.whereEqualTo("objectId", SimpleUser.currentUserObjectId);
                                                 query.getFirstInBackground(new GetCallback<ParseObject>() {

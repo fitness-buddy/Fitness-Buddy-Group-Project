@@ -10,6 +10,7 @@
     <string name="verify_button_text">Verify</string>
     <string name="regenerate_code">Regenerate Code</string>
     <string name="title_activity_block_slot">Book Slot</string>
+    <string name="title_activity_payment">Payment</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_trainer_details">TrainerDetailsActivity</string>
