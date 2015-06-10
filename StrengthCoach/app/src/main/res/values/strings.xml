@@ -24,7 +24,6 @@
     <string name="mobile_no_label">Phone No</string>
     <string name="title_activity_chat">ChatActivity</string>
 
-
     <string name="cc_number">Number</string>
     <string name="cc_number_hint">1234 1234 1234 1234</string>
     <string name="cc_expiry">Expiry</string>
@@ -36,4 +35,5 @@
     <string name="progressMessage">Creating Token</string>bSubmit
     <string name="bSubmit">Submit</string>
     <string name="not_saved">Card not saved</string>
+    <string name="placeholder_text">Something somthing</string>
 </resources>

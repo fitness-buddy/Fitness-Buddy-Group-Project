@@ -22,12 +22,27 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPrice"
+            android:layout_marginBottom="46dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="#80000000"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp"
+            android:gravity="center_vertical"
+            android:layout_alignBottom="@+id/ivImage"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:id="@+id/ivProfileImage"
             android:src="@mipmap/ic_launcher"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="298dp"
             app:border_width="10dp"
             app:border_color="#ffff3249"
             android:layout_alignRight="@+id/ivFavorite" />
@@ -44,65 +59,55 @@
             android:layout_marginEnd="25dp"
             android:layout_marginTop="25dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvPrice"
-            android:textSize="30sp"
-            android:layout_below="@+id/ivImage"
-            android:layout_alignParentLeft="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvTrainerName"
-            android:textSize="20sp"
-            android:layout_alignTop="@+id/tvPrice"
-            android:layout_alignBottom="@+id/tvPrice"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tvPrice"
-            android:layout_below="@+id/ivImage"
-            android:text="Nyjal Augustine"/>
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvAboutMe"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:layout_below="@+id/tvTrainerName"/>
+            android:layout_below="@+id/ivProfileImage"
+            android:orientation="vertical"
+            android:layout_marginLeft="22dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvAboutMe">
-            <TextView
+            <com.strengthcoach.strengthcoach.customui.RobotoTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvGymName"
-                android:layout_alignParentLeft="true"/>
+                android:id="@+id/tvTrainerName"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/dark_grey"
+                android:layout_below="@+id/ivImage"
+                android:text="Nyjal Augustine"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvCity"
-                android:layout_toRightOf="@+id/tvGymName"
-                android:layout_alignParentRight="true"/>
+                android:id="@+id/tvAboutMe"
+                android:textSize="16sp"
+                android:textColor="@color/grey_accent"
+                android:gravity="left"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_below="@+id/tvTrainerName"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvRating"
-                android:layout_below="@id/tvGymName"
-                android:layout_alignParentLeft="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvNumReviews"
-                android:layout_below="@+id/tvCity"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+                android:layout_below="@id/tvTrainerName">
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvRating"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    android:isIndicator="true"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvNumReviews"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

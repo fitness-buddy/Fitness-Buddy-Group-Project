@@ -13,14 +13,12 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.parse.CountCallback;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.activities.TrainerDetailsActivity;
-import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.List;
@@ -62,14 +60,13 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
         // Set the profile image
         holder.ivProfileImage.setImageResource(0);
-        holder.ivProfileImage.setBorderColor(R.color.white);
         Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivProfileImage);
 
         holder.tvTrainerName.setText(trainer.getName());
         holder.tvPrice.setText(trainer.getPriceFormatted());
         holder.tvAboutMe.setText(trainer.getAboutMe());
-        setGymNameAndCity(holder, trainer);
-        holder.tvRating.setText("Rating: " + trainer.getRatings() + "");
+//        setGymNameAndCity(holder, trainer);
+//        holder.tvRating.setText("Rating: " + trainer.getRatings() + "");
         setNumReviews(holder, trainer);
        // animate(holder);
     }
@@ -97,25 +94,25 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         });
     }
 
-    private void setGymNameAndCity(TrainerViewHolder holder, Trainer trainer) {
-        final TextView tvGymName = holder.tvGymName;
-        final TextView tvCity = holder.tvCity;
-        ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
-        query.whereEqualTo("trainers", trainer);
-        query.include("address");
-        query.findInBackground(new FindCallback<Gym>() {
-            public void done(List<Gym> gyms, ParseException e) {
-                if (e == null) {
-                    Log.d("DEBUG", "Retrieved " + gyms.size() + " Gym");
-                    Gym gym = gyms.get(0);
-                    tvGymName.setText(gym.getName());
-                    tvCity.setText(gym.getAddress().getCity());
-                } else {
-                    Log.d("DEBUG", "Failed to fetch Gym info. Error: " + e.getMessage());
-                }
-            }
-        });
-    }
+//    private void setGymNameAndCity(TrainerViewHolder holder, Trainer trainer) {
+//        final TextView tvGymName = holder.tvGymName;
+//        final TextView tvCity = holder.tvCity;
+//        ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
+//        query.whereEqualTo("trainers", trainer);
+//        query.include("address");
+//        query.findInBackground(new FindCallback<Gym>() {
+//            public void done(List<Gym> gyms, ParseException e) {
+//                if (e == null) {
+//                    Log.d("DEBUG", "Retrieved " + gyms.size() + " Gym");
+//                    Gym gym = gyms.get(0);
+//                    tvGymName.setText(gym.getName());
+//                    tvCity.setText(gym.getAddress().getCity());
+//                } else {
+//                    Log.d("DEBUG", "Failed to fetch Gym info. Error: " + e.getMessage());
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public int getItemCount() {
@@ -129,10 +126,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         TextView tvPrice;
         TextView tvTrainerName;
         TextView tvAboutMe;
-        TextView tvRating;
+//        TextView tvRating;
         TextView tvNumReviews;
-        TextView tvGymName;
-        TextView tvCity;
         public IMyViewHolderClicks mListener;
         private final Context context;
 
@@ -148,9 +143,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
             tvTrainerName = (TextView) itemView.findViewById(R.id.tvTrainerName);
             tvAboutMe = (TextView) itemView.findViewById(R.id.tvAboutMe);
-            tvGymName = (TextView) itemView.findViewById(R.id.tvGymName);
-            tvCity = (TextView) itemView.findViewById(R.id.tvCity);
-            tvRating = (TextView) itemView.findViewById(R.id.tvRating);
+//            tvRating = (TextView) itemView.findViewById(R.id.tvRating);
             tvNumReviews = (TextView) itemView.findViewById(R.id.tvNumReviews);
             mListener = listener;
             itemView.setOnClickListener(this);
