@@ -25,6 +25,8 @@ import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.TrainerViewHolder> {
     private LayoutInflater inflater;
     List<Trainer> trainers;
@@ -56,8 +58,13 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         Trainer trainer = trainers.get(position);
         // Set data in the viewholder obj
         holder.ivImage.setImageResource(0);
-//        Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivImage);
         Picasso.with(context).load(trainer.getImages().get(0)).into(holder.ivImage);
+
+        // Set the profile image
+        holder.ivProfileImage.setImageResource(0);
+        holder.ivProfileImage.setBorderColor(R.color.white);
+        Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivProfileImage);
+
         holder.tvTrainerName.setText(trainer.getName());
         holder.tvPrice.setText(trainer.getPriceFormatted());
         holder.tvAboutMe.setText(trainer.getAboutMe());
@@ -118,6 +125,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     // Custom ViewHolder
     static class TrainerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ivImage;
+        CircleImageView ivProfileImage;
         TextView tvPrice;
         TextView tvTrainerName;
         TextView tvAboutMe;
@@ -136,6 +144,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
             // Get the refs to views
             ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
+            ivProfileImage = (CircleImageView) itemView.findViewById(R.id.ivProfileImage);
             tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
             tvTrainerName = (TextView) itemView.findViewById(R.id.tvTrainerName);
             tvAboutMe = (TextView) itemView.findViewById(R.id.tvAboutMe);
