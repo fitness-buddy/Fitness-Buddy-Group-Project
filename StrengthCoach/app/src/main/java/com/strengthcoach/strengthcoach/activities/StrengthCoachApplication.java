@@ -3,6 +3,7 @@ package com.strengthcoach.strengthcoach.activities;
 import android.app.Application;
 import android.util.Log;
 
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -43,5 +44,7 @@ public class StrengthCoachApplication extends Application {
                 }
             }
         });
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 }
