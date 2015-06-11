@@ -21,6 +21,8 @@ public class Trainer extends ParseObject implements Serializable {
      * ArrayList<Review> reviews
      */
 
+    public static String currentTrainerObjectId;
+
     // Accessors
     public int getId() {
         return getInt("id");

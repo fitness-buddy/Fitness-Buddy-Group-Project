@@ -18,6 +18,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.helpers.Utils;
 
 public class LoginActivity extends ActionBarActivity {
@@ -57,7 +58,7 @@ public class LoginActivity extends ActionBarActivity {
 
                             // Send SMS with verify code starts here
                             SmsManager smsManager = SmsManager.getDefault();
-                            String smsMessage = verifyCode + "is your Strength Coach verification code" ;
+                            String smsMessage = verifyCode + " "+ Constants.VERIFICATION_SMS_TEXT ;
                             smsManager.sendTextMessage(etPhoneNumber.getText().toString(), null, smsMessage, null, null);
                             // Send SMS with verify code ends here
 

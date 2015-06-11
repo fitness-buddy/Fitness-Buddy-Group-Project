@@ -2,6 +2,7 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -166,8 +167,8 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         bBookSlot.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Trainer.currentTrainerObjectId = m_trainer.getObjectId();
                 Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                intent.putExtra("trainer", m_trainer.getObjectId());
                 startActivity(intent);
             }
         });

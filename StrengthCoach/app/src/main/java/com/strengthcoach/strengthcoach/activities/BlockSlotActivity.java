@@ -20,6 +20,7 @@ import com.roomorama.caldroid.CaldroidListener;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
+import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class BlockSlotActivity extends ActionBarActivity {
             dateAfterMonth = calendar.getTime();
             caldroidFragment.setMinDate(currentDate); // disable dates prior to current date
             caldroidFragment.setMaxDate(dateAfterMonth);// disable dates after a month from current date
-            getDaysBetweenDates(currentDate, dateAfterMonth, "vfH6nKhCN9");
+            getDaysBetweenDates(currentDate, dateAfterMonth, Trainer.currentTrainerObjectId);
             setupCaldroidListener();
 
 
@@ -75,7 +76,7 @@ public class BlockSlotActivity extends ActionBarActivity {
         }
 
         dayOfTheWeek = simpleDayFormat.format(date);
-        populateAvailableSlots("vfH6nKhCN9", "a", dayOfTheWeek);
+        populateAvailableSlots(Trainer.currentTrainerObjectId, "a", dayOfTheWeek);
         setupListener();
     }
 
@@ -147,7 +148,7 @@ public class BlockSlotActivity extends ActionBarActivity {
                 String year = (String) android.text.format.DateFormat.format("yyyy", date); //2013
                 String day = (String) android.text.format.DateFormat.format("dd", date); //20
 
-                populateAvailableSlots("vfH6nKhCN9","a",simpleDayFormat.format(date));
+                populateAvailableSlots(Trainer.currentTrainerObjectId,"a",simpleDayFormat.format(date));
 
             }
 

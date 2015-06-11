@@ -8,6 +8,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
+import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.Address;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Message;
@@ -17,8 +18,8 @@ import com.strengthcoach.strengthcoach.models.Trainer;
 import com.strengthcoach.strengthcoach.models.TrainerSlots;
 
 public class StrengthCoachApplication extends Application {
-    public static final String APPLICATION_ID = "7eAbPO86MugTvAXhQjBz3ctRoO1LwWeqoL2hDX6V";
-    public static final String CLIENT_KEY = "RtO4IgNoZBnS7ezw27fnvj05KCscflrNsFGXP89E";
+    public static final String APPLICATION_ID = Constants.PARSE_APPLICATION_KEY;
+    public static final String CLIENT_KEY = Constants.PARSE_CLIENT_KEY;
     @Override
     public void onCreate() {
         super.onCreate();

@@ -27,6 +27,7 @@ import com.strengthcoach.strengthcoach.dialog.ErrorDialogFragment;
 import com.strengthcoach.strengthcoach.dialog.ProgressDialogFragment;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
+import com.strengthcoach.strengthcoach.models.Trainer;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -200,7 +201,6 @@ public class PaymentActivity extends ActionBarActivity {
                                     customerParams.put("description", "Customer for " +
                                             currentUser.getName());
                                     customerParams.put("card", token.getId());
-                                    final Map<String, Object> customerParamsFinal = customerParams;
 
                                     new AsyncTask<Void, Void, Void>() {
                                         Customer cust;
@@ -209,10 +209,10 @@ public class PaymentActivity extends ActionBarActivity {
                                         protected Void doInBackground(Void... params) {
                                             try {
                                                 if (edit == 0) {
-                                                    cust = Customer.create(customerParamsFinal);
+                                                    cust = Customer.create(customerParams);
                                                 } else {
                                                     cust = editCustomer;
-                                                    editCustomer.update(customerParamsFinal);
+                                                    editCustomer.update(customerParams);
                                                 }
                                             } catch (com.stripe.exception.AuthenticationException |
                                                     InvalidRequestException |
@@ -249,6 +249,7 @@ public class PaymentActivity extends ActionBarActivity {
                                                                         } else {
                                                                             final Intent intent;
                                                                             intent =  new Intent(PaymentActivity.this, TrainerDetailsActivity.class);
+                                                                            intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
                                                                             PaymentActivity.this.startActivity(intent);
 
                                                                         }

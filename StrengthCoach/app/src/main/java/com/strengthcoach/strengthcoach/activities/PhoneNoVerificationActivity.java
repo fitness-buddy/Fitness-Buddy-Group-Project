@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.helpers.Utils;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 
@@ -82,7 +83,7 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
 
                 // Send SMS with verify code starts here
                 SmsManager smsManager = SmsManager.getDefault();
-                String smsMessage = verifyCode + "is your Strength Coach verification code" ;
+                String smsMessage = verifyCode +" "+ Constants.VERIFICATION_SMS_TEXT ;
                 smsManager.sendTextMessage(phoneno, null, smsMessage, null, null);
                 // Send SMS with verify code ends here
 
