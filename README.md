@@ -18,15 +18,15 @@ Our app is the marketplace which brings the trainers and users together. Trainer
 
 The following **required** functionality:
 
-* [ ] User can open the app and see a list of trainers in near by Gyms.
-* [ ] User sees a picture, brief description, Gym information and location for each trainer in the list view.
-* [ ] User can click on a trainer picture and see details of this trainer.
-* [ ] User can read recent review of a trainer in details view.
-* [ ] User sees a map with location of Gym where trainer is located.
-* [ ] User can click on "book" button and block 1 hr long session with the trainer.
-* [ ] User is asked to login using phone number before he can book a session.
-* [ ] User's phone number is validated via sms.
-* [ ] User can complete a booking.
+* [x] User can open the app and see a list of trainers in near by Gyms.
+* [x] User sees a picture, brief description, Gym information and location for each trainer in the list view.
+* [x] User can click on a trainer picture and see details of this trainer.
+* [x] User can read recent review of a trainer in details view.
+* [x] User sees a map with location of Gym where trainer is located.
+* [x] User can click on "book" button and block 1 hr long session with the trainer.
+* [x] User is asked to login using phone number before he can book a session.
+* [x] User's phone number is validated via sms.
+* [x] User can complete a booking.
 
 The following **optional** functionality:
 * [ ] User can mark a trainer as favourite and view favorites from hamburger menu later.
@@ -39,3 +39,8 @@ The following **optional** functionality:
 * [ ] Improving UI/UX
 
 App mock screens can be found [here](https://cloud.box.com/s/37qyy0w3027j9gdecoemwxz3wux1lxuy).
+
+## Sprint1 Walkthrough
+![alt tag](https://github.com/fitness-buddy/Fitness-Buddy-Group-Project/blob/master/walkthrough1.gif)
+
+Video recording of the walkthrough can be found [here](https://cloud.box.com/s/fmge5uuf249ph7qojaykjfckxysexjy9)
