@@ -1,12 +1,13 @@
 package com.strengthcoach.strengthcoach.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -45,11 +46,18 @@ public class HomeActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            // TODO: Open this activity on itemclicked event.
-            // TODO: Pass a trainer here
-            Intent intent = new Intent(this, TrainerDetailsActivity.class);
-            startActivity(intent);
-            return true;
+            String appLinkUrl, previewImageUrl;
+
+            appLinkUrl = "https://github.com/varungu/Android-Bootcamp";
+            previewImageUrl = "http://www.ajayengineeringworks.com/Adminpanel/product_images/06c3757555a99c26ee8f3e8bebdaba0c.jpg";
+
+            if (AppInviteDialog.canShow()) {
+                AppInviteContent content = new AppInviteContent.Builder()
+                        .setApplinkUrl(appLinkUrl)
+                        .setPreviewImageUrl(previewImageUrl)
+                        .build();
+                AppInviteDialog.show(this, content);
+            }
         }
 
         return super.onOptionsItemSelected(item);

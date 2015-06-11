@@ -50,6 +50,9 @@ dependencies {
 
     // for stripe
     compile 'com.stripe:stripe-android:+'
+
+    // facebook
+    compile 'com.facebook.android:facebook-android-sdk:4.1.0'
 }
 
 repositories {
