@@ -19,7 +19,6 @@ import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
-import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.text.SimpleDateFormat;
@@ -34,11 +33,14 @@ public class BlockSlotActivity extends ActionBarActivity {
     CaldroidFragment caldroidFragment;
     Date currentDate, dateAfterMonth;
     Button bProceedToPayment;
+    Date previousDate = null;
     Spinner spSelectSlot;
-    String dayOfTheWeek;
+    String dayOfTheWeek, selectedDate;
     SimpleDateFormat simpleDayFormat = new SimpleDateFormat(Constants.DAY_OF_WEEK_FORMAT);
+    SimpleDateFormat simpleDateStrFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
     Date date = new Date();
     ArrayList<String> listOfSlots = new ArrayList<String>();
+    ArrayList<String> arBookedSlots = new ArrayList<String>();
     ArrayList<String> listOfAvailableDays = new ArrayList<String>();
     String name, phoneno;
 
@@ -76,7 +78,8 @@ public class BlockSlotActivity extends ActionBarActivity {
         }
 
         dayOfTheWeek = simpleDayFormat.format(date);
-        populateAvailableSlots(Trainer.currentTrainerObjectId, "a", dayOfTheWeek);
+        selectedDate = simpleDateStrFormat.format(date);
+        alreadyBookedSlots(Trainer.currentTrainerObjectId,dayOfTheWeek,selectedDate);
         setupListener();
     }
 
@@ -144,11 +147,18 @@ public class BlockSlotActivity extends ActionBarActivity {
 
             @Override
             public void onSelectDate(Date date, View view) {
-               String  month = (String) android.text.format.DateFormat.format("MM", date); //06
-                String year = (String) android.text.format.DateFormat.format("yyyy", date); //2013
-                String day = (String) android.text.format.DateFormat.format("dd", date); //20
+                // changing the background color of earlier selected date to blue
+                if (previousDate != null ){
+                    caldroidFragment.setBackgroundResourceForDate(R.color.caldroid_holo_blue_light, previousDate);
+                    caldroidFragment.refreshView();
+                }
+                // changing the background color of selected date to pink
+                caldroidFragment.setBackgroundResourceForDate(R.color.pink, date);
+                previousDate = date;
+                caldroidFragment.refreshView();
 
-                populateAvailableSlots(Trainer.currentTrainerObjectId,"a",simpleDayFormat.format(date));
+                alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(date),simpleDateStrFormat.format(date));
+
 
             }
 
@@ -175,13 +185,38 @@ public class BlockSlotActivity extends ActionBarActivity {
         caldroidFragment.setCaldroidListener(listener);
 
     }
-    public void populateAvailableSlots(String trainerId, String status, String day) {
-        ParseObject trainer = ParseObject.createWithoutData("Trainer",trainerId);
+    public void alreadyBookedSlots(final String trainerId, final String sDay, final String sDate) {
+        arBookedSlots.clear();
+        ParseObject trainer = ParseObject.createWithoutData("Trainer", trainerId);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("BookedSlots");
+        query.selectKeys(Arrays.asList("slot_date", "slot_time"));
+        query.include("trainer_id");
+        query.whereEqualTo("trainer_id", trainer);
+        query.whereEqualTo("slot_date", sDate);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> bookedSlots, com.parse.ParseException e) {
+                if (e == null) {
+                    for (ParseObject slots : bookedSlots) {
+                        String slotDate = slots.getString("slot_date");
+                        int slotTime = Integer.valueOf(slots.getString("slot_time"));
+                        arBookedSlots.add(slotDate+":"+slotTime);
+                    }
+                } else {
+                    Log.d("DEBUG", "Error: " + e.getMessage());
+                }
+                populateAvailableSlots(trainerId, sDay, sDate);
+            }
+
+
+        });
+
+    }
+    public void populateAvailableSlots(final String trainerId, final String day, String sDate) {
+        final ParseObject trainer = ParseObject.createWithoutData("Trainer",trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TrainerSlots");
         query.selectKeys(Arrays.asList("start_time", "end_time"));
         query.include("trainer_id");
         query.whereEqualTo("trainer_id", trainer);
-        query.whereEqualTo("status", status);
         query.whereEqualTo("day", day);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> trainerSlots, com.parse.ParseException e) {
@@ -191,11 +226,18 @@ public class BlockSlotActivity extends ActionBarActivity {
                     for(ParseObject slots: trainerSlots){
                         int startTimeInt = Integer.valueOf(slots.getString("start_time"));
                         int endTimeInt = Integer.valueOf(slots.getString("end_time"));
-
-                        for (int i = startTimeInt; startTimeInt < endTimeInt; startTimeInt++)
+                        for (final int i = startTimeInt; startTimeInt < endTimeInt; startTimeInt++)
                         {
-                           String timeRange = startTimeInt + "-" + (startTimeInt+1) ;
-                           listOfSlots.add(timeRange);
+                            if(arBookedSlots.size() > 0){
+                               for (int j =0; j< arBookedSlots.size(); j++){
+                                   String str[] = arBookedSlots.get(j).split(":");
+                                   if (!str[1].equals(Integer.toString(startTimeInt))){
+                                       listOfSlots.add(Integer.toString(startTimeInt));
+                                   }
+                               }
+                            } else {
+                               listOfSlots.add(Integer.toString(startTimeInt));
+                            }
                         }
                         spSelectSlot.setAdapter(new ArrayAdapter<String>(BlockSlotActivity.this,
                                 android.R.layout.simple_spinner_item, listOfSlots));
@@ -204,6 +246,7 @@ public class BlockSlotActivity extends ActionBarActivity {
                 }
             }
         });
+
     }
 
     @Override

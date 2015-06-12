@@ -27,5 +27,7 @@ public class Constants {
     public static final String expDateKey = "exp_date";
 
     public static final String VERIFICATION_SMS_TEXT = "is your Strength Coach verification code";
+
+    public static String DATE_FORMAT ="MM/dd/yyyy";
 }
 
