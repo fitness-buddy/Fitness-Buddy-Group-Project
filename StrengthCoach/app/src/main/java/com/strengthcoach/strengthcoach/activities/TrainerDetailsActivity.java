@@ -2,11 +2,11 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseGeoPoint;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.adapters.TrainerDetailPagerAdapter;
 import com.strengthcoach.strengthcoach.models.Address;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Review;
@@ -49,6 +50,9 @@ public class TrainerDetailsActivity extends ActionBarActivity {
     Trainer m_trainer;
     GoogleMap m_map;
     Button bBookSlot;
+    TrainerDetailPagerAdapter mDetailPagerAdapter;
+    ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +78,6 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         });
 
         // Setup view
-        ImageView ivTrainerImages = (ImageView) findViewById(R.id.ivTrainerImages);
-        Picasso.with(this).load(m_trainer.getImages().get(0)).into(ivTrainerImages);
-
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage);
 
@@ -173,6 +174,14 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             }
         });
         // added by neeraja for booking slots ends
+
+        setupViewPager();
+    }
+
+    private void setupViewPager() {
+        mDetailPagerAdapter = new TrainerDetailPagerAdapter(this, m_trainer);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mDetailPagerAdapter);
     }
 
     private void addReviewsInView(LinearLayout llReviews){

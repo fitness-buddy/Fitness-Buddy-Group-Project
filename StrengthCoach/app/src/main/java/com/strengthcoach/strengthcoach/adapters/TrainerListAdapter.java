@@ -60,8 +60,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         final Trainer trainer = trainers.get(position);
 
         // Initialize ViewPager adapter
-        holder.mCustomPagerAdapter = new TrainerListPagerAdapter(context, trainer);
-        holder.mViewPager.setAdapter(holder.mCustomPagerAdapter);
+        holder.mTrainerListPagerAdapter = new TrainerListPagerAdapter(context, trainer);
+        holder.mViewPager.setAdapter(holder.mTrainerListPagerAdapter);
 
         // Set the profile image
         holder.ivProfileImage.setImageResource(0);
@@ -142,7 +142,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         TextView tvNumReviews;
         public IMyViewHolderClicks mListener;
         private final Context context;
-        TrainerListPagerAdapter mCustomPagerAdapter;
+        TrainerListPagerAdapter mTrainerListPagerAdapter;
         ViewPager mViewPager;
 
         public TrainerViewHolder(View itemView, IMyViewHolderClicks listener) {
