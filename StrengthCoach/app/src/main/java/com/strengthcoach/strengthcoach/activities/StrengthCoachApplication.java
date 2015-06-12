@@ -32,6 +32,7 @@ public class StrengthCoachApplication extends Application {
         ParseObject.registerSubclass(Trainer.class);
         ParseObject.registerSubclass(Review.class);
         ParseObject.registerSubclass(TrainerSlots.class);
+        ParseObject.registerSubclass(BlockedSlots.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
 

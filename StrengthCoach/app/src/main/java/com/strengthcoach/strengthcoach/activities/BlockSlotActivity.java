@@ -13,12 +13,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
+import com.strengthcoach.strengthcoach.models.BlockedSlots;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.text.SimpleDateFormat;
@@ -32,8 +36,9 @@ import java.util.List;
 public class BlockSlotActivity extends ActionBarActivity {
     CaldroidFragment caldroidFragment;
     Date currentDate, dateAfterMonth;
-    Button bProceedToPayment;
+    Button bProceedToPayment, bAddToCart;
     Date previousDate = null;
+    String userSelectedDate;
     Spinner spSelectSlot;
     String dayOfTheWeek, selectedDate;
     SimpleDateFormat simpleDayFormat = new SimpleDateFormat(Constants.DAY_OF_WEEK_FORMAT);
@@ -43,15 +48,18 @@ public class BlockSlotActivity extends ActionBarActivity {
     ArrayList<String> arBookedSlots = new ArrayList<String>();
     ArrayList<String> listOfAvailableDays = new ArrayList<String>();
     String name, phoneno;
+    BlockedSlots  bSlots ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_slot);
         spSelectSlot = (Spinner) findViewById(R.id.spSelectSlot);
+        bAddToCart = (Button) findViewById(R.id.bAddToCart);
         bProceedToPayment = (Button)findViewById(R.id.bProceedToPayment);
         name =  getIntent().getStringExtra("etName");
         phoneno =  getIntent().getStringExtra("etPhoneNumber");
+
 
         if (savedInstanceState == null) {
             caldroidFragment = new CaldroidFragment();
@@ -79,6 +87,7 @@ public class BlockSlotActivity extends ActionBarActivity {
 
         dayOfTheWeek = simpleDayFormat.format(date);
         selectedDate = simpleDateStrFormat.format(date);
+        userSelectedDate = selectedDate;
         alreadyBookedSlots(Trainer.currentTrainerObjectId,dayOfTheWeek,selectedDate);
         setupListener();
     }
@@ -139,6 +148,35 @@ public class BlockSlotActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+        bAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bSlots = new BlockedSlots();
+                // need to save data to user model;
+                ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
+                ParseObject user = ParseObject.createWithoutData("SimpleUser",SimpleUser.currentUserObjectId);
+                bSlots.setTrainerId(trainer);
+                bSlots.setBookedByUserId(user);
+                bSlots.setSlotDate(userSelectedDate);
+                bSlots.setSlotTime(spSelectSlot.getSelectedItem().toString());
+                bSlots.setStatus(Constants.ADD_TO_CART);
+                bSlots.saveInBackground(new SaveCallback()
+                {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e==null){
+                            Log.d("DEBUG!!!","Slot Saved Successfully ");
+
+                        } else{
+                            Log.d("DEBUG!!!","Slot Not Saved");
+                        }
+
+                    }
+                });
+                bProceedToPayment.setVisibility(View.VISIBLE);
+
+            }
+        });
 
     }
     public void setupCaldroidListener(){
@@ -156,7 +194,7 @@ public class BlockSlotActivity extends ActionBarActivity {
                 caldroidFragment.setBackgroundResourceForDate(R.color.pink, date);
                 previousDate = date;
                 caldroidFragment.refreshView();
-
+                userSelectedDate = simpleDateStrFormat.format(date);
                 alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(date),simpleDateStrFormat.format(date));
 
 
@@ -180,10 +218,8 @@ public class BlockSlotActivity extends ActionBarActivity {
                             .show();*/
                 }
             }
-
         };
         caldroidFragment.setCaldroidListener(listener);
-
     }
     public void alreadyBookedSlots(final String trainerId, final String sDay, final String sDate) {
         arBookedSlots.clear();

@@ -29,5 +29,8 @@ public class Constants {
     public static final String VERIFICATION_SMS_TEXT = "is your Strength Coach verification code";
 
     public static String DATE_FORMAT ="MM/dd/yyyy";
+
+    public static String ADD_TO_CART ="addtocart";
+    public static String BOOKED ="booked";
 }
 

@@ -23,23 +23,32 @@
         android:id="@+id/tvSelectSlot"
         android:paddingTop="20dp"
         android:layout_below="@+id/llCalendar"
+        android:layout_marginTop="47dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="43dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="47dp" />
+        android:layout_alignParentStart="true" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/spSelectSlot"
         android:prompt="@string/select_slot"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/tvSelectSlot"
-        android:layout_toEndOf="@+id/tvSelectSlot"
         android:layout_alignTop="@+id/tvSelectSlot" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cart"
+        android:paddingTop="20dp"
+        android:background="#CCC76F6F"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:id="@+id/bAddToCart"
+        android:layout_alignTop="@+id/spSelectSlot"
+        android:layout_toRightOf="@+id/spSelectSlot"
+        android:layout_toEndOf="@+id/spSelectSlot" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +59,8 @@
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
         android:id="@+id/bProceedToPayment"
-        android:layout_below="@+id/spSelectSlot"
+        android:visibility="gone"
+        android:layout_below="@+id/bAddToCart"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="45dp" />
