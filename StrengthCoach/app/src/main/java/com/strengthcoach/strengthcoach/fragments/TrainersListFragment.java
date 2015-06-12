@@ -34,7 +34,6 @@ public class TrainersListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_trainers_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvTrainersList);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,10 +57,11 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     @Override
     public void onBindViewHolder(TrainerViewHolder holder, int position) {
-        Trainer trainer = trainers.get(position);
-        // Set data in the viewholder obj
-        holder.ivImage.setImageResource(0);
-        Picasso.with(context).load(trainer.getImages().get(0)).into(holder.ivImage);
+        final Trainer trainer = trainers.get(position);
+
+        // Initialize ViewPager adapter
+        holder.mCustomPagerAdapter = new TrainerListPagerAdapter(context, trainer);
+        holder.mViewPager.setAdapter(holder.mCustomPagerAdapter);
 
         // Set the profile image
         holder.ivProfileImage.setImageResource(0);
@@ -74,7 +76,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         DrawableCompat.setTint(progress, context.getResources().getColor(R.color.amber));
 
         setNumReviews(holder, trainer);
-       // animate(holder);
+        // animate(holder);
     }
 
     // DO NOT REMOVE: This will be used later for experimentation with animation
@@ -140,6 +142,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         TextView tvNumReviews;
         public IMyViewHolderClicks mListener;
         private final Context context;
+        TrainerListPagerAdapter mCustomPagerAdapter;
+        ViewPager mViewPager;
 
         public TrainerViewHolder(View itemView, IMyViewHolderClicks listener) {
             super(itemView);
@@ -147,7 +151,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             // Get reference to context
             context = itemView.getContext();
 
-            // Get the refs to views
+            // Get the reference to views
             ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
             ivProfileImage = (CircleImageView) itemView.findViewById(R.id.ivProfileImage);
             tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
@@ -157,6 +161,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             tvNumReviews = (TextView) itemView.findViewById(R.id.tvNumReviews);
             mListener = listener;
             itemView.setOnClickListener(this);
+            // Get the reference to viewpager
+            mViewPager = (ViewPager) itemView.findViewById(R.id.pager);
         }
 
         @Override
