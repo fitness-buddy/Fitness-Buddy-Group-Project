@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.viewholders;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -7,4 +8,6 @@ import android.widget.TextView;
  */
 public class ChatItemViewHolder {
     public TextView tvChatItem;
+    public ImageView ivOtherProfileImage;
+    public ImageView ivUserProfileImage;
 }

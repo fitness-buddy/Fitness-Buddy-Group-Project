@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.strengthcoach.strengthcoach.activities.ChatActivity">
+    tools:context="com.strengthcoach.strengthcoach.activities.ChatActivity"
+    android:background="#FFFFFF">
 
     <ListView
         android:layout_width="match_parent"
@@ -12,18 +13,27 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/etMessage"
-        android:background="#FFFFFF"/>
-    <EditText
+        android:layout_above="@+id/rlSeparator" />
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/rlSeparator"
+        android:background="#000000"
+        android:layout_above="@+id/etMessage"></RelativeLayout>
+    <EditText
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/etMessage"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/btnSend"
-        android:hint="Type your question."
-        android:inputType="textCapSentences|textMultiLine"/>
-    <Button
+        android:hint="Type your question"
+        android:inputType="textCapSentences|textMultiLine"
+        android:textSize="25dp"
+        android:background="@drawable/chat_item_background"
+        android:padding="10dp"
+        android:layout_margin="20dp"/>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnSend"
@@ -32,5 +42,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/etMessage"
         android:layout_alignBottom="@+id/etMessage"
-        android:onClick="onSendClicked"/>
+        android:onClick="onSendClicked"
+        android:textSize="25dp"
+        android:textColor="#55ACEE"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginRight="10dp"/>
 </RelativeLayout>
