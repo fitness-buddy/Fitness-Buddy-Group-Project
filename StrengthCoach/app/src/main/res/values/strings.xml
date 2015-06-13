@@ -38,4 +38,7 @@
 
     <string name="button_block_time">Book Slot</string>
     <string name="facebook_app_id">1596268773980430</string>
+
+    <string name="cart">Add To Cart ></string>
+    <string name="next">Next > </string>
 </resources>
