@@ -12,8 +12,8 @@ public class Review extends ParseObject {
      * COLUMN NAMES:
      * String body          // Represents the text in a review
      * int rating           // Int should work fine; if required we can change to Double later to represent 0.5 (half stars)
-     * String reviewer      // ObjectId of user that composed the review
-     * String reviewee      // ObjectId of the trainer from whom the review was composed
+     * SimpleUser reviewer      // ObjectId of user that composed the review
+     * Trainer reviewee      // ObjectId of the trainer from whom the review was composed
      */
     // Accessors
     public String getReviewBody() {
@@ -24,12 +24,12 @@ public class Review extends ParseObject {
         return getInt("rating");
     }
 
-    public String getReviewer() {
-        return getString("reviewer");
+    public SimpleUser getReviewer() {
+        return (SimpleUser) getParseObject("reviewer");
     }
 
-    public String getReviewee() {
-        return getString("reviewee");
+    public Trainer getReviewee() {
+        return (Trainer) getParseObject("reviewee");
     }
 
     // Modifiers
@@ -41,11 +41,11 @@ public class Review extends ParseObject {
         put("rating", rating);
     }
 
-    public void setReviewer(String reviewer) {
+    public void setReviewer(SimpleUser reviewer) {
         put("reviewer", reviewer);
     }
 
-    public void setReviewee(String reviewee) {
+    public void setReviewee(Trainer reviewee) {
         put("reviewee", reviewee);
     }
 

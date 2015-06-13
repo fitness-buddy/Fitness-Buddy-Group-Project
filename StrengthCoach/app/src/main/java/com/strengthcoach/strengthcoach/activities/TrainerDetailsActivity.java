@@ -41,6 +41,7 @@ import com.strengthcoach.strengthcoach.adapters.TrainerDetailPagerAdapter;
 import com.strengthcoach.strengthcoach.models.Address;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Review;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.text.ParseException;
@@ -52,6 +53,7 @@ import java.util.List;
 public class TrainerDetailsActivity extends ActionBarActivity {
 
     Trainer m_trainer;
+    ArrayList<Review> reviews;
     GoogleMap m_map;
     Button bBookSlot;
     TrainerDetailPagerAdapter mDetailPagerAdapter;
@@ -96,11 +98,13 @@ public class TrainerDetailsActivity extends ActionBarActivity {
     // Reviews are in a separate table so it needs to be fetched separately
     private void getReviewsAndSetupViews(String trainerId) {
         ParseQuery<Review> query = ParseQuery.getQuery("Review");
-        query.whereEqualTo("reviewee", trainerId);
+        query.whereEqualTo("reviewee", m_trainer);
+        query.include("reviewer");
+        query.include("reviewee");
         query.findInBackground(new FindCallback<Review>() {
             @Override
-            public void done(List<Review> list, com.parse.ParseException e) {
-                m_trainer.setReviews(new ArrayList<Review>(list));
+            public void done(List<Review> reviews, com.parse.ParseException e) {
+                TrainerDetailsActivity.this.reviews = new ArrayList<Review>(reviews);
                 setupTrainerView();
             }
         });
@@ -193,7 +197,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         }
 
         TextView tvReviewsCount = (TextView) findViewById(R.id.tvReviewsCount);
-        tvReviewsCount.setText(m_trainer.getReviews().size() + " Reviews");
+        tvReviewsCount.setText(getReviewsCount());
 
         LinearLayout llReviews = (LinearLayout) findViewById(R.id.llReviews);
         addReviewsInView(llReviews);
@@ -223,6 +227,14 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         setupViewPager();
     }
 
+    private String getReviewsCount() {
+        if (reviews.size() == 1) {
+            return reviews.size() + " Review";
+        } else {
+            return reviews.size() + " Reviews";
+        }
+    }
+
     private void setupViewPager() {
         mDetailPagerAdapter = new TrainerDetailPagerAdapter(this, m_trainer);
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -232,14 +244,13 @@ public class TrainerDetailsActivity extends ActionBarActivity {
     private void addReviewsInView(LinearLayout llReviews){
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        ArrayList<Review> reviews = m_trainer.getReviews();
         for (int i = 0; i < reviews.size(); i++) {
             Review review = reviews.get(i);
 
             View v = vi.inflate(R.layout.review_item, null);
 
             TextView tvReviewerName = (TextView) v.findViewById(R.id.tvReviewerName);
-            tvReviewerName.setText(review.getReviewee());
+            tvReviewerName.setText(((SimpleUser)review.getReviewer()).getName());
 
             String PATTERN="MMM yyyy";
             SimpleDateFormat dateFormat = new SimpleDateFormat();
@@ -324,19 +335,19 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         ArrayList<Review> reviews = new ArrayList<>();
         Review review1 = new Review();
         review1.setRating(4);
-        review1.setReviewee("Bob");
+//        review1.setReviewee("Bob");
         review1.setDate(strToDate("2015/03/18"));
         review1.setReviewText("Brendon Miller is an awesome trainer. He helped me loose 40 lbs in 4 months.");
         reviews.add(review1);
 
         Review review2 = new Review();
         review2.setRating(5);
-        review2.setReviewee("Alisha");
+//        review2.setReviewee("Alisha");
         review2.setDate(strToDate("2011/11/04"));
         review2.setReviewText("I am working out with Brendon for the last 2 months. She is really friendly and knows how to help someone reach their fitness goals");
         reviews.add(review2);
 
-        trainer.setReviews(reviews);
+//        trainer.setReviews(reviews);
 
         return trainer;
     }

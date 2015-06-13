@@ -162,8 +162,8 @@ public class DataLoader {
 
     private void instantiateReview() {
         Review review = new Review();
-        review.setReviewer(user.getObjectId());
-        review.setReviewee(trainer.getObjectId());
+        review.setReviewer(user);
+        review.setReviewee(trainer);
         review.setRating(4);
         review.setReviewText("I had a great time with Mike  --Mickey");
         review.saveInBackground();
@@ -447,6 +447,60 @@ public class DataLoader {
                         trainer.setInterestsAndAchievements(getInterestsAndAchievements());
                         trainer.saveInBackground();
                         Log.d("DEBUG", "Found " + objects.size() + " trainer objects");
+                    }
+                } else {
+                    Log.d("DEBUG", "Find all trainer objects query FAILED");
+                }
+            }
+        });
+    }
+
+    // Creates two new fake users.
+    // Each user creates a fake review for every trainer
+    public void createFakeReviewsForAllTrainers() {
+        final SimpleUser simpleUser1 = new SimpleUser();
+        simpleUser1.setPhoneNumber("213-663-2815");
+        simpleUser1.setName("Samantha Wong");
+        simpleUser1.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                final SimpleUser simpleUser2 = new SimpleUser();
+                simpleUser2.setPhoneNumber("591-492-8394");
+                simpleUser2.setName("Jeff Anderson");
+                simpleUser2.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        createFakeReviewsByUser(simpleUser1, simpleUser2);
+                    }
+                });
+            }
+        });
+
+
+    }
+
+    private void createFakeReviewsByUser(final SimpleUser simpleUser1, final SimpleUser simpleUser2) {
+        final String fakeReviewText1 = " exhibits immense determination, self discipline and has a kickass attitude which has been truly inspirational for me.";
+        final String fakeReviewText2 = "I had no idea about the true potential of human body until i met ";
+
+        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+        query.findInBackground(new FindCallback<Trainer>() {
+            public void done(List<Trainer> trainers, ParseException e) {
+                if (e == null) {
+                    for (Trainer trainer : trainers) {
+                        Review review1 = new Review();
+                        review1.setReviewer(simpleUser1);
+                        review1.setReviewee(trainer);
+                        review1.setReviewText(trainer.getName() + fakeReviewText1);
+                        review1.setRating(4);
+                        review1.saveInBackground();
+
+                        Review review2 = new Review();
+                        review2.setReviewer(simpleUser2);
+                        review2.setReviewee(trainer);
+                        review2.setRating(5);
+                        review2.setReviewText(fakeReviewText2 + trainer.getName());
+                        review2.saveInBackground();
                     }
                 } else {
                     Log.d("DEBUG", "Find all trainer objects query FAILED");

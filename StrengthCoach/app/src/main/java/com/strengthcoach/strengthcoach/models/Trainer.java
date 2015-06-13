@@ -57,10 +57,6 @@ public class Trainer extends ParseObject implements Serializable {
         return getDouble("rating");
     }
 
-    public ArrayList<Review> getReviews() {
-        return (ArrayList<Review>) get("reviews");
-    }
-
     public String getProfileImageUrl() {
         return getString("profile_image");
     }
@@ -102,10 +98,6 @@ public class Trainer extends ParseObject implements Serializable {
 
     public void setRating(double rating) {
         put("rating", rating);
-    }
-
-    public void setReviews(ArrayList<Review> reviews) {
-       put("reviews", reviews);
     }
 
     public void setProfileImageUrl(String url) {
