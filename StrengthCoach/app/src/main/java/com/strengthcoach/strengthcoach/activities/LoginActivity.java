@@ -14,12 +14,12 @@ import android.widget.EditText;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.helpers.Utils;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
 
 public class LoginActivity extends ActionBarActivity {
     EditText etName, etPhoneNumber;
@@ -48,11 +48,11 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
+                ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
                 query.whereEqualTo("phone_number", etPhoneNumber.getText().toString());
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        if (object == null) {
+                query.getFirstInBackground(new GetCallback<SimpleUser>() {
+                    public void done(SimpleUser user, ParseException e) {
+                        if (user == null) {
                             // Create a new user and signup
                             String verifyCode = Utils.generateRandomCode();
 
@@ -69,6 +69,7 @@ public class LoginActivity extends ActionBarActivity {
                             Log.v("verifyCode","verifyCode-=============================== "+verifyCode);
                             startActivity(intent);
                         } else {
+                            SimpleUser.currentUserObjectId = user.getObjectId();
                             Intent intent = new Intent(LoginActivity.this, BlockSlotActivity.class);
                             intent.putExtra("etName", etName.getText().toString());
                             intent.putExtra("etPhoneNumber", etPhoneNumber.getText().toString());

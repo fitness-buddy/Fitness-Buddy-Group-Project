@@ -207,7 +207,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), ChatActivity.class);
-                intent.putExtra("trainer", m_trainer);
+                intent.putExtra("trainerId", m_trainer.getObjectId());
                 startActivity(intent);
             }
         });

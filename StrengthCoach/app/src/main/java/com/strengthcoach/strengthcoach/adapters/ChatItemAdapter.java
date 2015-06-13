@@ -8,8 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.models.Message;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
+import com.strengthcoach.strengthcoach.models.Trainer;
 import com.strengthcoach.strengthcoach.viewholders.ChatItemViewHolder;
 
 import java.util.List;
@@ -18,8 +21,15 @@ import java.util.List;
  * Created by varungupta on 6/8/15.
  */
 public class ChatItemAdapter extends ArrayAdapter<Message> {
+
+    Trainer m_trainer;
+
     public ChatItemAdapter(Context context, List<Message> objects) {
         super(context, R.layout.chat_item, objects);
+    }
+
+    public void setTrainer(Trainer trainer) {
+        m_trainer = trainer;
     }
 
     @Override
@@ -41,6 +51,19 @@ public class ChatItemAdapter extends ArrayAdapter<Message> {
         }
 
         viewHolder.tvChatItem.setText(message.getText());
+
+        if (message.getFromObjectId().equals(SimpleUser.currentUserObjectId)) {
+            // Message is from current user
+            viewHolder.ivUserProfileImage.setVisibility(View.VISIBLE);
+            viewHolder.ivUserProfileImage.setImageResource(R.drawable.default_profile_image);
+            viewHolder.ivOtherProfileImage.setVisibility(View.INVISIBLE);
+        }
+        else {
+            viewHolder.ivOtherProfileImage.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(m_trainer.getProfileImageUrl()).into(viewHolder.ivOtherProfileImage);
+            viewHolder.ivUserProfileImage.setVisibility(View.INVISIBLE);
+        }
+
         return convertView;
     }
 }

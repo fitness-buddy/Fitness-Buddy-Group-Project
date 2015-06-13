@@ -14,6 +14,7 @@ import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.ChatItemAdapter;
 import com.strengthcoach.strengthcoach.models.Message;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import java.util.List;
 public class ChatActivity extends ActionBarActivity {
 
     Trainer m_trainer;
-    String currentUserObjectId;
     ArrayList<Message> messages;
     ChatItemAdapter messagesAdapter;
 
@@ -49,6 +49,7 @@ public class ChatActivity extends ActionBarActivity {
             public void done(List<Trainer> list, com.parse.ParseException e) {
                 Log.d("DEBUG", ((Trainer) list.get(0)).getName());
                 m_trainer = list.get(0);
+                messagesAdapter.setTrainer(m_trainer);
             }
         });
     }
@@ -77,8 +78,21 @@ public class ChatActivity extends ActionBarActivity {
 
     public void onSendClicked(View view) {
         Message message = new Message();
-        message.setId(1);
+        message.setFromObjectId(SimpleUser.currentUserObjectId);
+        message.setToObjectId(m_trainer.getObjectId());
         message.setText(etMessage.getText().toString());
+        message.saveInBackground();
+        messagesAdapter.add(message);
+
+        addFakeMessageFromTrainer();
+    }
+
+    private void addFakeMessageFromTrainer() {
+        Message message = new Message();
+        message.setToObjectId(SimpleUser.currentUserObjectId);
+        message.setFromObjectId(m_trainer.getObjectId());
+        message.setText("Hello. I would love to work with you");
+        message.saveInBackground();
         messagesAdapter.add(message);
     }
 }
