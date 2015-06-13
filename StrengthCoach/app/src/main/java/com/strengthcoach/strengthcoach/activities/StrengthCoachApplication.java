@@ -11,6 +11,7 @@ import com.parse.ParsePush;
 import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.Address;
+import com.strengthcoach.strengthcoach.models.BlockedSlots;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Message;
 import com.strengthcoach.strengthcoach.models.Review;
