@@ -84,6 +84,9 @@ public class ChatActivity extends ActionBarActivity {
         message.saveInBackground();
         messagesAdapter.add(message);
 
+        etMessage.setText("");
+
+        // TODO: Remove fake message once trainer view is in place.
         addFakeMessageFromTrainer();
     }
 
