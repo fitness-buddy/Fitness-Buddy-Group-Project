@@ -13,7 +13,9 @@ import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class DataLoader {
     Address address;
@@ -91,6 +93,71 @@ public class DataLoader {
         address.setCity("Mountain View");
         address.setState("CA");
         address.setZip("94040");
+    }
+
+
+    public void addZombieTrainersToNewGym() {
+        // Get all trainers
+        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+        query.findInBackground(new FindCallback<Trainer>() {
+            public void done(List<Trainer> objects, ParseException e) {
+                Log.d("DEBUG", "Count of ALL trainers: " + objects.size());
+                instantiateOneGymAndAddAllZombieTrainers(new ArrayList<Trainer>(objects));
+            }
+        });
+    }
+
+    private void instantiateOneGymAndAddAllZombieTrainers(final ArrayList<Trainer> allTrainers) {
+        gym = new Gym();
+        address = new Address();
+        address.setAddressLine1("2624 Fayette Dr # D");
+        address.setAddressLine2("");
+        address.setCity("Mountain View");
+        address.setState("CA");
+        address.setZip("94040");
+        final HashMap<String, String> trainerMap = new HashMap<>();
+        address.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                gym.setName("Integrate Performance Fitness");
+                gym.setAddress(address);
+                gym.setLocation(37.404197, -122.112924);
+                // Get the trainers which are already added to the other gym
+                ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
+                query.whereEqualTo("objectId", "dKTaTlOuRw");
+                query.findInBackground(new FindCallback<Gym>() {
+                    public void done(List<Gym> gyms, ParseException e) {
+                        ArrayList<Trainer> existingTrainers = gyms.get(0).getTrainers();
+                        Log.d("DEBUG", "Count of existing trainers: " + existingTrainers.size());
+                        // Create a hashmap of existing trainers
+                        for (Trainer existingTrainer : existingTrainers) {
+                            trainerMap.put(existingTrainer.getObjectId(), existingTrainer.getName());
+                        }
+
+                        ArrayList<Trainer> nonDuplicateTrainers = new ArrayList<Trainer>();
+                        for (Trainer eachTrainer : allTrainers) {
+                            if (!trainerMap.containsKey(eachTrainer.getObjectId())) {
+                                nonDuplicateTrainers.add(eachTrainer);
+                            }
+                        }
+                        gym.setTrainers(nonDuplicateTrainers);
+                        Log.d("DEBUG", "Count of newly added zombie trainers: " + nonDuplicateTrainers.size());
+
+                        gym.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                // Get all trainers and add to this gym
+                                if (e == null) {
+                                    Log.d("DEBUG", "Successfully added all trainers to gym");
+                                } else {
+                                    Log.d("DEBUG", "Failed to add all trainers to gym");
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     private void instantiateReview() {
@@ -297,5 +364,94 @@ public class DataLoader {
             trainer.setName(trainerNames.get(i));
             trainer.saveInBackground();
         }
+    }
+
+
+
+    // Returns an arraylist of 3 certifications that are randomly picked from the list.
+    private ArrayList<String> getCertifcationsAndEducation() {
+        ArrayList<String> educationAndCertifications = new ArrayList<>();
+        educationAndCertifications.add("MS in Nutrition and Food Science from San Jose State University");
+        educationAndCertifications.add("Calorie Management System Certification");
+        educationAndCertifications.add("CPR Certification");
+        educationAndCertifications.add("National Academy of Sports Medicine - Corrective Exercise Specialist");
+        educationAndCertifications.add("National Exercise and Sports Trainers Association - Personal Fitness Trainer");
+        educationAndCertifications.add("Several years of experience in strength training and professional body building");
+
+        int index = 0;
+        int min = 0;
+        int max = 5;
+
+        ArrayList<String> result = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            index = randInt(min, max);
+            result.add(educationAndCertifications.get(index));
+            if ((min + 1) < max) {
+                min++;
+            } else {
+                min--;
+            }
+        }
+        return result;
+    }
+
+    // Returns an arraylist of 3 interesets that are randomly picked from the list.
+    private ArrayList<String> getInterestsAndAchievements() {
+        ArrayList<String> interestsAndAchievements = new ArrayList<>();
+        interestsAndAchievements.add("Completed Silicon Valley Marathon in 2014");
+        interestsAndAchievements.add("Completed San Francisco Marathon in 2013");
+        interestsAndAchievements.add("Climbed Kilimanjaro in 2011");
+        interestsAndAchievements.add("Working towards finishing a century ride");
+        interestsAndAchievements.add("Participating in the strongman competition since 2010");
+        interestsAndAchievements.add("Came in 2nd positon at the ToughMudder race 2015, San Jose");
+
+        int index = 0;
+        int min = 0;
+        int max = 5;
+
+        ArrayList<String> result = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            index = randInt(min, max);
+            result.add(interestsAndAchievements.get(index));
+            if ((min + 1) < max) {
+                min++;
+            } else {
+                min--;
+            }
+        }
+        return result;
+    }
+
+    public static int randInt(int min, int max) {
+
+        // NOTE: Usually this should be a field rather than a method
+        // variable so that it is not re-seeded every call.
+        Random rand = new Random();
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
+
+    public void updateAllTrainersWithCertificationInfo() {
+        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+        query.findInBackground(new FindCallback<Trainer>() {
+            public void done(List<Trainer> objects, ParseException e) {
+                if (e == null) {
+                    for (Trainer trainer : objects) {
+                        trainer.setEducationAndCertifications(getCertifcationsAndEducation());
+                        trainer.setInterestsAndAchievements(getInterestsAndAchievements());
+                        trainer.saveInBackground();
+                        Log.d("DEBUG", "Found " + objects.size() + " trainer objects");
+                    }
+                } else {
+                    Log.d("DEBUG", "Find all trainer objects query FAILED");
+                }
+            }
+        });
     }
 }

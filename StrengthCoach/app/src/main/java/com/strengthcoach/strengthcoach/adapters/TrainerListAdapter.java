@@ -76,6 +76,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         DrawableCompat.setTint(progress, context.getResources().getColor(R.color.amber));
 
         setNumReviews(holder, trainer);
+        // Embed the trainer objectId in the view. Will be used to pass the correct id to details activity
+        holder.itemView.setTag(trainer.getObjectId());
         // animate(holder);
     }
 
@@ -171,7 +173,9 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             //  mListener.click(v);
             // Launch Trainer details activity
             final Intent intent;
+            String trainerId = (String) v.getTag();
             intent =  new Intent(context, TrainerDetailsActivity.class);
+            intent.putExtra("trainerId", trainerId);
             context.startActivity(intent);
         }
 

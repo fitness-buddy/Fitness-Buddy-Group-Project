@@ -32,8 +32,6 @@ public class Review extends ParseObject {
         return getString("reviewee");
     }
 
-    public Date getDate() { return (Date)get("date"); }
-
     // Modifiers
     public void setReviewText(String body) {
         put("body", body);

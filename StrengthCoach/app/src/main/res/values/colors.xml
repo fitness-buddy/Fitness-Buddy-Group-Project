@@ -3,6 +3,7 @@
     <item name="black" type="color">#000000</item>
     <item name="pink" type="color">#ED3687</item>
     <item name="white" type="color">#FFFFFF</item>
+    <item name="white_bg" type="color">#F5F5F5</item>
     <item name="gray" type="color">#7C7C7C</item>
     <item name="dark_grey" type="color">#424242</item>
     <item name="grey_accent" type="color">#757575</item>

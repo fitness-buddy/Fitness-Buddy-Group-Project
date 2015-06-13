@@ -28,6 +28,7 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
             public void onClick(View v) {
                 final Intent intent;
                 intent =  new Intent(mContext, TrainerDetailsActivity.class);
+                intent.putExtra("trainerId", trainer.getObjectId());
                 mContext.startActivity(intent);
             }
         });

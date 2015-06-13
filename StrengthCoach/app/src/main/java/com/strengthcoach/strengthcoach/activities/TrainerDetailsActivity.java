@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +32,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.TrainerDetailPagerAdapter;
@@ -44,6 +47,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TrainerDetailsActivity extends ActionBarActivity {
 
@@ -58,10 +62,51 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_details);
 
-        // Creating a fake trainer, Home activity will pass it
-        // TODO: Get trainer from Home activity
-        m_trainer = createFakeTrainer();
+        // Get the trainer object from parse and setup the view
+        String trainerId = getIntent().getStringExtra("trainerId");
+        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+        query.whereEqualTo("objectId", trainerId);
+        query.findInBackground(new FindCallback<Trainer>() {
+            @Override
+            public void done(List<Trainer> list, com.parse.ParseException e) {
+                Log.d("DEBUG", ((Trainer) list.get(0)).getName());
+                m_trainer = list.get(0);
 
+                // Get the gym where the trainer goes to workout
+                getTrainerGym();
+            }
+        });
+    }
+
+    private void getTrainerGym() {
+        ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
+        query.whereEqualTo("trainers", m_trainer);
+        query.include("address");
+        query.findInBackground(new FindCallback<Gym>() {
+            public void done(List<Gym> gyms, com.parse.ParseException e) {
+                // Associate the gym with the trainer
+                m_trainer.setGym(gyms.get(0));
+
+                // Get all the reviews for the trainer
+                getReviewsAndSetupViews(m_trainer.getObjectId());
+            }
+        });
+    }
+
+    // Reviews are in a separate table so it needs to be fetched separately
+    private void getReviewsAndSetupViews(String trainerId) {
+        ParseQuery<Review> query = ParseQuery.getQuery("Review");
+        query.whereEqualTo("reviewee", trainerId);
+        query.findInBackground(new FindCallback<Review>() {
+            @Override
+            public void done(List<Review> list, com.parse.ParseException e) {
+                m_trainer.setReviews(new ArrayList<Review>(list));
+                setupTrainerView();
+            }
+        });
+    }
+
+    private void setupTrainerView() {
         // Set toolbar
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBar);
         setSupportActionBar(actionBar);
@@ -197,9 +242,9 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             tvReviewerName.setText(review.getReviewee());
 
             String PATTERN="MMM yyyy";
-            SimpleDateFormat dateFormat=new SimpleDateFormat();
+            SimpleDateFormat dateFormat = new SimpleDateFormat();
             dateFormat.applyPattern(PATTERN);
-            String date = dateFormat.format(review.getDate());
+            String date = dateFormat.format(review.getCreatedAt());
             TextView tvReviewDate = (TextView) v.findViewById(R.id.tvReviewDate);
             tvReviewDate.setText(date);
 
