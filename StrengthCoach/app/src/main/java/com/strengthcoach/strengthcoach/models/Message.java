@@ -2,7 +2,6 @@ package com.strengthcoach.strengthcoach.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
@@ -19,32 +18,30 @@ public class Message extends ParseObject {
         return getInt("id");
     }
 
-    public Trainer getTrainer() {
-        return (Trainer) get("trainer");
-    }
-
-    public ParseUser getUser() {
-        return (ParseUser) get("user");
-    }
-
     public String getText() {
         return getString("text");
     }
 
+    public String getFromObjectId() {
+        return getString("fromObjectId");
+    }
+
+    public String getToObjectId() {
+        return getString("toObjectId");
+    }
+
     // Modifiers
-    public void setId(int id) {
-        put("id", id);
-    }
-
-    public void setTrainer(Trainer trainer) {
-        put("trainer", trainer);
-    }
-
-    public void setUser(ParseUser user) {
-        put("user", user);
-    }
+    public void setId(int id) { put("id", id); }
 
     public void setText(String text) {
         put("text", text);
+    }
+
+    public void setFromObjectId(String objectId) {
+        put("fromObjectId", objectId);
+    }
+
+    public void setToObjectId(String objectId) {
+        put("toObjectId", objectId);
     }
 }

@@ -2,22 +2,27 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.ChatItemAdapter;
 import com.strengthcoach.strengthcoach.models.Message;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends ActionBarActivity {
 
-    Trainer trainer;
+    Trainer m_trainer;
+    String currentUserObjectId;
     ArrayList<Message> messages;
     ChatItemAdapter messagesAdapter;
 
@@ -34,7 +39,18 @@ public class ChatActivity extends ActionBarActivity {
         lvMessages.setAdapter(messagesAdapter);
 
         etMessage = (EditText) findViewById(R.id.etMessage);
-        trainer = (Trainer) getIntent().getExtras().getSerializable("trainer");
+
+        // Get the m_trainer object from parse and setup the view
+        String trainerId = getIntent().getStringExtra("trainerId");
+        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+        query.whereEqualTo("objectId", trainerId);
+        query.findInBackground(new FindCallback<Trainer>() {
+            @Override
+            public void done(List<Trainer> list, com.parse.ParseException e) {
+                Log.d("DEBUG", ((Trainer) list.get(0)).getName());
+                m_trainer = list.get(0);
+            }
+        });
     }
 
     @Override
