@@ -91,7 +91,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     private void setNumReviews(TrainerViewHolder holder, Trainer trainer) {
         final TextView tvNumReviews = holder.tvNumReviews;
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
-        query.whereEqualTo("reviewee", trainer.getObjectId());
+        query.whereEqualTo("reviewee", trainer);
         query.countInBackground(new CountCallback() {
             public void done(int count, ParseException e) {
                 if (e == null) {
