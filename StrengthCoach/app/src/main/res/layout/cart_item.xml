@@ -16,11 +16,11 @@ android:layout_height="match_parent" android:weightSum="5">
         android:layout_width="@dimen/margin_42dp"
         android:layout_height="@dimen/margin_42dp"
         android:id="@+id/ibDelete"
-    android:src="@mipmap/ic_delete"
-    android:layout_marginRight="@dimen/margin_20dp"
+        android:src="@mipmap/ic_delete"
+        android:layout_marginRight="@dimen/margin_20dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-    android:layout_weight="0.04" />
+        android:layout_weight="0.04" />
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

@@ -9,6 +9,22 @@
         android:id="@+id/lvCartItems"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+       android:layout_alignParentRight="true"
+/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/payment"
+        android:id="@+id/bProceedtoPayment"
+        android:layout_below="@+id/lvCartItems"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="41dp"
+        android:background="#CCC76F6F"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"/>
+
 
 </RelativeLayout>
