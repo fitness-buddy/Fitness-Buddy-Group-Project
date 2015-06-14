@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
@@ -28,9 +29,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class CartActivity extends ActionBarActivity {
-    private ArrayList<BlockedSlots> alSlots;
-    private static CartItemsAdapter adSlots;
-    ListView lvCartItems;
+    public static ArrayList<BlockedSlots> alSlots;
+    public static CartItemsAdapter adSlots;
+    public static ListView lvCartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,9 @@ public class CartActivity extends ActionBarActivity {
         // adding header to the list view starts
         View header = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_header, null);
         lvCartItems.addHeaderView(header);
-
+        adSlots = new CartItemsAdapter(CartActivity.this, alSlots);
+        // adding header to the list view ends
+        lvCartItems.setAdapter(adSlots);
         populateCart();
 
     }
@@ -78,29 +81,20 @@ public class CartActivity extends ActionBarActivity {
         query.whereEqualTo("trainer_id", trainer);
         query.whereEqualTo("user_id", user);
         query.whereEqualTo("status", Constants.ADD_TO_CART);
-        Log.v("query","before query call "+query);
+        adSlots.clear();
         query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> trainerSlots, com.parse.ParseException e) {
-                Log.v("query","inside done 99999999999999999999999999000000000000000000000000000             "+e+ "           "+trainerSlots.size());
+            public void done(List<ParseObject> trainerSlots, ParseException e) {
                 if(e==null) {
-                    Log.v("query","before query call 1 ");
 
                     for (ParseObject slots : trainerSlots) {
-                        Log.v("query","before query call 2  slot_date"+slots.getString("slot_date"));
-                        Log.v("query","before query call 2 slot_time "+slots.getString("slot_time"));
                         //  b.trainerName= slots.getString("name");
                         BlockedSlots b = new BlockedSlots();
                         b.setSlotDate(slots.getString("slot_date"));
                         b.setSlotTime(slots.getString("slot_time"));
                         alSlots.add(b);
-                        Log.v("query","alslots size  "+alSlots.size());
                     }
 
-                    Log.v("query","alslots size ouutside   "+alSlots.size());
-                    adSlots = new CartItemsAdapter(CartActivity.this, alSlots);
-                    Log.v("query","adSlots size  "+adSlots.getCount());
-                    // adding header to the list view ends
-                    lvCartItems.setAdapter(adSlots);
+                    adSlots.notifyDataSetChanged();
 
 
                 } else {
