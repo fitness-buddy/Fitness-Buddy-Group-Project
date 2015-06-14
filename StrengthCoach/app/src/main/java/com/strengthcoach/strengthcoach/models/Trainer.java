@@ -22,6 +22,7 @@ public class Trainer extends ParseObject implements Serializable {
      */
 
     public static String currentTrainerObjectId;
+    public static String currentTrainerName = "Test";
 
     // Accessors
     public int getId() {
