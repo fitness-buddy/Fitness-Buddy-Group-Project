@@ -25,9 +25,11 @@ public class TrainersListFragment extends Fragment {
 
     // Get the list of trainers and update the view
     public void setItems(List<Trainer> trainers) {
-        for(Trainer trainer : trainers) {
-            this.trainers.add(trainer);
-        }
+        // Clear all the old data
+        this.trainers.clear();
+        adapter.notifyDataSetChanged();
+        // Populate new objects
+        this.trainers.addAll(trainers);
         adapter.notifyDataSetChanged();
     }
 

@@ -71,6 +71,10 @@ public class Trainer extends ParseObject implements Serializable {
 
     public Gym getGym() { return (Gym) get("gym"); }
 
+    public ArrayList<SimpleUser> getFavoritedBy() {
+        return (ArrayList<SimpleUser>) get("favorited_by");
+    }
+
     // Modifiers
     public void setId(int id) {
         put("id", id);
@@ -108,14 +112,14 @@ public class Trainer extends ParseObject implements Serializable {
         put("images", imageUrls);
     }
 
-    public void addImage(String imageUrl) {
-        add("images", imageUrl);
-    }
-
     public void setEducationAndCertifications(ArrayList<String> educationAndCertifications) { put("educationAndCertifications", educationAndCertifications); }
 
     public void setInterestsAndAchievements(ArrayList<String> interestsAndAchievements) { put("interestsAndAchievements", interestsAndAchievements); }
 
     public void setGym(Gym gym) { put("gym", gym); }
 
+    public boolean isFavorite() {
+        ArrayList<SimpleUser> favoritedBy = getFavoritedBy();
+        return favoritedBy.contains(SimpleUser.currentUserObject);
+    }
 }

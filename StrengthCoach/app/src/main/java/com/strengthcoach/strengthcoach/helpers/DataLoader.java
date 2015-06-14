@@ -508,4 +508,29 @@ public class DataLoader {
             }
         });
     }
+
+    public void setupFavoritedBy() {
+        ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
+        query.whereEqualTo("objectId", "2Psi2uXUz0");
+        query.findInBackground(new FindCallback<SimpleUser>() {
+            public void done(final List<SimpleUser> users, ParseException e) {
+                if (e == null) {
+                    // Setup Favorite for 10 trainers
+                    ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+                    query.findInBackground(new FindCallback<Trainer>() {
+                        @Override
+                        public void done(List<Trainer> trainers, ParseException e) {
+                            for (int i = 0; i < 10; i++) {
+                                Trainer trainer = trainers.get(i);
+                                trainer.add("favorited_by", users.get(0));
+                                trainer.saveInBackground();
+                            }
+                        }
+                    });
+                } else {
+                    Log.d("DEBUG", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
 }

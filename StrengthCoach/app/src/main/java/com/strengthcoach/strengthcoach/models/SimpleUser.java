@@ -1,19 +1,9 @@
 package com.strengthcoach.strengthcoach.models;
 
-import android.util.Log;
-import android.widget.ArrayAdapter;
-
-import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.strengthcoach.strengthcoach.activities.BlockSlotActivity;
-import com.strengthcoach.strengthcoach.helpers.Constants;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 @ParseClassName("SimpleUser")
 public class SimpleUser extends ParseObject {
@@ -29,8 +19,9 @@ static String obj;
             String exp_date;*/
 
     public static String currentUserObjectId;
-    // Accessors
+    public static SimpleUser currentUserObject;
 
+    // Accessors
     public String getName() {
         return getString("name");
     }
@@ -59,6 +50,9 @@ static String obj;
         return getString("exp_date");
     }
 
+    public ArrayList<Trainer> getFavorites() {
+        return (ArrayList<Trainer>) get("favorites");
+    }
 
     // Modifiers
     public void setName(String name) {
@@ -87,6 +81,10 @@ static String obj;
 
     public void setExpDate(String expDate) {
         put("exp_date", expDate);
+    }
+
+    public void setFavorites(ArrayList<Trainer> favoriteTrainers) {
+        put("favorites", favoriteTrainers);
     }
 
     // Formats phone numbers like 555-555-5555 => 5555555555

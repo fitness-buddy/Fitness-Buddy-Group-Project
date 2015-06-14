@@ -1,7 +1,9 @@
 package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -20,8 +22,6 @@ import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.helpers.Utils;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
-
-import java.util.Arrays;
 
 public class PhoneNoVerificationActivity extends ActionBarActivity {
 
@@ -125,10 +125,15 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
         query.getFirstInBackground(new GetCallback<ParseObject>(){
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
-                   String currentUserObjId = object.getObjectId().toString();
+                    String userId = object.getObjectId().toString();
+                    String currentUserObjId = userId;
                     SimpleUser.currentUserObjectId = currentUserObjId;
-
-                                    } else {
+                    // Write the userId in shared pref if the user successfully signed up
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(PhoneNoVerificationActivity.this);
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("userId", userId);
+                    edit.commit();
+                } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
             }
