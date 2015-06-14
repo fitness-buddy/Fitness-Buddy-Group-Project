@@ -150,10 +150,7 @@ public class BlockSlotActivity extends ActionBarActivity {
         bProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(BlockSlotActivity.this, PaymentActivity.class);
-                intent.putExtra("etPhoneNumber", phoneno);
-                startActivity(intent);
+                callCartActivity();
             }
         });
         bAddToCart.setOnClickListener(new View.OnClickListener() {
@@ -337,9 +334,12 @@ public class BlockSlotActivity extends ActionBarActivity {
     }
 
     public void onCartClick(MenuItem item){
+        callCartActivity();
+
+    }
+    public void callCartActivity() {
         Intent intent = new Intent(BlockSlotActivity.this, CartActivity.class);
         startActivity(intent);
-
     }
 
     private String getLoggedInUserId() {

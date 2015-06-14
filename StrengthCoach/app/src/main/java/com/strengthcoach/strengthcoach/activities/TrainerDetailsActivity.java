@@ -218,6 +218,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Trainer.currentTrainerObjectId = m_trainer.getObjectId();
+                Trainer.currentTrainerName = m_trainer.getName();
                 Intent intent = new Intent(getBaseContext(), BlockSlotActivity.class);
                 startActivity(intent);
             }

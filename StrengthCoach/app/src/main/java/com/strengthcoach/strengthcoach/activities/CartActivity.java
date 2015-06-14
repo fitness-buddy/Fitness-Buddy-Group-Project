@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.android.gms.wallet.Cart;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -32,6 +35,7 @@ public class CartActivity extends ActionBarActivity {
     public static ArrayList<BlockedSlots> alSlots;
     public static CartItemsAdapter adSlots;
     public static ListView lvCartItems;
+    Button bProceedtoPayment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class CartActivity extends ActionBarActivity {
         setContentView(R.layout.activity_cart);
         alSlots = new ArrayList<>();
         lvCartItems = (ListView) findViewById (R.id.lvCartItems);
+        bProceedtoPayment = (Button) findViewById(R.id.bProceedtoPayment);
         // adding header to the list view starts
         View header = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_header, null);
         lvCartItems.addHeaderView(header);
@@ -102,6 +107,14 @@ public class CartActivity extends ActionBarActivity {
                 }
             }
         });
+        bProceedtoPayment.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 }

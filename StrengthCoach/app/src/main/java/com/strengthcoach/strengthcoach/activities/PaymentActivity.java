@@ -62,7 +62,7 @@ public class PaymentActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         progressFragment = ProgressDialogFragment.newInstance(R.string.progressMessage);
-        phoneno = getIntent().getStringExtra("etPhoneNumber");
+        phoneno = SimpleUser.currentUserObject.getPhoneNumber();
         etCCNumber = (EditText) findViewById(R.id.etCCNumber);
         etExpiry = (EditText) findViewById(R.id.etExpiry);
         bSubmit = (Button) findViewById(R.id.bSubmit);
