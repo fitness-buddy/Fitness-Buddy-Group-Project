@@ -1,6 +1,8 @@
 package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.google.android.gms.wallet.Cart;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -26,9 +26,6 @@ import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class CartActivity extends ActionBarActivity {
@@ -78,8 +75,17 @@ public class CartActivity extends ActionBarActivity {
     }
 
     private void populateCart(){
+
+        String currentUser;
+
+        if (Trainer.currentTrainerObjectId == null){
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            currentUser = pref.getString("userId","n");
+        }else {
+            currentUser = SimpleUser.currentUserObjectId;
+        }
         ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
-        ParseObject user = ParseObject.createWithoutData("SimpleUser", SimpleUser.currentUserObjectId);
+        ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("BlockedSlots");
         query.selectKeys(Arrays.asList("slot_date","slot_time"));
         query.include("trainer_id");

@@ -117,7 +117,7 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
                     String currentUserObjId = userId;
                     SimpleUser.currentUserObjectId = currentUserObjId;
                     // Write the userId in shared pref if the user successfully signed up
-                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(PhoneNoVerificationActivity.this);
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor edit = pref.edit();
                     edit.putString("userId", userId);
                     edit.commit();

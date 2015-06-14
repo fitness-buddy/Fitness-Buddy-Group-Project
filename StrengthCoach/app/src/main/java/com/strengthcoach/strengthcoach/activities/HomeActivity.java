@@ -136,7 +136,7 @@ public class HomeActivity extends ActionBarActivity {
 
     private String getLoggedInUserId() {
         SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(this);
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String userId = pref.getString("userId", "");
         return userId;
     }
