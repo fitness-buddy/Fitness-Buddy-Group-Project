@@ -58,6 +58,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
     Button bBookSlot;
     TrainerDetailPagerAdapter mDetailPagerAdapter;
     ViewPager mViewPager;
+    String trainerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_trainer_details);
 
         // Get the trainer object from parse and setup the view
-        String trainerId = getIntent().getStringExtra("trainerId");
+        trainerId = getIntent().getStringExtra("trainerId");
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.whereEqualTo("objectId", trainerId);
         query.findInBackground(new FindCallback<Trainer>() {
@@ -217,7 +218,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         bBookSlot.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Trainer.currentTrainerObjectId = m_trainer.getObjectId();
+                Trainer.currentTrainerObjectId = trainerId;
                 Trainer.currentTrainerName = m_trainer.getName();
                 Intent intent = new Intent(getBaseContext(), BlockSlotActivity.class);
                 startActivity(intent);
