@@ -218,7 +218,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Trainer.currentTrainerObjectId = m_trainer.getObjectId();
-                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                Intent intent = new Intent(getBaseContext(), BlockSlotActivity.class);
                 startActivity(intent);
             }
         });

@@ -12,14 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.helpers.Utils;
-import com.strengthcoach.strengthcoach.models.SimpleUser;
 
 public class LoginActivity extends ActionBarActivity {
     EditText etName, etPhoneNumber;
@@ -47,40 +43,34 @@ public class LoginActivity extends ActionBarActivity {
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create a new user and signup
+                String verifyCode = Utils.generateRandomCode();
 
-                ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
-                query.whereEqualTo("phone_number", etPhoneNumber.getText().toString());
-                query.getFirstInBackground(new GetCallback<SimpleUser>() {
-                    public void done(SimpleUser user, ParseException e) {
-                        if (user == null) {
-                            // Create a new user and signup
-                            String verifyCode = Utils.generateRandomCode();
+                // Send SMS with verify code starts here
+                SmsManager smsManager = SmsManager.getDefault();
+                String smsMessage = verifyCode + " " + Constants.VERIFICATION_SMS_TEXT;
+                smsManager.sendTextMessage(etPhoneNumber.getText().toString(), null, smsMessage, null, null);
+                // Send SMS with verify code ends here
 
-                            // Send SMS with verify code starts here
-                            SmsManager smsManager = SmsManager.getDefault();
-                            String smsMessage = verifyCode + " "+ Constants.VERIFICATION_SMS_TEXT ;
-                            smsManager.sendTextMessage(etPhoneNumber.getText().toString(), null, smsMessage, null, null);
-                            // Send SMS with verify code ends here
-
-                            Intent intent = new Intent(LoginActivity.this, PhoneNoVerificationActivity.class);
-                            intent.putExtra("etName", etName.getText().toString());
-                            intent.putExtra("etPhoneNumber", etPhoneNumber.getText().toString());
-                            intent.putExtra("verifyCode", verifyCode);
-                            Log.v("verifyCode","verifyCode-=============================== "+verifyCode);
-                            startActivity(intent);
-                        } else {
-                            SimpleUser.currentUserObjectId = user.getObjectId();
-                            Intent intent = new Intent(LoginActivity.this, BlockSlotActivity.class);
-                            intent.putExtra("etName", etName.getText().toString());
-                            intent.putExtra("etPhoneNumber", etPhoneNumber.getText().toString());
-                            startActivity(intent);
-                        }
-                    }
-                });
+                Intent intent = new Intent(LoginActivity.this, PhoneNoVerificationActivity.class);
+                intent.putExtra("etName", etName.getText().toString());
+                intent.putExtra("etPhoneNumber", etPhoneNumber.getText().toString());
+                intent.putExtra("verifyCode", verifyCode);
+                Log.v("verifyCode", "verifyCode-=============================== " + verifyCode);
+                startActivityForResult(intent, 30);
             }
         });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 30) {
+            Intent returnIntent = new Intent();
+            setResult(resultCode, returnIntent);
+            finish();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

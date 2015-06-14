@@ -20,7 +20,6 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
-import com.strengthcoach.strengthcoach.helpers.Utils;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 
 public class PhoneNoVerificationActivity extends ActionBarActivity {
@@ -55,23 +54,23 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
                     // need to save data to user model;
                     simpleUser.setPhoneNumber(phoneno);
                     simpleUser.setName(name);
-                    simpleUser.saveInBackground(new SaveCallback()
-                    {
+                    simpleUser.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            if(e==null){
-                                Log.d("DEBUG!!!","inside if of user ");
+                            if (e == null) {
+                                Log.d("DEBUG!!!", "inside if of user ");
                                 //saved successfully
                                 getCurrentUserId(phoneno);
-                            } else{
-                                Log.d("DEBUG!!!","User Not Found");
+                            } else {
+                                Log.d("DEBUG!!!", "User Not Found");
                             }
 
                         }
                     });
-                    Intent intent = new Intent(PhoneNoVerificationActivity.this, BlockSlotActivity.class);
-                    intent.putExtra("etPhoneNumber", phoneno);
-                    startActivity(intent);
+
+                    Intent returnIntent = new Intent();
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
                 }
             }
         });
@@ -79,22 +78,11 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                String verifyCode = Utils.generateRandomCode();
-
                 // Send SMS with verify code starts here
                 SmsManager smsManager = SmsManager.getDefault();
-                String smsMessage = verifyCode +" "+ Constants.VERIFICATION_SMS_TEXT ;
+                String smsMessage = verifyCode + " " + Constants.VERIFICATION_SMS_TEXT;
                 smsManager.sendTextMessage(phoneno, null, smsMessage, null, null);
-                // Send SMS with verify code ends here
-
-                Intent intent = new Intent(PhoneNoVerificationActivity.this, PhoneNoVerificationActivity.class);
-                intent.putExtra("etName", name);
-                intent.putExtra("etPhoneNumber", phoneno);
-                intent.putExtra("verifyCode", verifyCode);
-                startActivity(intent);
-
             }
-
         });
     }
     @Override

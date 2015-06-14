@@ -1,6 +1,8 @@
 package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -88,8 +90,14 @@ public class BlockSlotActivity extends ActionBarActivity {
         dayOfTheWeek = simpleDayFormat.format(date);
         selectedDate = simpleDateStrFormat.format(date);
         userSelectedDate = selectedDate;
-        alreadyBookedSlots(Trainer.currentTrainerObjectId,dayOfTheWeek,selectedDate);
+        alreadyBookedSlots(Trainer.currentTrainerObjectId, dayOfTheWeek, selectedDate);
         setupListener();
+
+        if (getLoggedInUserId().equals("")) {
+            // Start login activity
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, 20);
+        }
     }
 
     public void getDaysBetweenDates(final Date startdate, final Date enddate, String trainerId) {
@@ -154,21 +162,20 @@ public class BlockSlotActivity extends ActionBarActivity {
                 bSlots = new BlockedSlots();
                 // need to save data to user model;
                 ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
-                ParseObject user = ParseObject.createWithoutData("SimpleUser",SimpleUser.currentUserObjectId);
+                ParseObject user = ParseObject.createWithoutData("SimpleUser", SimpleUser.currentUserObjectId);
                 bSlots.setTrainerId(trainer);
                 bSlots.setBookedByUserId(user);
                 bSlots.setSlotDate(userSelectedDate);
                 bSlots.setSlotTime(spSelectSlot.getSelectedItem().toString());
                 bSlots.setStatus(Constants.ADD_TO_CART);
-                bSlots.saveInBackground(new SaveCallback()
-                {
+                bSlots.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if(e==null){
-                            Log.d("DEBUG!!!","Slot Saved Successfully ");
+                        if (e == null) {
+                            Log.d("DEBUG!!!", "Slot Saved Successfully ");
 
-                        } else{
-                            Log.d("DEBUG!!!","Slot Not Saved");
+                        } else {
+                            Log.d("DEBUG!!!", "Slot Not Saved");
                         }
 
                     }
@@ -232,13 +239,13 @@ public class BlockSlotActivity extends ActionBarActivity {
        // query.whereEqualTo("slot_date", sDate);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> bookedSlots, com.parse.ParseException e) {
-                Log.v("alreadyBookedSlots","inside done ..........."+ e);
+                Log.v("alreadyBookedSlots", "inside done ..........." + e);
                 if (e == null) {
-                    Log.v("alreadyBookedSlots","bookedSlots size  ..........."+ bookedSlots.size());
+                    Log.v("alreadyBookedSlots", "bookedSlots size  ..........." + bookedSlots.size());
                     for (ParseObject slots : bookedSlots) {
-                        Log.v("alreadyBookedSlots","inside e == null ............");
+                        Log.v("alreadyBookedSlots", "inside e == null ............");
                         String slotTime = slots.getString("slot_time");
-                        Log.v("alreadyBookedSlots","already booked slots time ............ "+slotTime);
+                        Log.v("alreadyBookedSlots", "already booked slots time ............ " + slotTime);
                         arBookedSlots.add(slotTime);
                     }
                 } else {
@@ -260,10 +267,10 @@ public class BlockSlotActivity extends ActionBarActivity {
         query.include("trainer_id");
         query.whereEqualTo("trainer_id", trainer);
         query.whereEqualTo("day", day);
-        Log.v("populateAvailableSlots","populateAvailableSlots............ 2");
+        Log.v("populateAvailableSlots", "populateAvailableSlots............ 2");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> trainerSlots, com.parse.ParseException e) {
-                Log.v("populateAvailableSlots","inside done ............");
+                Log.v("populateAvailableSlots", "inside done ............");
                 if (e == null) {
                     listOfSlots.clear();
                     listOfSlots.add(Constants.SELECT_SLOT);
@@ -317,9 +324,28 @@ public class BlockSlotActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 20) {
+            if(resultCode != RESULT_OK){
+                // User didn't login cancel book slot
+                Intent returnIntent = new Intent();
+                setResult(RESULT_CANCELED, returnIntent);
+                finish();
+            }
+        }
+    }
+
     public void onCartClick(MenuItem item){
         Intent intent = new Intent(BlockSlotActivity.this, CartActivity.class);
         startActivity(intent);
 
+    }
+
+    private String getLoggedInUserId() {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = pref.getString("userId", "");
+        return userId;
     }
 }
