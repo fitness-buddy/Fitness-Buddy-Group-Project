@@ -55,14 +55,12 @@ public class PaymentActivity extends ActionBarActivity {
     private ProgressDialogFragment progressFragment;
     SimpleUser currentUser = new SimpleUser();
     Customer customer, editCustomer;
-    String phoneno, objectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         progressFragment = ProgressDialogFragment.newInstance(R.string.progressMessage);
-        phoneno = SimpleUser.currentUserObject.getPhoneNumber();
         etCCNumber = (EditText) findViewById(R.id.etCCNumber);
         etExpiry = (EditText) findViewById(R.id.etExpiry);
         bSubmit = (Button) findViewById(R.id.bSubmit);
