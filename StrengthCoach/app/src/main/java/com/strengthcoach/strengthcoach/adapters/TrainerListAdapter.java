@@ -67,6 +67,14 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         holder.ivProfileImage.setImageResource(0);
         Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivProfileImage);
 
+        // Set the favorite icon
+        holder.ivFavorite.setImageResource(0);
+        if (trainer.isFavorite()) {
+            holder.ivFavorite.setImageResource(R.drawable.heart_selected);
+        } else {
+            holder.ivFavorite.setImageResource(R.drawable.heart);
+        }
+
         holder.tvTrainerName.setText(trainer.getName());
         holder.tvPrice.setText(trainer.getPriceFormatted());
         holder.tvAboutMe.setText(trainer.getAboutMe());
@@ -142,6 +150,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         TextView tvAboutMe;
         RatingBar ratingBar;
         TextView tvNumReviews;
+        ImageView ivFavorite;
         public IMyViewHolderClicks mListener;
         private final Context context;
         TrainerListPagerAdapter mTrainerListPagerAdapter;
@@ -161,6 +170,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             tvAboutMe = (TextView) itemView.findViewById(R.id.tvAboutMe);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             tvNumReviews = (TextView) itemView.findViewById(R.id.tvNumReviews);
+            ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
             mListener = listener;
             itemView.setOnClickListener(this);
             // Get the reference to viewpager

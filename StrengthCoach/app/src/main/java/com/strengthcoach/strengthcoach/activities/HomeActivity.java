@@ -32,10 +32,9 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
         fragment = (TrainersListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
-//        String currentUserId = getLoggedInUserId();
-        String currentUserId = "2Psi2uXUz0";
+        String currentUserId = getLoggedInUserId();
         // If the user is already logged in get the user object
-        if (!currentUserId.isEmpty()) {
+        if ((SimpleUser.currentUserObject == null) && (!currentUserId.isEmpty())) {
             ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
             query.whereEqualTo("objectId", currentUserId);
             query.findInBackground(new FindCallback<SimpleUser>() {
@@ -130,6 +129,8 @@ public class HomeActivity extends ActionBarActivity {
             });
         } else {
             // Ask the user to sign up
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+            startActivity(intent);
         }
     }
 

@@ -120,6 +120,9 @@ public class Trainer extends ParseObject implements Serializable {
 
     public boolean isFavorite() {
         ArrayList<SimpleUser> favoritedBy = getFavoritedBy();
-        return favoritedBy.contains(SimpleUser.currentUserObject);
+        if (favoritedBy != null) {
+            return favoritedBy.contains(SimpleUser.currentUserObject);
+        }
+        return false;
     }
 }
