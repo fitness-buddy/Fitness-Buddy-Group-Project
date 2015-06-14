@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.strengthcoach.strengthcoach" >
+    package="com.strengthcoach.strengthcoach" > <!-- Checked in by Neeraja starts -->
+    <uses-sdk android:minSdkVersion="8" />
 
     <permission
         android:name="com.example.mapdemo.permission.MAPS_RECEIVE"
@@ -22,28 +23,35 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:protectionLevel="signature"
-        android:name="com.strengthcoach.strengthcoach.permission.C2D_MESSAGE" />
+    <permission
+        android:name="com.strengthcoach.strengthcoach.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.strengthcoach.strengthcoach.permission.C2D_MESSAGE" />
-
-
-    <!-- Checked in by Neeraja starts -->
-    <uses-sdk android:minSdkVersion="8" />
     <!-- Permission to vibrate - recommended, allows vibration feedback on scan -->
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- Permission for SMS  -->
-    <uses-permission android:name="android.permission.SEND_SMS">
+    <!-- Permission for SMS -->
+    <uses-permission android:name="android.permission.SEND_SMS" >
     </uses-permission>
-    <uses-permission android:name="android.permission.RECEIVE_SMS">
+    <uses-permission android:name="android.permission.RECEIVE_SMS" >
     </uses-permission>
     <!-- Permission to use camera - required -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- Camera features - recommended -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.flash" android:required="false"/>
-    <!-- Checked in by Neeraja ends -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
 
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" /> <!-- Checked in by Neeraja ends -->
     <application
         android:name=".activities.StrengthCoachApplication"
         android:allowBackup="true"
@@ -88,7 +96,7 @@
             android:name=".activities.ChatActivity"
             android:label="@string/title_activity_chat" >
         </activity>
- 	<activity
+        <activity
             android:name=".activities.PaymentActivity"
             android:label="@string/title_activity_payment"
             android:parentActivityName=".activities.BlockSlotActivity" >
@@ -96,7 +104,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.strengthcoach.strengthcoach.activities.BlockSlotActivity" />
         </activity>
-
 
         <uses-library
             android:name="com.google.android.maps"
@@ -110,21 +117,26 @@
             android:value="@integer/google_play_services_version" />
 
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParseBroadcastReceiver">
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.strengthcoach.strengthcoach" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver" android:exported="false">
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
@@ -132,11 +144,18 @@
             </intent-filter>
         </receiver>
 
-
-
         <!-- replace @drawable/push_icon with your push icon identifier -->
-        <meta-data android:name="com.parse.push.notification_icon" android:resource="@drawable/app_icon"/>
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/app_icon" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name=".activities.MapActivity"
+            android:label="@string/title_activity_map" >
+        </activity>
     </application>
 
 </manifest>

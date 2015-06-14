@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -58,6 +59,10 @@ public class HomeActivity extends ActionBarActivity {
                         .build();
                 AppInviteDialog.show(this, content);
             }
+        }
+        else if (id == R.id.action_map) {
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
