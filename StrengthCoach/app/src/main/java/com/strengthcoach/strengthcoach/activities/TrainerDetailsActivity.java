@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.TrainerDetailPagerAdapter;
@@ -69,6 +70,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         trainerId = getIntent().getStringExtra("trainerId");
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.whereEqualTo("objectId", trainerId);
+        query.include("favorited_by");
         query.findInBackground(new FindCallback<Trainer>() {
             @Override
             public void done(List<Trainer> list, com.parse.ParseException e) {
@@ -130,6 +132,13 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         // Setup view
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage);
+
+        ImageView ivFavorite = (ImageView) findViewById(R.id.ivFavorite);
+        if (m_trainer.isFavorite()) {
+            ivFavorite.setImageResource(R.drawable.heart_selected);
+        } else {
+            ivFavorite.setImageResource(R.drawable.heart);
+        }
 
         TextView tvPrice = (TextView) findViewById(R.id.tvPrice);
         tvPrice.setText(m_trainer.getPriceFormatted());
@@ -368,9 +377,39 @@ public class TrainerDetailsActivity extends ActionBarActivity {
     }
 
     public void onFavoriteClicked(View view) {
-        // TODO: Get and set favorite information from trainer or user
-        ImageView ivFavorite = (ImageView) findViewById(R.id.ivFavorite);
-        ivFavorite.setImageResource(R.drawable.heart_selected);
+        if (m_trainer.isFavorite()) {
+            // If the trainer is already favorited; reset the icon; undo favorite
+            ((ImageView) view).setImageResource(0);
+            ((ImageView) view).setImageResource(R.drawable.heart);
+            m_trainer.getFavoritedBy().remove(SimpleUser.currentUserObject);
+            m_trainer.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(com.parse.ParseException e) {
+                    if (e == null) {
+                        Log.d("DEBUG", "Successfully removed favorite trainer");
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            // Change icon and save in parse
+            ((ImageView) view).setImageResource(0);
+            ((ImageView) view).setImageResource(R.drawable.heart_selected);
+            ArrayList<SimpleUser> favorites = m_trainer.getFavoritedBy();
+            if (favorites == null) {
+                // This is to handle the case where current user is the one to mark the trainer
+                // as favorite
+                ArrayList<SimpleUser> favoritedBy = new ArrayList<SimpleUser>();
+                favoritedBy.add(SimpleUser.currentUserObject);
+                m_trainer.setFavoritedBy(favoritedBy);
+                m_trainer.saveInBackground();
+            } else {
+                m_trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
+            }
+            m_trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
+            m_trainer.saveInBackground();
+        }
     }
 
     // Display the alert that adds the marker
