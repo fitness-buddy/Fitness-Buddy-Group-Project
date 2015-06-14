@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:weightSum="5">
+    android:layout_height="match_parent" android:weightSum="5" android:paddingTop="@dimen/margin_20dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/sno"
         android:id="@+id/tvHeaderSerialNo"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:layout_marginRight="@dimen/margin_20dp"
         android:layout_marginLeft="@dimen/margin_10dp"/>
     <TextView
