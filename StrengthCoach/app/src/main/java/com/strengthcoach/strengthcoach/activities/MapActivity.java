@@ -10,9 +10,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.GPSTracker;
+import com.strengthcoach.strengthcoach.models.Gym;
+
+import java.util.List;
 
 public class MapActivity extends ActionBarActivity {
 
@@ -29,6 +39,14 @@ public class MapActivity extends ActionBarActivity {
                 public void onMapReady(GoogleMap map) {
                     m_map = map;
 
+                    m_map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            // TODO: pass gym information to main activity to show trainers only from there
+                            finish();
+                        }
+                    });
+
                     // Get coordinates
                     GPSTracker gpsTracker = new GPSTracker(getBaseContext());
                     double latitude = gpsTracker.getLatitude();
@@ -36,20 +54,30 @@ public class MapActivity extends ActionBarActivity {
                     LatLng point = new LatLng(latitude, longitude);
                     m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 
-                    /*
-                    BitmapDescriptor defaultMarker =
-                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-                    // Extract content from alert dialog
-                    String title = m_trainer.getGym().getName();
-                    String snippet = m_trainer.getGym().getAddress().toString();
-                    // Creates and adds marker to the map
-                    Marker marker = m_map.addMarker(new MarkerOptions()
-                            .position(point)
-                            .title(title)
-                            .snippet(snippet)
-                            .icon(defaultMarker));
-                    marker.showInfoWindow();
-                    */
+                    ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
+                    query.include("address");
+                    query.include("trainers");
+                    query.findInBackground(new FindCallback<Gym>() {
+                        public void done(List<Gym> gyms, com.parse.ParseException e) {
+                            for (int i = 0; i < gyms.size(); i++) {
+                                BitmapDescriptor defaultMarker =
+                                        BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                                // Extract content from alert dialog
+                                String title = gyms.get(i).getName() + " (" + gyms.get(i).getTrainers().size() + " trainers)";
+                                String snippet = gyms.get(i).getAddress().toString();
+                                ParseGeoPoint parseGeoPoint = gyms.get(i).point();
+                                LatLng point = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
+
+                                // Creates and adds marker to the map
+                                Marker marker = m_map.addMarker(new MarkerOptions()
+                                        .position(point)
+                                        .title(title)
+                                        .snippet(snippet)
+                                        .icon(defaultMarker));
+                                marker.showInfoWindow();
+                            }
+                        }
+                    });
                 }
             });
         } else {
