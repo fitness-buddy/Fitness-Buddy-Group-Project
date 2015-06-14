@@ -222,20 +222,24 @@ public class BlockSlotActivity extends ActionBarActivity {
         caldroidFragment.setCaldroidListener(listener);
     }
     public void alreadyBookedSlots(final String trainerId, final String sDay, final String sDate) {
+        Log.v("alreadyBookedSlots","already booked slots sDate ............"+sDate);
         arBookedSlots.clear();
         ParseObject trainer = ParseObject.createWithoutData("Trainer", trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("BookedSlots");
-        query.selectKeys(Arrays.asList("slot_date", "slot_time"));
+        query.selectKeys(Arrays.asList("slot_time"));
         query.include("trainer_id");
         query.whereEqualTo("trainer_id", trainer);
-        query.whereEqualTo("slot_date", sDate);
+       // query.whereEqualTo("slot_date", sDate);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> bookedSlots, com.parse.ParseException e) {
+                Log.v("alreadyBookedSlots","inside done ..........."+ e);
                 if (e == null) {
+                    Log.v("alreadyBookedSlots","bookedSlots size  ..........."+ bookedSlots.size());
                     for (ParseObject slots : bookedSlots) {
-                        String slotDate = slots.getString("slot_date");
-                        int slotTime = Integer.valueOf(slots.getString("slot_time"));
-                        arBookedSlots.add(slotDate+":"+slotTime);
+                        Log.v("alreadyBookedSlots","inside e == null ............");
+                        String slotTime = slots.getString("slot_time");
+                        Log.v("alreadyBookedSlots","already booked slots time ............ "+slotTime);
+                        arBookedSlots.add(slotTime);
                     }
                 } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
@@ -248,14 +252,18 @@ public class BlockSlotActivity extends ActionBarActivity {
 
     }
     public void populateAvailableSlots(final String trainerId, final String day, String sDate) {
+        Log.v("populateAvailableSlots","populateAvailableSlots............");
         final ParseObject trainer = ParseObject.createWithoutData("Trainer",trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TrainerSlots");
+        Log.v("populateAvailableSlots","populateAvailableSlots............ 1 ");
         query.selectKeys(Arrays.asList("start_time", "end_time"));
         query.include("trainer_id");
         query.whereEqualTo("trainer_id", trainer);
         query.whereEqualTo("day", day);
+        Log.v("populateAvailableSlots","populateAvailableSlots............ 2");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> trainerSlots, com.parse.ParseException e) {
+                Log.v("populateAvailableSlots","inside done ............");
                 if (e == null) {
                     listOfSlots.clear();
                     listOfSlots.add(Constants.SELECT_SLOT);
@@ -266,8 +274,10 @@ public class BlockSlotActivity extends ActionBarActivity {
                         {
                             if(arBookedSlots.size() > 0){
                                for (int j =0; j< arBookedSlots.size(); j++){
-                                   String str[] = arBookedSlots.get(j).split(":");
-                                   if (!str[1].equals(Integer.toString(startTimeInt))){
+                                   String slotTime = arBookedSlots.get(j);
+                                   Log.v("populateAvailableSlots","already booked slots............ "+slotTime);
+                                   Log.v("populateAvailableSlots","already booked slots............ "+Integer.toString(startTimeInt));
+                                   if (!slotTime.equals(Integer.toString(startTimeInt))){
                                        listOfSlots.add(Integer.toString(startTimeInt));
                                    }
                                }
@@ -305,5 +315,11 @@ public class BlockSlotActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onCartClick(MenuItem item){
+        Intent intent = new Intent(BlockSlotActivity.this, CartActivity.class);
+        startActivity(intent);
+
     }
 }

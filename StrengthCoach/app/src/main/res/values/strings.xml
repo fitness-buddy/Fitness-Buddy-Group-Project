@@ -42,4 +42,11 @@
     <string name="cart">Add To Cart ></string>
     <string name="next">Next > </string>
     <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_cart">Cart </string>
+    <string name="delete">Delete </string>
+    <string name="sno">S.No </string>
+    <string name="trainer">Trainer </string>
+    <string name="slot_date">Date </string>
+    <string name="slot_time">Time </string>
+
 </resources>

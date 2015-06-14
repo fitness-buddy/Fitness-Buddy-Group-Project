@@ -104,6 +104,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.strengthcoach.strengthcoach.activities.BlockSlotActivity" />
         </activity>
+	<activity
+            android:name=".activities.CartActivity"
+            android:label="@string/title_activity_cart"
+            android:parentActivityName=".activities.BlockSlotActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.strengthcoach.strengthcoach.activities.BlockSlotActivity" />
+        </activity>
 
         <uses-library
             android:name="com.google.android.maps"

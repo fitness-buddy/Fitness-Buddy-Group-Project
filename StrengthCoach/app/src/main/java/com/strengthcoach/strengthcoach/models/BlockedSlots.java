@@ -17,6 +17,8 @@ public class BlockedSlots extends ParseObject {
      * String status // status of the booking process stage
      */
 
+    public String trainerName;
+
 // Accessors
     public String getTrainerId() {
         return getString("trainer_id");

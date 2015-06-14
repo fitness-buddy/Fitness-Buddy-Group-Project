@@ -48,11 +48,12 @@
         android:id="@+id/bAddToCart"
         android:layout_alignTop="@+id/spSelectSlot"
         android:layout_toRightOf="@+id/spSelectSlot"
-        android:layout_toEndOf="@+id/spSelectSlot" />
+        android:layout_toEndOf="@+id/spSelectSlot"
+        android:layout_centerVertical="true"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/payment"
+        android:text="@string/next"
         android:paddingTop="20dp"
         android:background="#CCC76F6F"
         android:textSize="20dp"
