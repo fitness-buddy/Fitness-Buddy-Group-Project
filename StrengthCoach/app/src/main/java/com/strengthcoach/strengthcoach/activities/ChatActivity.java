@@ -1,6 +1,9 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -52,6 +55,12 @@ public class ChatActivity extends ActionBarActivity {
                 messagesAdapter.setTrainer(m_trainer);
             }
         });
+
+        if (getLoggedInUserId().equals("")) {
+            // Start login activity
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, 20);
+        }
     }
 
     @Override
@@ -97,5 +106,24 @@ public class ChatActivity extends ActionBarActivity {
         message.setText("Hello. I would love to work with you");
         message.saveInBackground();
         messagesAdapter.add(message);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 20) {
+            if(resultCode != RESULT_OK){
+                // User didn't login cancel book slot
+                Intent returnIntent = new Intent();
+                setResult(RESULT_CANCELED, returnIntent);
+                finish();
+            }
+        }
+    }
+
+    private String getLoggedInUserId() {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = pref.getString("userId", "");
+        return userId;
     }
 }
