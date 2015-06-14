@@ -20,11 +20,14 @@ import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.activities.TrainerDetailsActivity;
+import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,10 +49,42 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         // Create the viewholder obj
         TrainerViewHolder holder = new TrainerViewHolder(view, new TrainerViewHolder.IMyViewHolderClicks() {
 
+            // Handles clicks on favorite icon
             @Override
-            public void click(View caller) {
-                // Do something
-                Log.d("DEBUG", "LAUNCHING DETAILS ACTIVITY");
+            public void favoriteClick(View view, Trainer trainer) {
+                if (trainer.isFavorite()) {
+                    // If the trainer is already favorited; reset the icon; undo favorite
+                    ((ImageView) view).setImageResource(0);
+                    ((ImageView) view).setImageResource(R.drawable.heart);
+                    trainer.getFavoritedBy().remove(SimpleUser.currentUserObject);
+                    trainer.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Log.d("DEBUG", "Successfully removed favorite trainer");
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+                    // Change icon and save in parse
+                    ((ImageView) view).setImageResource(0);
+                    ((ImageView) view).setImageResource(R.drawable.heart_selected);
+                    ArrayList<SimpleUser> favorites = trainer.getFavoritedBy();
+                    if (favorites == null) {
+                        // This is to handle the case where current user is the one to mark the trainer
+                        // as favorite
+                        ArrayList<SimpleUser> favoritedBy = new ArrayList<SimpleUser>();
+                        favoritedBy.add(SimpleUser.currentUserObject);
+                        trainer.setFavoritedBy(favoritedBy);
+                        trainer.saveInBackground();
+                    } else {
+                        trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
+                    }
+                    trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
+                    trainer.saveInBackground();
+                }
             }
         });
         return holder;
@@ -84,8 +119,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         DrawableCompat.setTint(progress, context.getResources().getColor(R.color.amber));
 
         setNumReviews(holder, trainer);
-        // Embed the trainer objectId in the view. Will be used to pass the correct id to details activity
-        holder.itemView.setTag(trainer.getObjectId());
+        // Embed the trainer object in the view
+        holder.trainer = trainer;
         // animate(holder);
     }
 
@@ -116,26 +151,6 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         });
     }
 
-//    private void setGymNameAndCity(TrainerViewHolder holder, Trainer trainer) {
-//        final TextView tvGymName = holder.tvGymName;
-//        final TextView tvCity = holder.tvCity;
-//        ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
-//        query.whereEqualTo("trainers", trainer);
-//        query.include("address");
-//        query.findInBackground(new FindCallback<Gym>() {
-//            public void done(List<Gym> gyms, ParseException e) {
-//                if (e == null) {
-//                    Log.d("DEBUG", "Retrieved " + gyms.size() + " Gym");
-//                    Gym gym = gyms.get(0);
-//                    tvGymName.setText(gym.getName());
-//                    tvCity.setText(gym.getAddress().getCity());
-//                } else {
-//                    Log.d("DEBUG", "Failed to fetch Gym info. Error: " + e.getMessage());
-//                }
-//            }
-//        });
-//    }
-
     @Override
     public int getItemCount() {
         return trainers.size();
@@ -155,6 +170,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         private final Context context;
         TrainerListPagerAdapter mTrainerListPagerAdapter;
         ViewPager mViewPager;
+        // Bind the trainer object with every viewholder object
+        Trainer trainer;
 
         public TrainerViewHolder(View itemView, IMyViewHolderClicks listener) {
             super(itemView);
@@ -172,25 +189,30 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             tvNumReviews = (TextView) itemView.findViewById(R.id.tvNumReviews);
             ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
             mListener = listener;
+            // Set the click listeners for the views
+            ivFavorite.setOnClickListener(this);
             itemView.setOnClickListener(this);
             // Get the reference to viewpager
             mViewPager = (ViewPager) itemView.findViewById(R.id.pager);
         }
 
         @Override
-        public void onClick(View v) {
-            // View specific clicks will be handled here eg. click on the favorite icon
-            //  mListener.click(v);
-            // Launch Trainer details activity
-            final Intent intent;
-            String trainerId = (String) v.getTag();
-            intent =  new Intent(context, TrainerDetailsActivity.class);
-            intent.putExtra("trainerId", trainerId);
-            context.startActivity(intent);
+        public void onClick(View view) {
+            // View specific clicks will be handled here
+            if (view == ivFavorite) {
+                mListener.favoriteClick(view, trainer);
+            } else {
+                // Launch Trainer details activity
+                final Intent intent;
+                intent =  new Intent(context, TrainerDetailsActivity.class);
+                intent.putExtra("trainerId", trainer.getObjectId());
+                context.startActivity(intent);
+            }
+
         }
 
-        public static interface IMyViewHolderClicks {
-            public void click(View caller);
+        public interface IMyViewHolderClicks {
+            public void favoriteClick(View view, Trainer trainer);
         }
     }
 }

@@ -119,6 +119,9 @@ public class Trainer extends ParseObject implements Serializable {
 
     public void setGym(Gym gym) { put("gym", gym); }
 
+    public void setFavoritedBy(ArrayList<SimpleUser> favoritedBy) {
+        put("favorited_by", favoritedBy);
+    }
     public boolean isFavorite() {
         ArrayList<SimpleUser> favoritedBy = getFavoritedBy();
         if (favoritedBy != null) {
