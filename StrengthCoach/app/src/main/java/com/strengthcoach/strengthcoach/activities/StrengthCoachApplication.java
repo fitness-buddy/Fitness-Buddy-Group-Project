@@ -6,8 +6,10 @@ import android.util.Log;
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.PushService;
 import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.Address;
@@ -42,6 +44,8 @@ public class StrengthCoachApplication extends Application {
             public void done(ParseException e) {
                 if (e == null) {
                     Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                    PushService.setDefaultPushCallback(getBaseContext(), ChatActivity.class);//change the class where u want to go after clicking on noti
+                    ParseInstallation.getCurrentInstallation().saveInBackground();
                 } else {
                     Log.e("com.parse.push", "failed to subscribe for push", e);
                 }
