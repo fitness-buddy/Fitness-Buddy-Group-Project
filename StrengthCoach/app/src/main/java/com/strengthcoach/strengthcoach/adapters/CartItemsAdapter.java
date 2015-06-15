@@ -1,6 +1,8 @@
 package com.strengthcoach.strengthcoach.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,8 +63,15 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
         viewHolder.ibDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String currentUser;
+                if (SimpleUser.currentUserObjectId == null){
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+                    currentUser = pref.getString("userId","");
+                }else {
+                    currentUser = SimpleUser.currentUserObjectId;
+                }
                 ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
-                ParseObject user = ParseObject.createWithoutData("SimpleUser", SimpleUser.currentUserObjectId);
+                ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("BlockedSlots");
                 query.include("trainer_id");
                 query.whereEqualTo("trainer_id", trainer);
@@ -74,11 +83,15 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
                 query.findInBackground(new FindCallback<ParseObject>() {
                     public void done(List<ParseObject> selected, ParseException e) {
                         if (e == null) {
+                            Log.v("delete ", "onclick of delete button"+selected);
                             for(ParseObject ss : selected)
                             {
                                 ss.deleteInBackground();
+                                Log.v("position ","position -------------------------------------------                    "+position);
                                 // remove element from arraylist and notifiy adapter about the change
+                                Log.v("position ","position  1 -------------------------------------------                    "+position);
                                 CartActivity.alSlots.remove(position);
+                                Log.v("position ","position  2 -------------------------------------------                    "+position);
                                 CartActivity.adSlots.notifyDataSetChanged();
                             }
                         } else {

@@ -24,8 +24,11 @@ import com.strengthcoach.strengthcoach.models.BlockedSlots;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CartActivity extends ActionBarActivity {
@@ -33,6 +36,7 @@ public class CartActivity extends ActionBarActivity {
     public static CartItemsAdapter adSlots;
     public static ListView lvCartItems;
     Button bProceedtoPayment;
+    Date currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +81,10 @@ public class CartActivity extends ActionBarActivity {
     private void populateCart(){
 
         String currentUser;
-
-        if (Trainer.currentTrainerObjectId == null){
+        currentDate = Calendar.getInstance().getTime();// get current date
+        final SimpleDateFormat simpleDateStrFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
+        final String strCurrentDate = simpleDateStrFormat.format(currentDate);
+        if (SimpleUser.currentUserObjectId == null){
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             currentUser = pref.getString("userId","n");
         }else {
@@ -96,20 +102,24 @@ public class CartActivity extends ActionBarActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> trainerSlots, ParseException e) {
                 if(e==null) {
-
                     for (ParseObject slots : trainerSlots) {
-                        //  b.trainerName= slots.getString("name");
                         BlockedSlots b = new BlockedSlots();
                         b.setSlotDate(slots.getString("slot_date"));
                         b.setSlotTime(slots.getString("slot_time"));
-                        alSlots.add(b);
+                        try {
+                            Date cDate = simpleDateStrFormat.parse(strCurrentDate);
+                            Date slotDate = simpleDateStrFormat.parse(slots.getString("slot_date"));
+                            if(slotDate.after(cDate)||slotDate.equals(cDate)) {
+                                alSlots.add(b);
+                            }
+                            adSlots.notifyDataSetChanged();
+                        } catch (java.text.ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                        adSlots.notifyDataSetChanged();
                     }
-
-                    adSlots.notifyDataSetChanged();
-
-
                 } else {
-                    Log.v("DEBUG!!!!!!!!!!!!!", "Error occured");
+                    Log.v("DEBUG!!!!!!!!!!!!!", "Error occured >>>>>>>>>>>>>>>>>>         "+e);
                 }
             }
         });
@@ -122,5 +132,4 @@ public class CartActivity extends ActionBarActivity {
             }
         });
     }
-
 }

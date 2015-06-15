@@ -101,6 +101,7 @@ public class BlockSlotActivity extends ActionBarActivity {
     }
 
     public void getDaysBetweenDates(final Date startdate, final Date enddate, String trainerId) {
+        Log.v("trainerId","trainerId >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    "+trainerId);
         ParseObject trainer = ParseObject.createWithoutData("Trainer", trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TrainerSlots");
         query.selectKeys(Arrays.asList("day"));
@@ -153,13 +154,21 @@ public class BlockSlotActivity extends ActionBarActivity {
                 callCartActivity();
             }
         });
+
         bAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bSlots = new BlockedSlots();
                 // need to save data to user model;
+                String currentUser;
+                if (SimpleUser.currentUserObjectId == null){
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    currentUser = pref.getString("userId","");
+                }else {
+                    currentUser = SimpleUser.currentUserObjectId;
+                }
                 ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
-                ParseObject user = ParseObject.createWithoutData("SimpleUser", SimpleUser.currentUserObjectId);
+                ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
                 bSlots.setTrainerId(trainer);
                 bSlots.setBookedByUserId(user);
                 bSlots.setSlotDate(userSelectedDate);
