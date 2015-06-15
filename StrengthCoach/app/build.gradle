@@ -53,6 +53,9 @@ dependencies {
 
     // facebook
     compile 'com.facebook.android:facebook-android-sdk:4.1.0'
+
+    // Parallax ScrollView
+    compile 'com.github.nirhart:parallaxscroll:1.0'
 }
 
 repositories {

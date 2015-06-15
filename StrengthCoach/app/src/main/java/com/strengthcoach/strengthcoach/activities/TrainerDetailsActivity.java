@@ -421,7 +421,6 @@ public class TrainerDetailsActivity extends ActionBarActivity {
         view.startAnimation(animation);
     }
 
-
     // Display the alert that adds the marker
     private void showAlertDialogForPoint(final LatLng point) {
         BitmapDescriptor defaultMarker =
