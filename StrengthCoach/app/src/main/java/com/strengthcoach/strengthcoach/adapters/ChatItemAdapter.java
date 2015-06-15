@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.models.Message;
-import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 import com.strengthcoach.strengthcoach.viewholders.ChatItemViewHolder;
 
@@ -22,10 +21,12 @@ import java.util.List;
  */
 public class ChatItemAdapter extends ArrayAdapter<Message> {
 
+    ICurrentUserProvider m_userProvider;
     Trainer m_trainer;
 
-    public ChatItemAdapter(Context context, List<Message> objects) {
+    public ChatItemAdapter(Context context, List<Message> objects, ICurrentUserProvider userProvider) {
         super(context, R.layout.chat_item, objects);
+        m_userProvider = userProvider;
     }
 
     public void setTrainer(Trainer trainer) {
@@ -52,7 +53,7 @@ public class ChatItemAdapter extends ArrayAdapter<Message> {
 
         viewHolder.tvChatItem.setText(message.getText());
 
-        if (message.getFromObjectId().equals(SimpleUser.currentUserObjectId)) {
+        if (message.getFromObjectId().equals(m_userProvider.currentUserId())) {
             // Message is from current user
             viewHolder.ivUserProfileImage.setVisibility(View.VISIBLE);
             viewHolder.ivUserProfileImage.setImageResource(R.drawable.default_profile_image);

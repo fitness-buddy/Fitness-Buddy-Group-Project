@@ -16,18 +16,19 @@ import com.parse.FindCallback;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.ChatItemAdapter;
+import com.strengthcoach.strengthcoach.adapters.ICurrentUserProvider;
 import com.strengthcoach.strengthcoach.models.Message;
-import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity extends ActionBarActivity {
+public class ChatActivity extends ActionBarActivity implements ICurrentUserProvider {
 
     Trainer m_trainer;
     ArrayList<Message> messages;
     ChatItemAdapter messagesAdapter;
+    String currentUserId;
 
     EditText etMessage;
 
@@ -37,7 +38,7 @@ public class ChatActivity extends ActionBarActivity {
         setContentView(R.layout.activity_chat);
 
         messages = new ArrayList<>();
-        messagesAdapter = new ChatItemAdapter(this, messages);
+        messagesAdapter = new ChatItemAdapter(this, messages, this);
         ListView lvMessages = (ListView) findViewById(R.id.lvMessages);
         lvMessages.setAdapter(messagesAdapter);
 
@@ -60,6 +61,9 @@ public class ChatActivity extends ActionBarActivity {
             // Start login activity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, 20);
+        }
+        else {
+            currentUserId = getLoggedInUserId();
         }
     }
 
@@ -87,7 +91,7 @@ public class ChatActivity extends ActionBarActivity {
 
     public void onSendClicked(View view) {
         Message message = new Message();
-        message.setFromObjectId(SimpleUser.currentUserObjectId);
+        message.setFromObjectId(currentUserId);
         message.setToObjectId(m_trainer.getObjectId());
         message.setText(etMessage.getText().toString());
         message.saveInBackground();
@@ -101,7 +105,7 @@ public class ChatActivity extends ActionBarActivity {
 
     private void addFakeMessageFromTrainer() {
         Message message = new Message();
-        message.setToObjectId(SimpleUser.currentUserObjectId);
+        message.setToObjectId(currentUserId);
         message.setFromObjectId(m_trainer.getObjectId());
         message.setText("Hello. I would love to work with you");
         message.saveInBackground();
@@ -117,6 +121,9 @@ public class ChatActivity extends ActionBarActivity {
                 setResult(RESULT_CANCELED, returnIntent);
                 finish();
             }
+            else {
+                currentUserId = getLoggedInUserId();
+            }
         }
     }
 
@@ -125,5 +132,10 @@ public class ChatActivity extends ActionBarActivity {
                 PreferenceManager.getDefaultSharedPreferences(this);
         String userId = pref.getString("userId", "");
         return userId;
+    }
+
+    @Override
+    public String currentUserId() {
+        return currentUserId;
     }
 }
