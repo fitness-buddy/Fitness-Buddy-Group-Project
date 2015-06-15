@@ -2,7 +2,9 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,7 +20,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
@@ -40,8 +44,10 @@ import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Customer;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -54,6 +60,7 @@ public class PaymentActivity extends ActionBarActivity {
     EditText etExpiry, etCCNumber;
     private ProgressDialogFragment progressFragment;
     SimpleUser currentUser = new SimpleUser();
+    String cUser;
     Customer customer, editCustomer;
 
     @Override
@@ -65,11 +72,16 @@ public class PaymentActivity extends ActionBarActivity {
         etExpiry = (EditText) findViewById(R.id.etExpiry);
         bSubmit = (Button) findViewById(R.id.bSubmit);
         com.stripe.Stripe.apiKey = Constants.STRIPE_SECRET_KEY;
+        if (SimpleUser.currentUserObjectId == null){
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            cUser = pref.getString("userId","n");
+        }else {
+            cUser = SimpleUser.currentUserObjectId;
+        }
+        getCurrentUser(cUser);
         final String cust_id = currentUser.getTokenId();
         if (cust_id != null) {
             new AsyncTask<Void, Void, Void>() {
-
-
                 @Override
                 protected Void doInBackground(Void... params) {
                     try {
@@ -95,7 +107,6 @@ public class PaymentActivity extends ActionBarActivity {
         }
         setupViewListeners();
     }
-
 
     private void setupViewListeners() {
         etCCNumber.addTextChangedListener(new TextWatcher() {
@@ -222,9 +233,10 @@ public class PaymentActivity extends ActionBarActivity {
                                         }
 
                                         protected void onPostExecute(Void result) {
+                                            Toast.makeText(PaymentActivity.this, "Payment Successful", Toast.LENGTH_SHORT);
                                             if (cust != null) {
                                                 ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
-                                                query.whereEqualTo("objectId", SimpleUser.currentUserObjectId);
+                                                query.whereEqualTo("objectId", cUser);
                                                 query.getFirstInBackground(new GetCallback<ParseObject>() {
                                                     public void done(ParseObject trainerSlots, com.parse.ParseException e) {
                                                         if (e == null) {
@@ -234,45 +246,59 @@ public class PaymentActivity extends ActionBarActivity {
                                                             trainerSlots.put(Constants.last4Key, card.getLast4());
                                                             trainerSlots.put(Constants.expDateKey, card.getExpMonth() + " / " + card.getExpYear());
                                                             trainerSlots.saveInBackground(new SaveCallback() {
-                                                                    @Override
-                                                                    public void done(com.parse.ParseException
-                                                                                             e) {
-                                                                        if (e != null) {
-                                                                            Toast.makeText(PaymentActivity.this,
-                                                                                    getResources().getString(
-                                                                                            R.string.not_saved),
-                                                                                    Toast.LENGTH_SHORT).show();
-                                                                            Log.e("Payment Activity", "Card not saved! " +
-                                                                                    e.getMessage());
-                                                                        } else {
-                                                                            final Intent intent;
-                                                                            intent =  new Intent(PaymentActivity.this, TrainerDetailsActivity.class);
-                                                                            intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
-                                                                            PaymentActivity.this.startActivity(intent);
+                                                                @Override
+                                                                public void done(com.parse.ParseException
+                                                                                         e) {
+                                                                    if (e != null) {
+                                                                        Toast.makeText(PaymentActivity.this,
+                                                                                getResources().getString(
+                                                                                        R.string.not_saved),
+                                                                                Toast.LENGTH_SHORT).show();
+                                                                        Log.e("Payment Activity", "Card not saved! " +
+                                                                                e.getMessage());
+                                                                    } else {
+                                                                        final Intent intent;
+                                                                        intent = new Intent(PaymentActivity.this, TrainerDetailsActivity.class);
+                                                                        intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
+                                                                        PaymentActivity.this.startActivity(intent);
 
-                                                                        }
                                                                     }
-                                                                });
-
+                                                                }
+                                                            });
                                                         } else {
                                                             Log.d("DEBUG", "Error: " + e.getMessage());
                                                         }
-
-
                                                     }
                                                 });
-
                                             }
-                                        }
+                                                ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
+                                                ParseObject user = ParseObject.createWithoutData("SimpleUser", cUser);
+                                                ParseQuery<ParseObject> paidSlots = ParseQuery.getQuery("BlockedSlots");
+                                                paidSlots.selectKeys(Arrays.asList("objectId"));
+                                                paidSlots.include("trainer_id");
+                                                paidSlots.whereEqualTo("trainer_id", trainer);
+                                                paidSlots.whereEqualTo("user_id", user);
+                                                paidSlots.whereEqualTo("status", Constants.ADD_TO_CART);
+                                                paidSlots.findInBackground(new FindCallback<ParseObject>() {
+                                                    public void done(List<ParseObject> trainerSlots, ParseException e) {
+                                                        if (e == null) {
+                                                            for (ParseObject slots : trainerSlots) {
+                                                                slots.put("status",Constants.BOOKED);
+                                                                slots.saveInBackground();
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            }
                                     }.execute();
                                     finishProgress();
                                 }
-
                                 public void onError(Exception error) {
                                     handleError(error.getLocalizedMessage());
                                     finishProgress();
                                 }
                             });
+
                 } else if (!card.validateNumber()) {
                     handleError(Constants.INVALID_CREDITCARD_NUMBER);
                 } else if (!card.validateExpiryDate()) {
@@ -285,7 +311,6 @@ public class PaymentActivity extends ActionBarActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -300,7 +325,6 @@ public class PaymentActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -320,6 +344,7 @@ public class PaymentActivity extends ActionBarActivity {
               DialogFragment fragment = ErrorDialogFragment.newInstance(R.string.validationErrors, error);
               fragment.show(getSupportFragmentManager(), "error");
          }
+    public void getCurrentUser(String userId){
 
-
+    }
 }
