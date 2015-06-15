@@ -10,23 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.google.android.gms.wallet.Cart;
+import com.strengthcoach.strengthcoach.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.activities.CartActivity;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.BlockedSlots;
-import com.strengthcoach.strengthcoach.models.Message;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 import com.strengthcoach.strengthcoach.viewholders.CartItemViewHolder;
-import com.strengthcoach.strengthcoach.viewholders.ChatItemViewHolder;
-
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -79,19 +73,14 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
                 query.whereEqualTo("status", Constants.ADD_TO_CART);
                 query.whereEqualTo("slot_date", slots.getSlotDate());
                 query.whereEqualTo("slot_time", slots.getSlotTime());
-                Log.v("delete ", "onclick of delete button");
                 query.findInBackground(new FindCallback<ParseObject>() {
                     public void done(List<ParseObject> selected, ParseException e) {
                         if (e == null) {
-                            Log.v("delete ", "onclick of delete button"+selected);
                             for(ParseObject ss : selected)
                             {
                                 ss.deleteInBackground();
-                                Log.v("position ","position -------------------------------------------                    "+position);
                                 // remove element from arraylist and notifiy adapter about the change
-                                Log.v("position ","position  1 -------------------------------------------                    "+position);
                                 CartActivity.alSlots.remove(position);
-                                Log.v("position ","position  2 -------------------------------------------                    "+position);
                                 CartActivity.adSlots.notifyDataSetChanged();
                             }
                         } else {
