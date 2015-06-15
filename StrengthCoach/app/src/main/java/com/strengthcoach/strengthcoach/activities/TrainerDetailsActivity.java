@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -381,6 +383,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             // If the trainer is already favorited; reset the icon; undo favorite
             ((ImageView) view).setImageResource(0);
             ((ImageView) view).setImageResource(R.drawable.heart);
+            zoomAnimation((ImageView) view);
             m_trainer.getFavoritedBy().remove(SimpleUser.currentUserObject);
             m_trainer.saveInBackground(new SaveCallback() {
                 @Override
@@ -396,6 +399,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             // Change icon and save in parse
             ((ImageView) view).setImageResource(0);
             ((ImageView) view).setImageResource(R.drawable.heart_selected);
+            zoomAnimation((ImageView) view);
             ArrayList<SimpleUser> favorites = m_trainer.getFavoritedBy();
             if (favorites == null) {
                 // This is to handle the case where current user is the one to mark the trainer
@@ -411,6 +415,12 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             m_trainer.saveInBackground();
         }
     }
+
+    private void zoomAnimation(View view) {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
+        view.startAnimation(animation);
+    }
+
 
     // Display the alert that adds the marker
     private void showAlertDialogForPoint(final LatLng point) {

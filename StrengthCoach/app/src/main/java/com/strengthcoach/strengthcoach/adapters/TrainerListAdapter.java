@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -201,6 +203,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             // View specific clicks will be handled here
             if (view == ivFavorite) {
                 mListener.favoriteClick(view, trainer);
+                zoomAnimation(view);
             } else {
                 // Launch Trainer details activity
                 final Intent intent;
@@ -209,6 +212,11 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
                 context.startActivity(intent);
             }
 
+        }
+
+        private void zoomAnimation(View view) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.zoom);
+            view.startAnimation(animation);
         }
 
         public interface IMyViewHolderClicks {
