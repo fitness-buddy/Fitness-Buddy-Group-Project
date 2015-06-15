@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -35,7 +36,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class BlockSlotActivity extends ActionBarActivity {
+public class BlockSlotActivity extends ActionBarActivity{
     CaldroidFragment caldroidFragment;
     Date currentDate, dateAfterMonth;
     Button bProceedToPayment, bAddToCart;
@@ -47,10 +48,12 @@ public class BlockSlotActivity extends ActionBarActivity {
     SimpleDateFormat simpleDateStrFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
     Date date = new Date();
     ArrayList<String> listOfSlots = new ArrayList<String>();
-    ArrayList<String> arBookedSlots = new ArrayList<String>();
+    ArrayList<Integer> arBookedSlots = new ArrayList<Integer>();
+    ArrayList<Integer> arraySlots = new ArrayList<Integer>();
     ArrayList<String> listOfAvailableDays = new ArrayList<String>();
     String name, phoneno;
     BlockedSlots  bSlots ;
+    boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class BlockSlotActivity extends ActionBarActivity {
         bProceedToPayment = (Button)findViewById(R.id.bProceedToPayment);
         name =  getIntent().getStringExtra("etName");
         phoneno =  getIntent().getStringExtra("etPhoneNumber");
-
+        flag=false;
 
         if (savedInstanceState == null) {
             caldroidFragment = new CaldroidFragment();
@@ -93,15 +96,15 @@ public class BlockSlotActivity extends ActionBarActivity {
         alreadyBookedSlots(Trainer.currentTrainerObjectId, dayOfTheWeek, selectedDate);
         setupListener();
 
+
+
         if (getLoggedInUserId().equals("")) {
             // Start login activity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, 20);
         }
     }
-
     public void getDaysBetweenDates(final Date startdate, final Date enddate, String trainerId) {
-        Log.v("trainerId","trainerId >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    "+trainerId);
         ParseObject trainer = ParseObject.createWithoutData("Trainer", trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TrainerSlots");
         query.selectKeys(Arrays.asList("day"));
@@ -115,14 +118,10 @@ public class BlockSlotActivity extends ActionBarActivity {
                         String availableDay = slots.getString("day");
                         listOfAvailableDays.add(availableDay);
                     }
-
-
                     ArrayList<Date> unAvailableDates = new ArrayList<Date>();
                     Calendar calendar = new GregorianCalendar();
                     calendar.setTime(startdate);
-
                     while (calendar.getTime().before(enddate)) {
-
                         Date result = calendar.getTime();
                         for (int i = 0; i < listOfAvailableDays.size(); i++) {
                             if (listOfAvailableDays.contains(simpleDayFormat.format(result))) {
@@ -142,12 +141,11 @@ public class BlockSlotActivity extends ActionBarActivity {
                 }
             }
         });
-
-
-    }
+}
 
 
     public void setupListener(){
+       // spSelectSlot.setOnItemSelectedListener(this);
         bProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,36 +159,39 @@ public class BlockSlotActivity extends ActionBarActivity {
                 bSlots = new BlockedSlots();
                 // need to save data to user model;
                 String currentUser;
-                if (SimpleUser.currentUserObjectId == null){
+                if (SimpleUser.currentUserObjectId == null) {
                     SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    currentUser = pref.getString("userId","");
-                }else {
+                    currentUser = pref.getString("userId", "");
+                } else {
                     currentUser = SimpleUser.currentUserObjectId;
                 }
-                ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
-                ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
-                bSlots.setTrainerId(trainer);
-                bSlots.setBookedByUserId(user);
-                bSlots.setSlotDate(userSelectedDate);
-                bSlots.setSlotTime(spSelectSlot.getSelectedItem().toString());
-                bSlots.setStatus(Constants.ADD_TO_CART);
-                bSlots.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Log.d("DEBUG!!!", "Slot Saved Successfully ");
+                if (!spSelectSlot.getSelectedItem().toString().equals("Select a slot")) {
+                    ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
+                    ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
+                    bSlots.setTrainerId(trainer);
+                    bSlots.setBookedByUserId(user);
+                    bSlots.setSlotDate(userSelectedDate);
+                    bSlots.setSlotTime(spSelectSlot.getSelectedItem().toString());
+                    bSlots.setStatus(Constants.ADD_TO_CART);
+                    bSlots.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Log.d("DEBUG!!!", "Slot Saved Successfully ");
 
-                        } else {
-                            Log.d("DEBUG!!!", "Slot Not Saved");
+                            } else {
+                                Log.d("DEBUG!!!", "Slot Not Saved");
+                            }
+
                         }
-
-                    }
-                });
-                bProceedToPayment.setVisibility(View.VISIBLE);
-
+                    });
+                    bProceedToPayment.setVisibility(View.VISIBLE);
+                    spSelectSlot.setSelection(0);
+                } else {
+                    Toast.makeText(BlockSlotActivity.this,"Select a slot",Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
     }
     public void setupCaldroidListener(){
         // Setup listener
@@ -203,6 +204,7 @@ public class BlockSlotActivity extends ActionBarActivity {
                     caldroidFragment.setBackgroundResourceForDate(R.color.caldroid_holo_blue_light, previousDate);
                     caldroidFragment.refreshView();
                 }
+                flag=false;
                 // changing the background color of selected date to pink
                 caldroidFragment.setBackgroundResourceForDate(R.color.pink, date);
                 previousDate = date;
@@ -235,23 +237,18 @@ public class BlockSlotActivity extends ActionBarActivity {
         caldroidFragment.setCaldroidListener(listener);
     }
     public void alreadyBookedSlots(final String trainerId, final String sDay, final String sDate) {
-        Log.v("alreadyBookedSlots","already booked slots sDate ............"+sDate);
         arBookedSlots.clear();
         ParseObject trainer = ParseObject.createWithoutData("Trainer", trainerId);
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("BookedSlots");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("BlockedSlots");
         query.selectKeys(Arrays.asList("slot_time"));
         query.include("trainer_id");
         query.whereEqualTo("trainer_id", trainer);
-       // query.whereEqualTo("slot_date", sDate);
+        query.whereEqualTo("slot_date", sDate);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> bookedSlots, com.parse.ParseException e) {
-                Log.v("alreadyBookedSlots", "inside done ..........." + e);
                 if (e == null) {
-                    Log.v("alreadyBookedSlots", "bookedSlots size  ..........." + bookedSlots.size());
                     for (ParseObject slots : bookedSlots) {
-                        Log.v("alreadyBookedSlots", "inside e == null ............");
-                        String slotTime = slots.getString("slot_time");
-                        Log.v("alreadyBookedSlots", "already booked slots time ............ " + slotTime);
+                        int slotTime = Integer.valueOf(slots.getString("slot_time"));
                         arBookedSlots.add(slotTime);
                     }
                 } else {
@@ -265,39 +262,32 @@ public class BlockSlotActivity extends ActionBarActivity {
 
     }
     public void populateAvailableSlots(final String trainerId, final String day, String sDate) {
-        Log.v("populateAvailableSlots","populateAvailableSlots............");
         final ParseObject trainer = ParseObject.createWithoutData("Trainer",trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TrainerSlots");
-        Log.v("populateAvailableSlots","populateAvailableSlots............ 1 ");
         query.selectKeys(Arrays.asList("start_time", "end_time"));
         query.include("trainer_id");
         query.whereEqualTo("trainer_id", trainer);
         query.whereEqualTo("day", day);
-        Log.v("populateAvailableSlots", "populateAvailableSlots............ 2");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> trainerSlots, com.parse.ParseException e) {
-                Log.v("populateAvailableSlots", "inside done ............");
                 if (e == null) {
                     listOfSlots.clear();
                     listOfSlots.add(Constants.SELECT_SLOT);
                     for(ParseObject slots: trainerSlots){
                         int startTimeInt = Integer.valueOf(slots.getString("start_time"));
                         int endTimeInt = Integer.valueOf(slots.getString("end_time"));
-                        for (final int i = startTimeInt; startTimeInt < endTimeInt; startTimeInt++)
-                        {
-                            if(arBookedSlots.size() > 0){
-                               for (int j =0; j< arBookedSlots.size(); j++){
-                                   String slotTime = arBookedSlots.get(j);
-                                   Log.v("populateAvailableSlots","already booked slots............ "+slotTime);
-                                   Log.v("populateAvailableSlots","already booked slots............ "+Integer.toString(startTimeInt));
-                                   if (!slotTime.equals(Integer.toString(startTimeInt))){
-                                       listOfSlots.add(Integer.toString(startTimeInt));
-                                   }
-                               }
-                            } else {
-                               listOfSlots.add(Integer.toString(startTimeInt));
-                            }
+                        arraySlots.clear();
+                        for (int i = startTimeInt; startTimeInt < endTimeInt; startTimeInt++) {
+                            arraySlots.add(startTimeInt);
                         }
+                            // find out time slots not in arBookedSlots
+                            List<Integer> noBookedSlots = new ArrayList<Integer>(arraySlots);
+                            noBookedSlots.removeAll(arBookedSlots);
+
+                            for (int k=0;k<noBookedSlots.size();k++){
+                                listOfSlots.add(noBookedSlots.get(k).toString());
+                            }
+
                         spSelectSlot.setAdapter(new ArrayAdapter<String>(BlockSlotActivity.this,
                                 android.R.layout.simple_spinner_item, listOfSlots));
                     } }else {
@@ -353,8 +343,9 @@ public class BlockSlotActivity extends ActionBarActivity {
 
     private String getLoggedInUserId() {
         SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(this);
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String userId = pref.getString("userId", "");
         return userId;
     }
+
 }
