@@ -176,9 +176,13 @@ public class BlockSlotActivity extends ActionBarActivity{
                     String finalSelectedSlot="";
                     if(selectedSlot[1].equals(Constants.AM)){
                         finalSelectedSlot = slotTime;
-                    } else {
-                        int intSlot = 12+Integer.valueOf(slotTime);
-                        finalSelectedSlot = Integer.toString(intSlot);
+                    } else  if(selectedSlot[1].equals(Constants.PM)) {
+                        if (slotTime.equals("12")) {
+                            finalSelectedSlot = slotTime;
+                        } else {
+                            int intSlot = 12 + Integer.valueOf(slotTime);
+                            finalSelectedSlot = Integer.toString(intSlot);
+                        }
                     }
                     bSlots.setSlotTime(finalSelectedSlot);
                     bSlots.setStatus(Constants.ADD_TO_CART);
@@ -299,8 +303,10 @@ public class BlockSlotActivity extends ActionBarActivity{
                                 if(intSlotsWithoutBookedSlots <= 11)
                                 {
                                     slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " "+Constants.AM;
+                                } else if (intSlotsWithoutBookedSlots==12) {
+                                    slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " " +Constants.PM;
                                 } else {
-                                    slotsWithoutBookedSlots = (intSlotsWithoutBookedSlots - 12) + " "+Constants.PM;
+                                     slotsWithoutBookedSlots = (intSlotsWithoutBookedSlots - 12) + " "+Constants.PM;
                                 }
                                 listOfSlots.add(slotsWithoutBookedSlots);
                             }

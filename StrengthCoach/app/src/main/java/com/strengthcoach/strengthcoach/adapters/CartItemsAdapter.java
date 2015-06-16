@@ -61,6 +61,8 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
         if(Integer.valueOf(slot) <= 11)
         {
             finalSlot = Integer.valueOf(slot) + " "+Constants.AM;
+        } else if (Integer.valueOf(slot)==12) {
+            finalSlot = Integer.valueOf(slot) + " " +Constants.PM;
         } else {
             finalSlot = (Integer.valueOf(slot) - 12) + " "+Constants.PM;
         }
