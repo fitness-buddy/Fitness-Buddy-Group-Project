@@ -48,7 +48,7 @@ public class CartActivity extends ActionBarActivity {
         // adding header to the list view starts
         View header = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_header, null);
         lvCartItems.addHeaderView(header);
-        adSlots = new CartItemsAdapter(CartActivity.this, alSlots);
+        adSlots = new CartItemsAdapter(CartActivity.this, alSlots, Constants.cart);
         // adding header to the list view ends
         lvCartItems.setAdapter(adSlots);
         populateCart();
