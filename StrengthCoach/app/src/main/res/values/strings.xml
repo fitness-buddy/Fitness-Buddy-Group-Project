@@ -27,14 +27,13 @@
     <string name="cc_number_hint">1234 1234 1234 1234</string>
     <string name="cc_expiry">Expiry</string>
     <string name="cc_expiry_hint">mm / yy</string>
-    <string name="scan_card">Scan your card using the camera!</string>
+    <string name="scan_card">Scan your card!</string>
     <string name="enter_manually">Enter your card details:</string>
     <string name="ok">OK</string>
     <string name="validationErrors">Validation Errors</string>
-    <string name="progressMessage">Creating Token</string>bSubmit
+    <string name="progressMessage">Creating Token</string>
     <string name="bSubmit">Submit</string>
     <string name="not_saved">Card not saved</string>
-    <string name="placeholder_text">Something somthing</string>
 
     <string name="button_block_time">Book Slot</string>
     <string name="facebook_app_id">1596268773980430</string>
@@ -48,5 +47,6 @@
     <string name="trainer">Trainer </string>
     <string name="slot_date">Date </string>
     <string name="slot_time">Time </string>
+    <string name="or">(or) </string>
 
 </resources>

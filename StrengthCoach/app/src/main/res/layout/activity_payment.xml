@@ -3,6 +3,65 @@
     android:layout_height="match_parent"
     tools:context="com.strengthcoach.strengthcoach.activities.PaymentActivity">
     <TextView
+        android:id="@+id/tvScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_grey"
+        android:text="@string/scan_card"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"/>
+
+    <ImageButton
+        android:id="@+id/scanButton"
+        android:layout_width="@dimen/margin_70dp"
+        android:layout_height="@dimen/margin_70dp"
+        android:onClick="onScanClick"
+        android:src="@mipmap/ic_camera"
+        android:layout_below="@+id/tvScan"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        />
+
+    <LinearLayout
+        android:id="@+id/divScanButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/margin_30dp"
+        android:layout_marginTop="@dimen/margin_30dp"
+        android:layout_below="@+id/scanButton"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/gray"
+            android:layout_marginTop="@dimen/margin_10dp"/>
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:layout_weight="1"
+            android:text="@string/or"
+            android:textAllCaps="true"
+            android:gravity="center"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/gray"
+            android:layout_marginTop="@dimen/margin_10dp"/>
+    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_below="@+id/divScanButton">
+
+    <TextView
         android:id="@+id/tvEnterManually"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,5 +145,5 @@
         android:textSize="20dp"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"/>
-
+</RelativeLayout>
 </RelativeLayout>

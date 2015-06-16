@@ -351,10 +351,7 @@ public class PaymentActivity extends ActionBarActivity {
 
     }
 
-    public void onScanPress(View v) {
-        // This method is set up as an onClick handler in the layout xml
-        // e.g. android:onClick="onScanPress"
-
+    public void onScanClick(View v) {
         Intent scanIntent = new Intent(this, CardIOActivity.class);
 
         // customize these values to suit your needs.
@@ -393,15 +390,6 @@ public class PaymentActivity extends ActionBarActivity {
             if (scanResult.isExpiryValid()) {
                 resultStr = scanResult.expiryMonth + "/" + scanResult.expiryYear;
                 etExpiry.setText(resultStr);
-            }
-
-            if (scanResult.cvv != null) {
-                // Never log or display a CVV
-                resultStr += "CVV has " + scanResult.cvv.length() + " digits.\n";
-            }
-
-            if (scanResult.postalCode != null) {
-                resultStr += "Postal Code: " + scanResult.postalCode + "\n";
             }
         } else {
             resultStr = "Scan was canceled.";
