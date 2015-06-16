@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,7 +67,18 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= 21) {
+//            // inside your activity (if you did not enable transitions in your theme)
+//            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//            // set an enter transition
+//            getWindow().setEnterTransition(new Explode());
+//            // set an exit transition
+//            getWindow().setExitTransition(new Explode());
+////            getWindow().setSharedElementExitTransition(TransitionInflater.from(this).inflateTransition(R.transition.shared_element_transition));
+            getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.shared_element_transition));
+        }
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_trainer_details);
 
         // Get the trainer object from parse and setup the view
@@ -133,7 +146,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
         // Setup view
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
-        Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage);
+//        Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage);
 
         ImageView ivFavorite = (ImageView) findViewById(R.id.ivFavorite);
         if (m_trainer.isFavorite()) {
@@ -377,6 +390,11 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
         return date;
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        supportFinishAfterTransition();
+//    }
 
     public void onFavoriteClicked(View view) {
         if (m_trainer.isFavorite()) {

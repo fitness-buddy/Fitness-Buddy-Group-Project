@@ -8,4 +8,13 @@
     <item name="dark_grey" type="color">#424242</item>
     <item name="grey_accent" type="color">#757575</item>
     <item name="amber" type="color">#FFC107</item>
+
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorPrimaryLight">#B3E5FC</color>
+    <color name="colorAccent">#FF9800</color>
+    <color name="colorHighlight">#B6B6B6</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#727272</color>
+    <color name="colorDivider">#B6B6B6</color>
 </resources>

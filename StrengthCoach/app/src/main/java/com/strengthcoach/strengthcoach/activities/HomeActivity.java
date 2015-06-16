@@ -2,9 +2,11 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,16 @@ public class HomeActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setSharedElementExitTransition(TransitionInflater.from(this).inflateTransition(R.transition.shared_element_transition));
+//            // inside your activity (if you did not enable transitions in your theme)
+//            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//            // set an enter transition
+//            getWindow().setEnterTransition(new Explode());
+//            // set an exit transition
+//            getWindow().setExitTransition(new Explode());
+//            getWindow().setSharedElementExitTransition(TransitionInflater.from(this).inflateTransition(R.transition.shared_element_transition));
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         fragment = (TrainersListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
@@ -51,6 +63,7 @@ public class HomeActivity extends ActionBarActivity {
         } else {
             populateTrainers();
         }
+
     }
 
     @Override

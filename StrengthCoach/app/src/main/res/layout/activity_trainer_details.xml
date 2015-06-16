@@ -65,7 +65,9 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:id="@+id/ivProfileImage"
+                    android:src="@drawable/heart"
                     android:layout_alignRight="@+id/pager"
+                    android:transitionName="profileImageTransition"
                     android:layout_below="@+id/pager"
                     android:layout_marginTop="-40dp"
                     android:layout_marginRight="20dp"/>

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,9 @@ public class TrainersListFragment extends Fragment {
         adapter = new TrainerListAdapter(getActivity(), trainers);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        setSharedElementReturnTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.shared_element_transition));
+        setExitTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.explode));
         return view;
     }
 

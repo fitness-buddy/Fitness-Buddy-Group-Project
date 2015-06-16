@@ -3,6 +3,8 @@ package com.strengthcoach.strengthcoach.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +25,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
-import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.activities.HomeActivity;
 import com.strengthcoach.strengthcoach.activities.TrainerDetailsActivity;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
@@ -101,8 +103,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         holder.mViewPager.setAdapter(holder.mTrainerListPagerAdapter);
 
         // Set the profile image
-        holder.ivProfileImage.setImageResource(0);
-        Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivProfileImage);
+//        holder.ivProfileImage.setImageResource(0);
+//        Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivProfileImage);
 
         // Set the favorite icon
         holder.ivFavorite.setImageResource(0);
@@ -169,7 +171,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         TextView tvNumReviews;
         ImageView ivFavorite;
         public IMyViewHolderClicks mListener;
-        private final Context context;
+        private final HomeActivity context;
         TrainerListPagerAdapter mTrainerListPagerAdapter;
         ViewPager mViewPager;
         // Bind the trainer object with every viewholder object
@@ -179,7 +181,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             super(itemView);
 
             // Get reference to context
-            context = itemView.getContext();
+            context = (HomeActivity) itemView.getContext();
 
             // Get the reference to views
             ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
@@ -205,11 +207,19 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
                 mListener.favoriteClick(view, trainer);
                 zoomAnimation(view);
             } else {
+
                 // Launch Trainer details activity
                 final Intent intent;
                 intent =  new Intent(context, TrainerDetailsActivity.class);
                 intent.putExtra("trainerId", trainer.getObjectId());
-                context.startActivity(intent);
+                if (Build.VERSION.SDK_INT >= 21) {
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(context, view, "profileImageTransition");
+                    context.startActivity(intent, options.toBundle());
+                } else {
+                    context.startActivity(intent);
+                }
             }
 
         }
