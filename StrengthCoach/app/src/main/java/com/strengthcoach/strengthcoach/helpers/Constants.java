@@ -34,7 +34,10 @@ public class Constants {
     public static String BOOKED ="booked";
     public static int SCAN_REQUEST_CODE = 100;
 
-    public static String cart = "cart";
-    public static String upcomingevents = "upcomingevents";
+    public static final String cart = "cart";
+    public static final String upcomingevents = "upcomingevents";
+
+    public static final String AM = "AM";
+    public static final String PM = "PM";
 }
 

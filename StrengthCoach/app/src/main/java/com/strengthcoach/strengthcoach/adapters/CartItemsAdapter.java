@@ -56,7 +56,15 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
         viewHolder.tvSerialNo.setText((position+1)+"");
         viewHolder.tvTrainerName.setText(Trainer.currentTrainerName);
         viewHolder.tvSlotDate.setText(slots.getSlotDate());
-        viewHolder.tvSlotTime.setText(slots.getSlotTime());
+        String slot = slots.getSlotTime();
+        String finalSlot ="";
+        if(Integer.valueOf(slot) <= 11)
+        {
+            finalSlot = Integer.valueOf(slot) + " "+Constants.AM;
+        } else {
+            finalSlot = (Integer.valueOf(slot) - 12) + " "+Constants.PM;
+        }
+        viewHolder.tvSlotTime.setText(finalSlot);
         viewHolder.ibDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

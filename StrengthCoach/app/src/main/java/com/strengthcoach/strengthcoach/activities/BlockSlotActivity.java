@@ -171,7 +171,16 @@ public class BlockSlotActivity extends ActionBarActivity{
                     bSlots.setTrainerId(trainer);
                     bSlots.setBookedByUserId(user);
                     bSlots.setSlotDate(userSelectedDate);
-                    bSlots.setSlotTime(spSelectSlot.getSelectedItem().toString());
+                    String[] selectedSlot = spSelectSlot.getSelectedItem().toString().split(" ");
+                    String slotTime = selectedSlot[0];
+                    String finalSelectedSlot="";
+                    if(selectedSlot[1].equals(Constants.AM)){
+                        finalSelectedSlot = slotTime;
+                    } else {
+                        int intSlot = 12+Integer.valueOf(slotTime);
+                        finalSelectedSlot = Integer.toString(intSlot);
+                    }
+                    bSlots.setSlotTime(finalSelectedSlot);
                     bSlots.setStatus(Constants.ADD_TO_CART);
                     bSlots.saveInBackground(new SaveCallback() {
                         @Override
@@ -285,7 +294,15 @@ public class BlockSlotActivity extends ActionBarActivity{
                             noBookedSlots.removeAll(arBookedSlots);
 
                             for (int k=0;k<noBookedSlots.size();k++){
-                                listOfSlots.add(noBookedSlots.get(k).toString());
+                                int intSlotsWithoutBookedSlots = noBookedSlots.get(k);
+                                String slotsWithoutBookedSlots = Integer.toString(intSlotsWithoutBookedSlots);
+                                if(intSlotsWithoutBookedSlots <= 11)
+                                {
+                                    slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " "+Constants.AM;
+                                } else {
+                                    slotsWithoutBookedSlots = (intSlotsWithoutBookedSlots - 12) + " "+Constants.PM;
+                                }
+                                listOfSlots.add(slotsWithoutBookedSlots);
                             }
 
                         spSelectSlot.setAdapter(new ArrayAdapter<String>(BlockSlotActivity.this,
