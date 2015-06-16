@@ -261,7 +261,7 @@ public class PaymentActivity extends ActionBarActivity {
                                                                                 e.getMessage());
                                                                     } else {
                                                                         final Intent intent;
-                                                                        intent = new Intent(PaymentActivity.this, TrainerDetailsActivity.class);
+                                                                        intent = new Intent(PaymentActivity.this, UpcomingEventsActivity.class);
                                                                         intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
                                                                         PaymentActivity.this.startActivity(intent);
 

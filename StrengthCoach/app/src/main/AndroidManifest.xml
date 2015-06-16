@@ -113,6 +113,11 @@
                 android:value="com.strengthcoach.strengthcoach.activities.BlockSlotActivity" />
         </activity>
 
+ 	<activity
+            android:name=".activities.UpcomingEventsActivity"
+            android:label="@string/title_activity_upcoming_events" >
+        </activity>
+
         <uses-library
             android:name="com.google.android.maps"
             android:required="true" />

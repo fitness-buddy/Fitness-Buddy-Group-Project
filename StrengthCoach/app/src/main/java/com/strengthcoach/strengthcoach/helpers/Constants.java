@@ -33,5 +33,8 @@ public class Constants {
     public static String ADD_TO_CART ="addtocart";
     public static String BOOKED ="booked";
     public static int SCAN_REQUEST_CODE = 100;
+
+    public static String cart = "cart";
+    public static String upcomingevents = "upcomingevents";
 }
 

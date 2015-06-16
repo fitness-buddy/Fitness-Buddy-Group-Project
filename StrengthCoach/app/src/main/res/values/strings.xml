@@ -49,4 +49,7 @@
     <string name="slot_time">Time </string>
     <string name="or">(or) </string>
 
+    <string name="title_activity_upcoming_events">Upcoming Slots</string>
+    <string name="bookmoreslots">Book More Slots</string>
+
 </resources>

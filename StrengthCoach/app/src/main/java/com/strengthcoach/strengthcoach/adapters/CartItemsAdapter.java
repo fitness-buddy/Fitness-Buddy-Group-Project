@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.activities.CartActivity;
+import com.strengthcoach.strengthcoach.activities.UpcomingEventsActivity;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.BlockedSlots;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
@@ -27,9 +28,11 @@ import java.util.List;
  * Created by Neeraja on 6/12/2015.
  */
 public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
+    String flag;
 
-    public CartItemsAdapter(Context context, List<BlockedSlots> objects) {
+    public CartItemsAdapter(Context context, List<BlockedSlots> objects, String flag) {
         super(context, R.layout.cart_item, objects);
+        this.flag = flag;
     }
 
     @Override
@@ -70,7 +73,6 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
                 query.include("trainer_id");
                 query.whereEqualTo("trainer_id", trainer);
                 query.whereEqualTo("user_id", user);
-                query.whereEqualTo("status", Constants.ADD_TO_CART);
                 query.whereEqualTo("slot_date", slots.getSlotDate());
                 query.whereEqualTo("slot_time", slots.getSlotTime());
                 query.findInBackground(new FindCallback<ParseObject>() {
@@ -79,9 +81,14 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
                             for(ParseObject ss : selected)
                             {
                                 ss.deleteInBackground();
-                                // remove element from arraylist and notifiy adapter about the change
-                                CartActivity.alSlots.remove(position);
-                                CartActivity.adSlots.notifyDataSetChanged();
+                                if(flag=="cart") {
+                                    // remove element from arraylist and notifiy adapter about the change
+                                    CartActivity.alSlots.remove(position);
+                                    CartActivity.adSlots.notifyDataSetChanged();
+                                } else {
+                                    UpcomingEventsActivity.alSlots.remove(position);
+                                    UpcomingEventsActivity.adSlots.notifyDataSetChanged();
+                                }
                             }
                         } else {
                             //Handle condition here
