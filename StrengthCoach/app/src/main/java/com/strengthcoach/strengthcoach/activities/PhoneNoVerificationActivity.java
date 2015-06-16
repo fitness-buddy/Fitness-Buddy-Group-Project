@@ -49,31 +49,41 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
         bVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (verifyCode.equals(etVerificationCode.getText().toString())) {
-                    simpleUser = new SimpleUser();
-                    // need to save data to user model;
-                    simpleUser.setPhoneNumber(phoneno);
-                    simpleUser.setName(name);
-                    simpleUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Log.d("DEBUG!!!", "inside if of user ");
-                                //saved successfully
-                                getCurrentUserId(phoneno);
-                            } else {
-                                Log.d("DEBUG!!!", "User Not Found");
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
+                    query.whereEqualTo("phone_number", phoneno);
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                            public void done(ParseObject object, ParseException e) {
+                                 if (object == null) {
+                                       simpleUser = new SimpleUser();
+                                       // need to save data to user model;
+                                       simpleUser.setPhoneNumber(phoneno);
+                                       simpleUser.setName(name);
+                                       simpleUser.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                     Log.d("DEBUG!!!", "inside if of user ");
+                                                          //saved successfully
+                                                          getCurrentUserId(phoneno);
+                                                } else {
+                                                          Log.d("DEBUG!!!", "User Not Found");
+                                                       }
+
+                                            }
+                                        });
+                                 } else {
+                                     getCurrentUserId(phoneno);
+                                 }
                             }
-
-                        }
                     });
-
-                    Intent returnIntent = new Intent();
-                    setResult(RESULT_OK, returnIntent);
-                    finish();
-                }
-            }
-        });
+                            Intent returnIntent = new Intent();
+                            setResult(RESULT_OK, returnIntent);
+                            finish();
+                        }
+                    }
+                });
         regenerateCode.setOnClickListener(new View.OnClickListener() {
 
             @Override
