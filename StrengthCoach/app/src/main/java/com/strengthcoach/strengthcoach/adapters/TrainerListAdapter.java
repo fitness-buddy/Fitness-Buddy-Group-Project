@@ -25,7 +25,7 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
-import com.strengthcoach.strengthcoach.activities.TrainerDetailsActivity;
+import com.strengthcoach.strengthcoach.activities.TrainerDetailsAnimatedActivity;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
@@ -207,7 +207,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             } else {
                 // Launch Trainer details activity
                 final Intent intent;
-                intent =  new Intent(context, TrainerDetailsActivity.class);
+                intent =  new Intent(context, TrainerDetailsAnimatedActivity.class);
                 intent.putExtra("trainerId", trainer.getObjectId());
                 context.startActivity(intent);
             }

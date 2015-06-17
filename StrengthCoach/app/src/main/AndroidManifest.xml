@@ -51,7 +51,9 @@
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <android:uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" /> <!-- Checked in by Neeraja ends -->
+        android:maxSdkVersion="18" />
+
+    <!-- Checked in by Neeraja ends -->
     <application
         android:name=".activities.StrengthCoachApplication"
         android:allowBackup="true"
@@ -89,7 +91,7 @@
         </activity>
         <activity
             android:name=".activities.TrainerDetailsActivity"
-            android:label="@string/title_activity_trainer_details">
+            android:label="@string/title_activity_trainer_details" >
         </activity>
         <activity
             android:name=".activities.ChatActivity"
@@ -103,7 +105,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.strengthcoach.strengthcoach.activities.BlockSlotActivity" />
         </activity>
-	<activity
+        <activity
             android:name=".activities.CartActivity"
             android:label="@string/title_activity_cart"
             android:parentActivityName=".activities.BlockSlotActivity" >
@@ -111,8 +113,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.strengthcoach.strengthcoach.activities.BlockSlotActivity" />
         </activity>
-
- 	<activity
+        <activity
             android:name=".activities.UpcomingEventsActivity"
             android:label="@string/title_activity_upcoming_events" >
         </activity>
@@ -167,6 +168,14 @@
         <activity
             android:name=".activities.MapActivity"
             android:label="@string/title_activity_map" >
+        </activity>
+        <activity
+            android:name=".activities.TrainerDetailsAnimatedActivity"
+            android:label="@string/title_activity_trainer_details_animated"
+            android:parentActivityName=".activities.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.strengthcoach.strengthcoach.activities.HomeActivity" />
         </activity>
     </application>
 

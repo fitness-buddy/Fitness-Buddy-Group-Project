@@ -1,0 +1,208 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="335dp"
+        android:id="@+id/rlImageContainer">
+
+        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivFavorite"
+            android:layout_alignTop="@+id/pager"
+            android:layout_alignRight="@+id/pager"
+            android:padding="20dp"
+            android:onClick="onFavoriteClicked"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPrice"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="100dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="#999999"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp"
+            android:gravity="center_vertical"
+            android:layout_alignLeft="@+id/pager"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/flexible_space_image_height"
+        android:background="?attr/colorPrimary" />
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:overScrollMode="always"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llContent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/flexible_space_image_height"
+                android:background="@android:color/transparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:color/white">
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_me_header"
+                    android:textSize="25sp"
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"/>
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAboutTrainer"
+                    android:textSize="20sp"
+                    android:textColor="#555555"
+                    android:gravity="center_horizontal"/>
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trainer_education_header"
+                    android:textSize="25sp"
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"/>
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTrainerEducation"
+                    android:textSize="20sp"
+                    android:textColor="#555555"
+                    android:gravity="center_horizontal"/>
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trainer_achievements_header"
+                    android:textSize="25sp"
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"/>
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTrainerInterests"
+                    android:textSize="20sp"
+                    android:textColor="#555555"
+                    android:gravity="center_horizontal"/>
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingBar"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    android:isIndicator="true"
+                    android:layout_gravity="center_horizontal"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="320dp"
+                    android:layout_height="320dp"
+                    android:id="@+id/ivProfileImage2"
+                    android:layout_gravity="center_horizontal" />
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvContactTrainer"
+                    android:text="Contact Trainer"
+                    android:textColor="#C76F6F"
+                    android:textSize="20sp"
+                    android:gravity="center_horizontal"
+                    android:layout_margin="10dp"/>
+
+                <fragment
+                    android:id="@+id/map"
+                    class="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="512dp"/>
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvReviewsCount"
+                    android:gravity="center_horizontal"
+                    android:textSize="25sp"
+                    android:layout_margin="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/bBookSlot"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="#CCC76F6F"
+        android:text="@string/button_block_time"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/margin_standard">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:minHeight="?attr/actionBarSize"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/flexible_space_image_height"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:scaleType="center"
+        app:fab_colorNormal="@color/colorPrimaryLight"
+        app:fab_colorPressed="@color/colorAccent" />
+
+</FrameLayout>

@@ -51,5 +51,6 @@
 
     <string name="title_activity_upcoming_events">Upcoming Slots</string>
     <string name="bookmoreslots">Book More Slots</string>
+    <string name="title_activity_trainer_details_animated">TrainerDetailsAnimatedActivity</string>
 
 </resources>

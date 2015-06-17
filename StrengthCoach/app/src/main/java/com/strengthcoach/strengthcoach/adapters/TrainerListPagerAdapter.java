@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
-import com.strengthcoach.strengthcoach.activities.TrainerDetailsActivity;
+import com.strengthcoach.strengthcoach.activities.TrainerDetailsAnimatedActivity;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
@@ -27,7 +27,7 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
             @Override
             public void onClick(View v) {
                 final Intent intent;
-                intent =  new Intent(mContext, TrainerDetailsActivity.class);
+                intent =  new Intent(mContext, TrainerDetailsAnimatedActivity.class);
                 intent.putExtra("trainerId", trainer.getObjectId());
                 mContext.startActivity(intent);
             }
