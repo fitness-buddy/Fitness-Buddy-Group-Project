@@ -62,11 +62,13 @@ public class TrainerDetailsActivity extends ActionBarActivity {
     TrainerDetailPagerAdapter mDetailPagerAdapter;
     ViewPager mViewPager;
     String trainerId;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_details);
+        setupToolbar();
 
         // Get the trainer object from parse and setup the view
         trainerId = getIntent().getStringExtra("trainerId");
@@ -83,6 +85,20 @@ public class TrainerDetailsActivity extends ActionBarActivity {
                 getTrainerGym();
             }
         });
+    }
+
+    private void setupToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setTitle(R.string.app_name);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void getTrainerGym() {
@@ -117,19 +133,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
 
     private void setupTrainerView() {
         // Set toolbar
-        Toolbar actionBar = (Toolbar) findViewById(R.id.actionBar);
-        setSupportActionBar(actionBar);
-
-        TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
-        tvTitle.setText(m_trainer.getName());
-
-        ImageView iv_compose_actionbar_cancel = (ImageView) findViewById(R.id.iv_compose_actionbar_cancel);
-        iv_compose_actionbar_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mToolbar.setTitle(m_trainer.getName());
 
         // Setup view
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);

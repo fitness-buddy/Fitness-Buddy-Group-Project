@@ -3,38 +3,10 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/actionBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:contentInsetEnd="0dp"
-        app:contentInsetStart="0dp"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/iv_compose_actionbar_cancel"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/cancel"/>
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="?attr/actionBarSize"
-                android:gravity="center_vertical|center_horizontal"
-                android:textSize="25sp"
-                android:layout_toRightOf="@+id/iv_compose_actionbar_cancel"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true" />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <com.nirhart.parallaxscroll.views.ParallaxScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,7 +14,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/actionBar"
+        android:layout_below="@+id/toolbar"
         app:alpha_factor="0.2"
         app:parallax_factor="6.3"
         tools:context="com.strengthcoach.strengthcoach.activities.TrainerDetailsActivity">

@@ -89,8 +89,7 @@
         </activity>
         <activity
             android:name=".activities.TrainerDetailsActivity"
-            android:label="@string/title_activity_trainer_details"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:label="@string/title_activity_trainer_details">
         </activity>
         <activity
             android:name=".activities.ChatActivity"
