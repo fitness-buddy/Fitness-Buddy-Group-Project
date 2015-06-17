@@ -5,14 +5,9 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/toolbar" />
-
     <fragment
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/app_bar"
         android:name="com.strengthcoach.strengthcoach.fragments.TrainersListFragment"
         android:id="@+id/fragment"
         android:layout_alignParentTop="true"/>

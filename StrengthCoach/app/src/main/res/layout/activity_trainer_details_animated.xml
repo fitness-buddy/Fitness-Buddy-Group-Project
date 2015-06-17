@@ -167,10 +167,10 @@
         android:id="@+id/bBookSlot"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        android:background="#80259b24"
+        android:background="@color/book_slot"
         android:text="@string/button_block_time"
         android:textSize="20sp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textAllCaps="false"/>
 
     <LinearLayout
