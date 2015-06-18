@@ -20,6 +20,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.TrainerListAdapter;
 import com.strengthcoach.strengthcoach.models.Trainer;
+import com.strengthcoach.strengthcoach.views.CustomDrawerLayout;
 import com.twotoasters.jazzylistview.effects.TiltEffect;
 import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
@@ -31,6 +32,7 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
     private TrainerListAdapter adapter;
     private List<Trainer> trainers;
     private Toolbar mToolbar;
+    private NavigationDrawerFragment drawerFragment;
 
     // Get the list of trainers and update the view
     public void setItems(List<Trainer> trainers) {
@@ -51,6 +53,10 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setTitle(R.string.app_name);
+
+        // Setup Nav Drawer
+        drawerFragment = (NavigationDrawerFragment) getChildFragmentManager().findFragmentById(R.id.drawer_fragment);
+        drawerFragment.setup(view.findViewById(R.id.drawer_fragment), (CustomDrawerLayout) view.findViewById(R.id.drawerLayout), mToolbar);
 
         // Setup animation
         JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();

@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:name="com.strengthcoach.strengthcoach.fragments.TrainersListFragment"
         android:id="@+id/fragment"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/fragment_trainers_list" />
 
 </LinearLayout>
+
