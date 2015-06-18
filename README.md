@@ -39,8 +39,10 @@ The following **optional** functionality:
 * [ ] Improving UI/UX
 
 App mock screens can be found [here](https://cloud.box.com/s/37qyy0w3027j9gdecoemwxz3wux1lxuy).
+## Sprint1 Walkthrough
+![alt tag](https://github.com/fitness-buddy/Fitness-Buddy-Group-Project/blob/master/walkthrough1.gif)
 
 ## Sprint2 Walkthrough
 ![alt tag](https://github.com/fitness-buddy/Fitness-Buddy-Group-Project/blob/master/walkthrough2.gif)
 
-Video recording of the walkthrough can be found [here](https://cloud.box.com/s/icqf8qmptvyoto8550bdl6yqx8sn2e12)
+Video recording of the walkthrough can be found [here](https://cloud.box.com/s/8c4ioqldfkldwzkhnzix9pdenybkgp49)
