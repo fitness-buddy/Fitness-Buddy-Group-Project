@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -51,7 +51,6 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
         recyclerView = (ObservableRecyclerView) view.findViewById(R.id.rvTrainersList);
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        mToolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setTitle(R.string.app_name);
 
@@ -71,17 +70,6 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
-    }
-
-    // A method to find height of the status bar
-    // Without padding the status bar will cover top portion of the toolbar
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
     }
 
 //    protected ObservableRecyclerView createScrollable() {
@@ -145,7 +133,7 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
                 float translationY = (float) animation.getAnimatedValue();
                 ViewHelper.setTranslationY(mToolbar, translationY);
                 ViewHelper.setTranslationY((View) recyclerView, translationY);
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ((View) recyclerView).getLayoutParams();
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) recyclerView).getLayoutParams();
                 lp.height = (int) -translationY + getScreenHeight() - lp.topMargin;
                 ((View) recyclerView).requestLayout();
             }
