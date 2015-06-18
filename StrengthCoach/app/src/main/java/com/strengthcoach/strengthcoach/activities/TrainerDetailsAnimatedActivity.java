@@ -121,7 +121,9 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TrainerDetailsAnimatedActivity.this, "FAB is clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getBaseContext(), ChatActivity.class);
+                intent.putExtra("trainerId", m_trainer.getObjectId());
+                startActivity(intent);
             }
         });
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);

@@ -87,6 +87,8 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if (id == R.id.action_favorites) {
             populateFavoriteTrainers();
+        } else if (id == R.id.action_home) {
+            populateTrainers();
         }
 
         return super.onOptionsItemSelected(item);
