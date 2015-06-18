@@ -30,17 +30,17 @@ The following **required** functionality:
 
 The following **optional** functionality:
 * [ ] User can mark a trainer as favourite and view favorites from hamburger menu later.
-* [ ] User can select several sessions with trainer and book together.
-* [ ] User can "Ask a question" about trainer and trainer can reply to the same.
+* [x] User can select several sessions with trainer and book together.
+* [x] User can "Ask a question" about trainer and trainer can reply to the same.
 * [ ] User starts to see the phone number of a trainer after booking a session.
-* [ ] User can change location to see trainers in a different area.
-* [ ] User can scan credit card instead of adding it manually.
-* [ ] User can invite friends to use this app (Both user and friend get $10 credit for using invite feature in case friend books a session)
+* [x] User can change location to see trainers in a different area.
+* [x] User can scan credit card instead of adding it manually.
+* [x] User can invite friends to use this app (Both user and friend get $10 credit for using invite feature in case friend books a session)
 * [ ] Improving UI/UX
 
 App mock screens can be found [here](https://cloud.box.com/s/37qyy0w3027j9gdecoemwxz3wux1lxuy).
 
 ## Sprint1 Walkthrough
-![alt tag](https://github.com/fitness-buddy/Fitness-Buddy-Group-Project/blob/master/walkthrough1.gif)
+![alt tag](https://github.com/fitness-buddy/Fitness-Buddy-Group-Project/blob/master/walkthrough2.gif)
 
-Video recording of the walkthrough can be found [here](https://cloud.box.com/s/fmge5uuf249ph7qojaykjfckxysexjy9)
+Video recording of the walkthrough can be found [here](https://cloud.box.com/s/icqf8qmptvyoto8550bdl6yqx8sn2e12)
