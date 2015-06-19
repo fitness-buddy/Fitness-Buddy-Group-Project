@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:weightSum="5" android:paddingTop="@dimen/margin_70dp">
+    android:layout_height="match_parent" android:weightSum="5" android:paddingTop="@dimen/margin_20dp">
     <TextView
         android:layout_width="@dimen/margin_42dp"
         android:layout_height="@dimen/margin_42dp"
