@@ -50,8 +50,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
 
         // setup Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        UpcomingEventsActivity.this.setSupportActionBar(mToolbar);
-        UpcomingEventsActivity.this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setSupportActionBar(mToolbar);
 
         alSlots = new ArrayList<>();
         lvUpcomingEvents = (ListView) findViewById(R.id.lvUpcomingEvents);

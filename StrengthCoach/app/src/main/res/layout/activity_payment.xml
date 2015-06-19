@@ -1,149 +1,159 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.strengthcoach.strengthcoach.activities.PaymentActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <TextView
         android:id="@+id/tvScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark_grey"
+        android:layout_below="@+id/toolbar"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
         android:text="@string/scan_card"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_horizontal_margin"/>
+        android:textColor="@color/dark_grey" />
 
     <ImageButton
         android:id="@+id/scanButton"
         android:layout_width="@dimen/margin_70dp"
         android:layout_height="@dimen/margin_70dp"
-        android:onClick="onScanClick"
-        android:src="@mipmap/ic_camera"
         android:layout_below="@+id/tvScan"
         android:layout_centerHorizontal="true"
-        android:visibility="visible"
-        />
+        android:onClick="onScanClick"
+        android:src="@mipmap/ic_camera"
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/divScanButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_below="@+id/scanButton"
         android:layout_marginBottom="@dimen/margin_30dp"
         android:layout_marginTop="@dimen/margin_30dp"
-        android:layout_below="@+id/scanButton"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin">
+        android:paddingStart="@dimen/activity_horizontal_margin">
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_10dp"
             android:layout_weight="1"
-            android:background="@color/gray"
-            android:layout_marginTop="@dimen/margin_10dp"/>
+            android:background="@color/gray" />
+
         <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="@string/or"
             android:textAllCaps="true"
-            android:gravity="center"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/gray" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_10dp"
             android:layout_weight="1"
-            android:background="@color/gray"
-            android:layout_marginTop="@dimen/margin_10dp"/>
+            android:background="@color/gray" />
     </LinearLayout>
-    <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="match_parent" android:layout_below="@+id/divScanButton">
 
-    <TextView
-        android:id="@+id/tvEnterManually"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="@string/enter_manually"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <TextView
-        android:id="@+id/tvCardNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_10dp"
-        android:paddingRight="@dimen/margin_10dp"
-        android:paddingEnd="@dimen/margin_10dp"
-        android:textColor="@color/gray"
-        android:text="@string/cc_number"
-        android:background="@color/white"
-        android:textAlignment="center"
-        android:paddingLeft="@dimen/margin_42dp"
-        android:layout_marginTop="45dp"
-        android:layout_below="@+id/tvEnterManually"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <EditText
-        android:id="@+id/etCCNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:singleLine="true"
-        android:inputType="number"
-        android:maxLength="19"
-        android:hint="@string/cc_number_hint"
-        android:textColorHint="@color/gray"
-        android:textColor="@color/gray"
-        android:textAlignment="center"
-        android:paddingBottom="@dimen/margin_10dp"
-        android:layout_alignTop="@+id/tvCardNumber"
-        android:layout_toRightOf="@+id/tvEnterManually"
-        android:layout_toEndOf="@+id/tvEnterManually" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/divScanButton">
 
-    <TextView
-        android:id="@+id/tvExpiry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_10dp"
-        android:paddingLeft="@dimen/margin_42dp"
-        android:paddingRight="@dimen/margin_10dp"
-        android:paddingEnd="@dimen/margin_10dp"
-        android:textColor="@color/gray"
-        android:text="@string/cc_expiry"
-        android:background="@color/white"
-        android:layout_below="@+id/tvCardNumber"/>
-    <EditText
-        android:id="@+id/etExpiry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:singleLine="true"
-        android:inputType="date"
-        android:hint="@string/cc_expiry_hint"
-        android:textColorHint="@color/gray"
-        android:textColor="@color/gray"
-        android:paddingBottom="@dimen/margin_10dp"
-        android:layout_below="@+id/etCCNumber"
-        android:layout_alignLeft="@+id/etCCNumber"
-        android:layout_alignStart="@+id/etCCNumber" />
+        <TextView
+            android:id="@+id/tvEnterManually"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="20dp"
+            android:text="@string/enter_manually"
+            android:textColor="@color/black" />
 
-    <Button
-        android:id="@+id/bSubmit"
-        android:layout_width="@dimen/margin_70dp"
-        android:layout_height="@dimen/margin_70dp"
-        android:text="@string/bSubmit"
-        android:layout_below="@+id/etExpiry"
-        android:layout_toRightOf="@+id/etExpiry"
-        android:layout_alignRight="@+id/etCCNumber"
-        android:layout_alignEnd="@+id/etCCNumber"
-        android:background="#CCC76F6F"
-        android:textSize="20dp"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"/>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvCardNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvEnterManually"
+            android:layout_marginTop="45dp"
+            android:background="@color/white"
+            android:paddingEnd="@dimen/margin_10dp"
+            android:paddingLeft="@dimen/margin_42dp"
+            android:paddingRight="@dimen/margin_10dp"
+            android:paddingTop="@dimen/margin_10dp"
+            android:text="@string/cc_number"
+            android:textAlignment="center"
+            android:textColor="@color/gray" />
+
+        <EditText
+            android:id="@+id/etCCNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvCardNumber"
+            android:layout_toEndOf="@+id/tvEnterManually"
+            android:layout_toRightOf="@+id/tvEnterManually"
+            android:background="@color/white"
+            android:hint="@string/cc_number_hint"
+            android:inputType="number"
+            android:maxLength="19"
+            android:paddingBottom="@dimen/margin_10dp"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textColor="@color/gray"
+            android:textColorHint="@color/gray" />
+
+        <TextView
+            android:id="@+id/tvExpiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCardNumber"
+            android:background="@color/white"
+            android:paddingEnd="@dimen/margin_10dp"
+            android:paddingLeft="@dimen/margin_42dp"
+            android:paddingRight="@dimen/margin_10dp"
+            android:paddingTop="@dimen/margin_10dp"
+            android:text="@string/cc_expiry"
+            android:textColor="@color/gray" />
+
+        <EditText
+            android:id="@+id/etExpiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/etCCNumber"
+            android:layout_alignStart="@+id/etCCNumber"
+            android:layout_below="@+id/etCCNumber"
+            android:background="@color/white"
+            android:hint="@string/cc_expiry_hint"
+            android:inputType="date"
+            android:paddingBottom="@dimen/margin_10dp"
+            android:singleLine="true"
+            android:textColor="@color/gray"
+            android:textColorHint="@color/gray" />
+
+        <Button
+            android:id="@+id/bSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/etCCNumber"
+            android:layout_alignRight="@+id/etCCNumber"
+            android:layout_below="@+id/etExpiry"
+            android:layout_toRightOf="@+id/etExpiry"
+            android:text="@string/bSubmit" />
+    </RelativeLayout>
 </RelativeLayout>

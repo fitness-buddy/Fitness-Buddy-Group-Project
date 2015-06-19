@@ -39,5 +39,8 @@ public class Constants {
 
     public static final String AM = "AM";
     public static final String PM = "PM";
+
+    public static final String CC= "5200 8282 8282 8210";
+    public static final String EXPIRY_DATE= "10/16";
 }
 

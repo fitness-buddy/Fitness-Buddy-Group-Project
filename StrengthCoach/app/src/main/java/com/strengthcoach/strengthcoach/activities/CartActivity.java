@@ -50,8 +50,13 @@ public class CartActivity extends AppCompatActivity {
         // setup Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         CartActivity.this.setSupportActionBar(mToolbar);
-        CartActivity.this.getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         alSlots = new ArrayList<>();
         lvCartItems = (ListView) findViewById (R.id.lvCartItems);
 
@@ -92,7 +97,6 @@ public class CartActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

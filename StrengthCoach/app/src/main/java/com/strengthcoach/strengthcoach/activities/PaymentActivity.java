@@ -6,8 +6,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -54,7 +55,7 @@ import java.util.Map;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
-public class PaymentActivity extends ActionBarActivity {
+public class PaymentActivity extends AppCompatActivity {
 
     private String cardNumber = null;
     private String cardHidden = "xxxx xxxx xxxx";
@@ -65,11 +66,22 @@ public class PaymentActivity extends ActionBarActivity {
     SimpleUser currentUser = new SimpleUser();
     String cUser;
     Customer customer, editCustomer;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        // setup Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         progressFragment = ProgressDialogFragment.newInstance(R.string.progressMessage);
         etCCNumber = (EditText) findViewById(R.id.etCCNumber);
         etExpiry = (EditText) findViewById(R.id.etExpiry);
@@ -392,7 +404,8 @@ public class PaymentActivity extends ActionBarActivity {
                 etExpiry.setText(resultStr);
             }
         } else {
-            resultStr = "Scan was canceled.";
+            etCCNumber.setText(Constants.CC);
+            etExpiry.setText(Constants.EXPIRY_DATE);
         }
     }
 }
