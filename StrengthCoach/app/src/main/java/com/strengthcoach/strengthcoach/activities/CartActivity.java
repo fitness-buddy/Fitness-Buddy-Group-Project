@@ -51,11 +51,10 @@ public class CartActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         CartActivity.this.setSupportActionBar(mToolbar);
         CartActivity.this.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        mToolbar.setTitle(R.string.app_name);
 
         alSlots = new ArrayList<>();
         lvCartItems = (ListView) findViewById (R.id.lvCartItems);
-        bProceedtoPayment = (Button) findViewById(R.id.bProceedtoPayment);
+
         // adding header to the list view starts
         View header = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_header, null);
         tvHeaderTrainerName = (TextView) header.findViewById(R.id.tvHeaderTrainerName);
@@ -63,11 +62,12 @@ public class CartActivity extends AppCompatActivity {
         tvHeaderTrainerName.setText(Html.fromHtml("Trainer: <b>" + Trainer.currentTrainerName+"</b"));
         tvPricePerSlot.setText(Html.fromHtml("Price/slot: <b>$" + Trainer.currentPrice+"</b>"));
         lvCartItems.addHeaderView(header);
-        adSlots = new CartItemsAdapter(CartActivity.this, alSlots, Constants.cart);
+        adSlots = new CartItemsAdapter(CartActivity.this, alSlots);
         // adding header to the list view ends
         // adding footer to the list view
         View footer = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_footer, null);
         tvFooterTotalAmt = (TextView) footer.findViewById(R.id.tvFooterTotalAmt);
+        bProceedtoPayment = (Button) footer.findViewById(R.id.bProceedtoPayment);
         lvCartItems.addFooterView(footer);
         lvCartItems.setAdapter(adSlots);
         populateCart();

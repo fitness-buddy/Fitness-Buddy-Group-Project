@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -19,6 +22,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.CartItemsAdapter;
+import com.strengthcoach.strengthcoach.adapters.UpcomingEventsAdapter;
 import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.BlockedSlots;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
@@ -31,25 +35,36 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class UpcomingEventsActivity extends ActionBarActivity {
+public class UpcomingEventsActivity extends AppCompatActivity {
     public static ArrayList<BlockedSlots> alSlots;
-    public static CartItemsAdapter adSlots;
+    public static UpcomingEventsAdapter adSlots;
     public static ListView lvUpcomingEvents;
     Button bBookMoreSlots;
     Date currentDate;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_events);
+
+        // setup Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        UpcomingEventsActivity.this.setSupportActionBar(mToolbar);
+        UpcomingEventsActivity.this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         alSlots = new ArrayList<>();
         lvUpcomingEvents = (ListView) findViewById(R.id.lvUpcomingEvents);
         bBookMoreSlots = (Button) findViewById(R.id.bBookMoreSlots);
         // adding header to the list view starts
-        View header = LayoutInflater.from(UpcomingEventsActivity.this).inflate(R.layout.cart_item_header, null);
+        View header = LayoutInflater.from(UpcomingEventsActivity.this).inflate(R.layout.upcoming_events_header, null);
         lvUpcomingEvents.addHeaderView(header);
-        adSlots = new CartItemsAdapter(UpcomingEventsActivity.this, alSlots, Constants.upcomingevents);
+        adSlots = new UpcomingEventsAdapter(UpcomingEventsActivity.this, alSlots);
         // adding header to the list view ends
+        // adding footer to the list view
+        View footer = LayoutInflater.from(UpcomingEventsActivity.this).inflate( R.layout.upcoming_events_footer, null);
+        bBookMoreSlots = (Button) footer.findViewById(R.id.bBookMoreSlots);
+        lvUpcomingEvents.addFooterView(footer);
         lvUpcomingEvents.setAdapter(adSlots);
         populateEvents();
     }

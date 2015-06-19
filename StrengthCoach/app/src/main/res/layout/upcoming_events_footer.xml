@@ -2,21 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingTop="@dimen/margin_20dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total"
-        android:id="@+id/tvFooterTotalAmt"
-        android:layout_marginRight="@dimen/margin_20dp"
-        android:layout_alignParentRight="true"
-        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/payment"
-        android:id="@+id/bProceedtoPayment"
-        android:layout_below="@+id/tvFooterTotalAmt"
+        android:text="@string/bookmoreslots"
+        android:id="@+id/bBookMoreSlots"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/margin_10dp"
