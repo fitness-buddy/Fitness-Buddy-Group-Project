@@ -45,4 +45,7 @@ App mock screens can be found [here](https://cloud.box.com/s/37qyy0w3027j9gdecoe
 ## Sprint2 Walkthrough
 ![alt tag](https://github.com/fitness-buddy/Fitness-Buddy-Group-Project/blob/master/walkthrough2.gif)
 
+##Push Notification
+![alt tag](https://raw.githubusercontent.com/fitness-buddy/Fitness-Buddy-Group-Project/master/Push%20Notification%20Demp.gif)
+
 Video recording of the walkthrough can be found [here](https://cloud.box.com/s/8c4ioqldfkldwzkhnzix9pdenybkgp49)
