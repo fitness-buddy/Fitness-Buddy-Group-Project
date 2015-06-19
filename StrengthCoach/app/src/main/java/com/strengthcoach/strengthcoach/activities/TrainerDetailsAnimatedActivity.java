@@ -347,6 +347,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Trainer.currentTrainerObjectId = trainerId;
                 Trainer.currentTrainerName = m_trainer.getName();
+                Trainer.currentPrice  = m_trainer.getPrice();
                 Intent intent = new Intent(getBaseContext(), BlockSlotActivity.class);
                 startActivity(intent);
             }

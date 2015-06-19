@@ -3,6 +3,7 @@ package com.strengthcoach.strengthcoach.adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,6 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.cart_item, parent, false);
             viewHolder = new CartItemViewHolder();
             viewHolder.tvSerialNo = (TextView)convertView.findViewById(R.id.tvSerialNo);
-            viewHolder.tvTrainerName = (TextView)convertView.findViewById(R.id.tvTrainerName);
             viewHolder.tvSlotDate = (TextView)convertView.findViewById(R.id.tvSlotDate);
             viewHolder.tvSlotTime = (TextView)convertView.findViewById(R.id.tvSlotTime);
             viewHolder.ibDelete = (ImageButton)convertView.findViewById(R.id.ibDelete);
@@ -54,7 +54,6 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
         }
 
         viewHolder.tvSerialNo.setText((position+1)+"");
-        viewHolder.tvTrainerName.setText(Trainer.currentTrainerName);
         viewHolder.tvSlotDate.setText(slots.getSlotDate());
         String slot = slots.getSlotTime();
         String finalSlot ="";
@@ -94,6 +93,8 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
                                 if(flag=="cart") {
                                     // remove element from arraylist and notifiy adapter about the change
                                     CartActivity.alSlots.remove(position);
+                                    int slotAmount = Trainer.currentPrice * CartActivity.alSlots.size();
+                                    CartActivity.tvFooterTotalAmt.setText(Html.fromHtml("Total Amount: <b>$" + slotAmount+"</b>"));
                                     CartActivity.adSlots.notifyDataSetChanged();
                                 } else {
                                     UpcomingEventsActivity.alSlots.remove(position);

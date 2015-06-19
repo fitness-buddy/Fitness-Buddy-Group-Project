@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="horizontal" android:layout_width="match_parent"
-android:layout_height="match_parent" android:weightSum="5">
+android:layout_height="match_parent" android:weightSum="4" >
 <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/margin_42dp"
+    android:layout_height="@dimen/margin_42dp"
     android:textAppearance="?android:attr/textAppearanceSmall"
     android:text="@string/sno"
     android:id="@+id/tvSerialNo"
     android:layout_weight="1"
     android:layout_marginRight="@dimen/margin_20dp"
-    android:layout_marginLeft="@dimen/margin_10dp"/>
+    android:layout_marginLeft="@dimen/margin_10dp"
+    android:gravity="center"/>
 
 <ImageButton
         android:layout_width="@dimen/margin_42dp"
@@ -22,29 +23,21 @@ android:layout_height="match_parent" android:weightSum="5">
         android:adjustViewBounds="true"
         android:layout_weight="0.04" />
 <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/trainer"
-    android:id="@+id/tvTrainerName"
-    android:layout_weight="1"
-    android:layout_toRightOf="@+id/ibDelete"
-    android:layout_marginRight="@dimen/margin_20dp"/>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/margin_70dp"
+    android:layout_height="@dimen/margin_42dp"
     android:text="@string/slot_date"
     android:id="@+id/tvSlotDate"
-    android:layout_weight="1"
     android:layout_toRightOf="@+id/tvTrainerName"
-    android:layout_marginRight="@dimen/margin_20dp"/>
+    android:layout_marginRight="@dimen/margin_20dp"
+    android:layout_weight="1.48"
+    android:gravity="center" />
 <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/margin_70dp"
+    android:layout_height="@dimen/margin_42dp"
     android:text="@string/slot_time"
     android:id="@+id/tvSlotTime"
-    android:layout_weight="1"
+    android:layout_weight="1.48"
     android:layout_toRightOf="@+id/tvSlotDate"
-    android:layout_marginRight="@dimen/margin_10dp"/>
-
-
+    android:layout_marginRight="@dimen/margin_10dp"
+    android:gravity="center" />
 </LinearLayout>

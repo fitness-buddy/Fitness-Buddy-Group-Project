@@ -1,49 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:weightSum="5" android:paddingTop="@dimen/margin_20dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/sno"
-        android:id="@+id/tvHeaderSerialNo"
-        android:layout_weight="0.5"
-        android:layout_marginRight="@dimen/margin_20dp"
-        android:layout_marginLeft="@dimen/margin_10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/delete"
-        android:id="@+id/tvHeaderDelete"
-        android:layout_weight="1"
-        android:layout_toRightOf="@+id/tvHeaderSerialNo"
-        android:layout_marginRight="@dimen/margin_20dp"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"  android:paddingTop="@dimen/margin_70dp" >
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/trainer"
         android:id="@+id/tvHeaderTrainerName"
-        android:layout_weight="1"
-        android:layout_toRightOf="@+id/tvHeaderDelete"
-        android:layout_marginRight="@dimen/margin_20dp"/>
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginBottom="@dimen/margin_42dp"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/slot_date"
-        android:id="@+id/tvHeaderSlotDate"
-        android:layout_weight="1"
-        android:layout_toRightOf="@+id/tvHeaderTrainerName"
-        android:layout_marginRight="@dimen/margin_20dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/slot_time"
-        android:id="@+id/tvHeaderSlotTime"
-        android:layout_weight="1"
-        android:layout_toRightOf="@+id/tvHeaderSlotDate"
-        android:layout_marginRight="@dimen/margin_10dp"/>
+        android:text="@string/priceperhour"
+        android:id="@+id/tvPricePerSlot"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/margin_20dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginBottom="@dimen/margin_42dp"/>
 
 
-</LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"  android:weightSum="4" android:paddingTop="@dimen/margin_42dp">
+
+        <TextView
+            android:layout_width="@dimen/margin_42dp"
+            android:layout_height="@dimen/margin_42dp"
+            android:text="@string/sno"
+            android:id="@+id/tvHeaderSerialNo"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="@dimen/margin_42dp"
+            android:layout_height="@dimen/margin_42dp"
+            android:text="@string/delete"
+            android:id="@+id/tvHeaderDelete"
+            android:layout_weight="0.04"
+            android:layout_toRightOf="@+id/tvHeaderSerialNo"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="@dimen/margin_70dp"
+            android:layout_height="@dimen/margin_42dp"
+            android:text="@string/slot_date"
+            android:id="@+id/tvHeaderSlotDate"
+            android:layout_weight="1.48"
+            android:layout_toRightOf="@+id/tvHeaderTrainerName"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:gravity="center"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="@dimen/margin_70dp"
+            android:layout_height="@dimen/margin_42dp"
+            android:text="@string/slot_time"
+            android:id="@+id/tvHeaderSlotTime"
+            android:layout_weight="1.48"
+            android:layout_toRightOf="@+id/tvHeaderSlotDate"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+</RelativeLayout>

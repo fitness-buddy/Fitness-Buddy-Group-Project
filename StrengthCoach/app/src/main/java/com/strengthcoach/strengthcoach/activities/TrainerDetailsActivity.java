@@ -1,4 +1,4 @@
-package com.strengthcoach.strengthcoach.activities;
+﻿package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -246,6 +246,7 @@ public class TrainerDetailsActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Trainer.currentTrainerObjectId = trainerId;
                 Trainer.currentTrainerName = m_trainer.getName();
+                Trainer.currentPrice  = m_trainer.getPrice();
                 Intent intent = new Intent(getBaseContext(), BlockSlotActivity.class);
                 startActivity(intent);
             }

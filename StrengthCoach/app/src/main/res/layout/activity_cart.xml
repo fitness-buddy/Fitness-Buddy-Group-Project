@@ -3,6 +3,8 @@
     android:layout_height="match_parent"
     tools:context="com.strengthcoach.strengthcoach.activities.CartActivity">
 
+    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
+
    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

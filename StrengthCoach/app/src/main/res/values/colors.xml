@@ -11,7 +11,7 @@
     <item name="amber" type="color">#FFC107</item>
 
     <color name="book_slot">#B33f51b5</color>
-    <color name="colorPrimary">#536dfe</color>
+    <color name="colorPrimary">#55ACEE</color>
     <color name="colorPrimaryDark">#3f51b5</color>
     <color name="colorPrimaryLight">#DCEDC8</color>
     <color name="colorAccent">#FF5722</color>
