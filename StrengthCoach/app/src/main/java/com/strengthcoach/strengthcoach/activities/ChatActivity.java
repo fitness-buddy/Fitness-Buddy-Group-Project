@@ -11,14 +11,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.SendCallback;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.ChatItemAdapter;
 import com.strengthcoach.strengthcoach.adapters.ICurrentUserProvider;
 import com.strengthcoach.strengthcoach.models.Message;
 import com.strengthcoach.strengthcoach.models.Trainer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,8 +105,27 @@ public class ChatActivity extends ActionBarActivity implements ICurrentUserProvi
         message.saveInBackground();
         messagesAdapter.add(message);
 
-        etMessage.setText("");
+        try {
 
+            JSONObject jsonObject = new JSONObject(String.format("{\"from\":\"%s\", \"to\":\"%s\", \"message\":\"%s\"}", currentUserId, m_trainer.getObjectId(), etMessage.getText().toString()));
+
+            ParseQuery pushQuery = ParseInstallation.getQuery();
+            pushQuery.whereEqualTo("channels", "");
+
+            ParsePush push = new ParsePush();
+            push.setQuery(pushQuery);
+            push.setData(jsonObject);
+            push.sendInBackground(new SendCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Toast.makeText(getBaseContext(), "sent", Toast.LENGTH_SHORT);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        etMessage.setText("");
         // TODO: Remove fake message once trainer view is in place.
         addFakeMessageFromTrainer();
     }
