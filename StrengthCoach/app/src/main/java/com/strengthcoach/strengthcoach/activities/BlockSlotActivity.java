@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,11 +55,26 @@ public class BlockSlotActivity extends ActionBarActivity{
     String name, phoneno;
     BlockedSlots  bSlots ;
     boolean flag;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_slot);
+        // setup Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
         spSelectSlot = (Spinner) findViewById(R.id.spSelectSlot);
         bAddToCart = (Button) findViewById(R.id.bAddToCart);
         bProceedToPayment = (Button)findViewById(R.id.bProceedToPayment);
@@ -125,7 +141,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                         Date result = calendar.getTime();
                         for (int i = 0; i < listOfAvailableDays.size(); i++) {
                             if (listOfAvailableDays.contains(simpleDayFormat.format(result))) {
-                                caldroidFragment.setBackgroundResourceForDate(R.color.caldroid_holo_blue_light, result);
+                                caldroidFragment.setBackgroundResourceForDate(R.color.colorPrimary, result);
                                 caldroidFragment.setTextColorForDate(R.color.white, result);
                             } else {
                                 unAvailableDates.add(result);
@@ -165,7 +181,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                 } else {
                     currentUser = SimpleUser.currentUserObjectId;
                 }
-                if (!spSelectSlot.getSelectedItem().toString().equals("Select a slot")) {
+                if (!spSelectSlot.getSelectedItem().toString().equals("Select a slot") && spSelectSlot.getSelectedItem().toString() != null) {
                     ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
                     ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
                     bSlots.setTrainerId(trainer);
@@ -214,7 +230,7 @@ public class BlockSlotActivity extends ActionBarActivity{
             public void onSelectDate(Date date, View view) {
                 // changing the background color of earlier selected date to blue
                 if (previousDate != null ){
-                    caldroidFragment.setBackgroundResourceForDate(R.color.caldroid_holo_blue_light, previousDate);
+                    caldroidFragment.setBackgroundResourceForDate(R.color.colorPrimary, previousDate);
                     caldroidFragment.refreshView();
                 }
                 flag=false;
@@ -274,7 +290,7 @@ public class BlockSlotActivity extends ActionBarActivity{
         });
 
     }
-    public void populateAvailableSlots(final String trainerId, final String day, String sDate) {
+    public void populateAvailableSlots(final String trainerId, final String day, final String sDate) {
         final ParseObject trainer = ParseObject.createWithoutData("Trainer",trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TrainerSlots");
         query.selectKeys(Arrays.asList("start_time", "end_time"));
@@ -299,7 +315,7 @@ public class BlockSlotActivity extends ActionBarActivity{
 
                             for (int k=0;k<noBookedSlots.size();k++){
                                 int intSlotsWithoutBookedSlots = noBookedSlots.get(k);
-                                String slotsWithoutBookedSlots = Integer.toString(intSlotsWithoutBookedSlots);
+                                String slotsWithoutBookedSlots;
                                 if(intSlotsWithoutBookedSlots <= 11)
                                 {
                                     slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " "+Constants.AM;
@@ -310,7 +326,14 @@ public class BlockSlotActivity extends ActionBarActivity{
                                 }
                                 listOfSlots.add(slotsWithoutBookedSlots);
                             }
-
+                        try {
+                            Date d = simpleDateStrFormat.parse(sDate);
+                            caldroidFragment.setBackgroundResourceForDate(R.color.pink, d);
+                            previousDate = d;
+                            caldroidFragment.refreshView();
+                        } catch (java.text.ParseException e1) {
+                            e1.printStackTrace();
+                        }
                         spSelectSlot.setAdapter(new ArrayAdapter<String>(BlockSlotActivity.this,
                                 android.R.layout.simple_spinner_item, listOfSlots));
                     } }else {

@@ -19,7 +19,7 @@
     <string name="trainer_achievements_header">Interests and Achievements</string>
     <string name="title_activity_recycler_view">RecyclerViewActivity</string>
     <string name="select_slot">Available Slots</string>
-    <string name="payment">Proceed to Payment ></string>
+    <string name="payment">Proceed to Payment</string>
     <string name="mobile_no_label">Phone No</string>
     <string name="title_activity_chat">ChatActivity</string>
 
@@ -38,7 +38,7 @@
     <string name="button_block_time">Book Slot</string>
     <string name="facebook_app_id">1596268773980430</string>
 
-    <string name="cart">Add To Cart ></string>
+    <string name="cart">Add To Cart</string>
     <string name="next">Next > </string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_cart">Cart </string>
@@ -50,7 +50,7 @@
     <string name="or">(or) </string>
 
     <string name="title_activity_upcoming_events">Upcoming Slots</string>
-    <string name="bookmoreslots">Book More Slots</string>
+    <string name="bookmoreslots">Book Slots</string>
     <string name="title_activity_trainer_details_animated">TrainerDetailsAnimatedActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
