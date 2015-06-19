@@ -39,7 +39,6 @@ public class PushBroadcastReceiver extends ParsePushBroadcastReceiver {
         Intent chatIntent = new Intent(context, ChatActivity.class);
         chatIntent.putExtra("me", data.to);
         chatIntent.putExtra("other", data.from);
-        chatIntent.putExtra("text", data.text);
         chatIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(chatIntent);
     }
