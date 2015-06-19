@@ -1,11 +1,7 @@
 package com.strengthcoach.strengthcoach.activities;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
+import com.google.gson.Gson;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -21,22 +17,22 @@ import com.parse.ParseQuery;
 import com.parse.SendCallback;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.ChatItemAdapter;
-import com.strengthcoach.strengthcoach.adapters.ICurrentUserProvider;
+import com.strengthcoach.strengthcoach.models.ChatNotification;
+import com.strengthcoach.strengthcoach.models.ChatPerson;
 import com.strengthcoach.strengthcoach.models.Message;
-import com.strengthcoach.strengthcoach.models.Trainer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ChatActivity extends ActionBarActivity implements ICurrentUserProvider {
+public class ChatActivity extends ActionBarActivity {
 
-    Trainer m_trainer;
+    ChatPerson m_me;
+    ChatPerson m_other;
+
     ArrayList<Message> messages;
     ChatItemAdapter messagesAdapter;
-    String currentUserId;
 
     EditText etMessage;
 
@@ -45,34 +41,24 @@ public class ChatActivity extends ActionBarActivity implements ICurrentUserProvi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        m_me = (ChatPerson)getIntent().getSerializableExtra("me");
+        m_other = (ChatPerson)getIntent().getSerializableExtra("other");
+
         messages = new ArrayList<>();
-        messagesAdapter = new ChatItemAdapter(this, messages, this);
+        messagesAdapter = new ChatItemAdapter(this, messages, m_me, m_other);
         ListView lvMessages = (ListView) findViewById(R.id.lvMessages);
         lvMessages.setAdapter(messagesAdapter);
 
+        String text = getIntent().getStringExtra("text");
+        if (text != null && text != "") {
+            Message message = new Message();
+            message.setFromObjectId(m_other.objectId);
+            message.setToObjectId(m_me.objectId);
+            message.setText(text);
+
+            messagesAdapter.add(message);
+        }
         etMessage = (EditText) findViewById(R.id.etMessage);
-
-        // Get the m_trainer object from parse and setup the view
-        String trainerId = getIntent().getStringExtra("trainerId");
-        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
-        query.whereEqualTo("objectId", trainerId);
-        query.findInBackground(new FindCallback<Trainer>() {
-            @Override
-            public void done(List<Trainer> list, com.parse.ParseException e) {
-                Log.d("DEBUG", ((Trainer) list.get(0)).getName());
-                m_trainer = list.get(0);
-                messagesAdapter.setTrainer(m_trainer);
-            }
-        });
-
-        if (getLoggedInUserId().equals("")) {
-            // Start login activity
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent, 20);
-        }
-        else {
-            currentUserId = getLoggedInUserId();
-        }
     }
 
     @Override
@@ -99,15 +85,20 @@ public class ChatActivity extends ActionBarActivity implements ICurrentUserProvi
 
     public void onSendClicked(View view) {
         Message message = new Message();
-        message.setFromObjectId(currentUserId);
-        message.setToObjectId(m_trainer.getObjectId());
+        message.setFromObjectId(m_me.objectId);
+        message.setToObjectId(m_other.objectId);
         message.setText(etMessage.getText().toString());
         message.saveInBackground();
         messagesAdapter.add(message);
 
         try {
 
-            JSONObject jsonObject = new JSONObject(String.format("{\"from\":\"%s\", \"to\":\"%s\", \"message\":\"%s\"}", currentUserId, m_trainer.getObjectId(), etMessage.getText().toString()));
+            ChatNotification notification = new ChatNotification();
+            notification.from = m_me;
+            notification.to = m_other;
+            notification.text = etMessage.getText().toString();
+            String jsonString = new Gson().toJson(notification);
+            JSONObject jsonObject = new JSONObject(jsonString);
 
             ParseQuery pushQuery = ParseInstallation.getQuery();
             pushQuery.whereEqualTo("channels", "");
@@ -127,9 +118,10 @@ public class ChatActivity extends ActionBarActivity implements ICurrentUserProvi
 
         etMessage.setText("");
         // TODO: Remove fake message once trainer view is in place.
-        addFakeMessageFromTrainer();
+        //addFakeMessageFromTrainer();
     }
 
+    /*
     private void addFakeMessageFromTrainer() {
         Message message = new Message();
         message.setToObjectId(currentUserId);
@@ -138,31 +130,5 @@ public class ChatActivity extends ActionBarActivity implements ICurrentUserProvi
         message.saveInBackground();
         messagesAdapter.add(message);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 20) {
-            if(resultCode != RESULT_OK){
-                // User didn't login cancel book slot
-                Intent returnIntent = new Intent();
-                setResult(RESULT_CANCELED, returnIntent);
-                finish();
-            }
-            else {
-                currentUserId = getLoggedInUserId();
-            }
-        }
-    }
-
-    private String getLoggedInUserId() {
-        SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        String userId = pref.getString("userId", "");
-        return userId;
-    }
-
-    @Override
-    public String currentUserId() {
-        return currentUserId;
-    }
+    */
 }

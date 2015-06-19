@@ -2,11 +2,13 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -45,12 +47,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.TrainerDetailPagerAdapter;
+import com.strengthcoach.strengthcoach.models.ChatPerson;
 import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Review;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
@@ -74,6 +78,8 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
     private int mFabMargin;
     private boolean mFabIsShown;
     private RelativeLayout mImageContainer;
+    int LOGIN_FOR_CHAT_ACTIVITY_ID = 997;
+
 
     Trainer m_trainer;
     ArrayList<Review> reviews;
@@ -121,9 +127,15 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ChatActivity.class);
-                intent.putExtra("trainerId", m_trainer.getObjectId());
-                startActivity(intent);
+                String currentUserId = getLoggedInUserId();
+                if (currentUserId.equals("")) {
+                    // Start login activity
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivityForResult(intent, LOGIN_FOR_CHAT_ACTIVITY_ID);
+                }
+                else {
+                    getCurrentUserAndStartChat(currentUserId);
+                }
             }
         });
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
@@ -316,9 +328,15 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         tvContactTrainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ChatActivity.class);
-                intent.putExtra("trainerId", m_trainer.getObjectId());
-                startActivity(intent);
+                String currentUserId = getLoggedInUserId();
+                if (currentUserId.equals("")) {
+                    // Start login activity
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivityForResult(intent, LOGIN_FOR_CHAT_ACTIVITY_ID);
+                }
+                else {
+                    getCurrentUserAndStartChat(currentUserId);
+                }
             }
         });
 
@@ -469,5 +487,50 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getCurrentUserAndStartChat(String userObjectId) {
+        ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
+        query.whereEqualTo("objectId", userObjectId);
+        query.getFirstInBackground(new GetCallback<SimpleUser>() {
+            public void done(SimpleUser user, com.parse.ParseException e) {
+                if (e == null) {
+                    ChatPerson me = new ChatPerson();
+                    me.name = user.getName();
+                    me.objectId = user.getObjectId();
+                    me.imageUrl = "";
+
+                    ChatPerson other = new ChatPerson();
+                    other.name = m_trainer.getName();
+                    other.objectId = m_trainer.getObjectId();
+                    other.imageUrl = m_trainer.getProfileImageUrl();
+
+                    Intent intent = new Intent(getBaseContext(), ChatActivity.class);
+                    intent.putExtra("me", me);
+                    intent.putExtra("other", other);
+                    startActivity(intent);
+                } else {
+                    Log.d("DEBUG", "Error: " + e.getMessage());
+                }
+            }
+
+        });
+    }
+
+    private String getLoggedInUserId() {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = pref.getString("userId", "");
+        return userId;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LOGIN_FOR_CHAT_ACTIVITY_ID) {
+            if(resultCode == RESULT_OK){
+                String currentUserId = getLoggedInUserId();
+                getCurrentUserAndStartChat(currentUserId);
+            }
+        }
     }
 }
