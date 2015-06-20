@@ -3,6 +3,7 @@ package com.strengthcoach.strengthcoach.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,9 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.adapters.NavDrawerListAdapter;
+import com.strengthcoach.strengthcoach.models.NavDrawerItem;
 import com.strengthcoach.strengthcoach.views.CustomDrawerLayout;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +33,13 @@ public class NavigationDrawerFragment extends Fragment {
     public static final String PREF_FILE_NAME = "pref_file";
     public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
     private View containerView;
+    // nav drawer items
+    private String[] navMenuTitles;
+    // nav drawer icons
+    private TypedArray navMenuIcons;
+    private ArrayList<NavDrawerItem> navDrawerItems;
+    private ListView mDrawerList;
+    private NavDrawerListAdapter adapter;
 
     public NavigationDrawerFragment() {
         // Required empty public constructor
@@ -45,7 +58,12 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        mDrawerList = (ListView) view.findViewById(R.id.lvNavItems);
+        View header = inflater.inflate(R.layout.fragment_header, mDrawerList, false);
+        mDrawerList.addHeaderView(header);
+        initView();
+        return view;
     }
 
 
@@ -94,5 +112,29 @@ public class NavigationDrawerFragment extends Fragment {
     public static String readFromPreferenes(Context context, String prefName, String defaultValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(prefName, defaultValue);
+    }
+
+    private void initView() {
+
+        // load nav drawer items
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+
+        // nav drawer icons from resources
+        navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+
+        navDrawerItems = new ArrayList<>();
+
+        // add nav drawer items from string array to items list
+        for (int i = 0; i < navMenuIcons.length(); i++) {
+            // TODO: if the user is logged in, do not show the "sign up" option
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+        }
+
+        // Recycle the typed array
+        navMenuIcons.recycle();
+
+        // set the nav drawer adapter to populate the listview
+        adapter = new NavDrawerListAdapter(getActivity(), navDrawerItems);
+        mDrawerList.setAdapter(adapter);
     }
 }

@@ -72,6 +72,7 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
         return view;
     }
 
+
 //    protected ObservableRecyclerView createScrollable() {
 //        recyclerView.setHasFixedSize(true);
 //        return recyclerView;
