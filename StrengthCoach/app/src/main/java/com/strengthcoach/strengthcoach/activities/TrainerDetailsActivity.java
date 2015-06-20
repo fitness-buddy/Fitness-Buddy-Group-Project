@@ -1,4 +1,4 @@
-﻿package com.strengthcoach.strengthcoach.activities;
+package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Context;
 import android.content.Intent;
