@@ -198,9 +198,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="#CCC76F6F"
         android:text="@string/button_block_time"
         android:textSize="20dp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textAllCaps="false"/>
 </RelativeLayout>
