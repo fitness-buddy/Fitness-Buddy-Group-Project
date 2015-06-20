@@ -2,9 +2,8 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -50,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
         // setup Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         CartActivity.this.setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        mToolbar.setNavigationIcon(R.drawable.app_icon);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

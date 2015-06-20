@@ -60,6 +60,8 @@ public class NavigationDrawerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         mDrawerList = (ListView) view.findViewById(R.id.lvNavItems);
+        View header = inflater.inflate(R.layout.fragment_header, mDrawerList, false);
+        mDrawerList.addHeaderView(header);
         initView();
         return view;
     }
