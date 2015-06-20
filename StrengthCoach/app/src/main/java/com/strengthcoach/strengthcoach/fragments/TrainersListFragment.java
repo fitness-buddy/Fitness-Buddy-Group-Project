@@ -21,8 +21,6 @@ import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.TrainerListAdapter;
 import com.strengthcoach.strengthcoach.models.Trainer;
 import com.strengthcoach.strengthcoach.views.CustomDrawerLayout;
-import com.twotoasters.jazzylistview.effects.TiltEffect;
-import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,17 +57,15 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
         drawerFragment = (NavigationDrawerFragment) getChildFragmentManager().findFragmentById(R.id.drawer_fragment);
         drawerFragment.setup(view.findViewById(R.id.drawer_fragment), (CustomDrawerLayout) view.findViewById(R.id.drawerLayout), mToolbar);
 
-        // Setup animation
-        JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();
-        listener.setTransitionEffect(new TiltEffect());
-        recyclerView.setOnScrollListener(listener);
-        recyclerView.setScrollViewCallbacks(this);
-
         // Initialize empty list
         this.trainers = new ArrayList<>();
         adapter = new TrainerListAdapter(getActivity(), trainers);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Setup animation
+        recyclerView.setScrollViewCallbacks(this);
+
         return view;
     }
 

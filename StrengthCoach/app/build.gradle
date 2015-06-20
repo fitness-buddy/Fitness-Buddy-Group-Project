@@ -31,14 +31,12 @@ dependencies {
     compile 'com.google.android.gms:play-services:6.5.+'
     // Recycler view
     compile 'com.android.support:recyclerview-v7:21.0.+'
+
     // Recycycler view animator
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.1@aar'
     compile 'com.daimajia.androidanimations:library:1.1.3@aar'
-
-    // Jazzylistview
-    compile 'com.twotoasters.jazzylistview:library:1.2.1'
-    compile 'com.twotoasters.jazzylistview:library-recyclerview:1.2.1'
+    compile 'jp.wasabeef:recyclerview-animators:1.2.0@aar'
 
     // CardView
     compile 'com.android.support:cardview-v7:21.0.+'

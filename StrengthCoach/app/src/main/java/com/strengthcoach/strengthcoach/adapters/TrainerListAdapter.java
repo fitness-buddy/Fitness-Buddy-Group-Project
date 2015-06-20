@@ -124,12 +124,12 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         setNumReviews(holder, trainer);
         // Embed the trainer object in the view
         holder.trainer = trainer;
-        // animate(holder);
+        // Animate item
+        animate(holder);
     }
 
-    // DO NOT REMOVE: This will be used later for experimentation with animation
     private void animate(TrainerViewHolder holder) {
-        YoYo.with(Techniques.Hinge)
+        YoYo.with(Techniques.BounceInUp)
                 .duration(2000)
                 .playOn(holder.itemView);
     }
