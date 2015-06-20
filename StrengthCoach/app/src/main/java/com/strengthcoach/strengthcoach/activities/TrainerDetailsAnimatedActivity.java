@@ -534,4 +534,12 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        setResult(RESULT_CANCELED, returnIntent);
+        finish();
+        overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_right);
+    }
 }
