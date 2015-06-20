@@ -65,8 +65,9 @@ public class BlockSlotActivity extends ActionBarActivity{
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
-        mToolbar.setNavigationIcon(R.drawable.app_icon);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

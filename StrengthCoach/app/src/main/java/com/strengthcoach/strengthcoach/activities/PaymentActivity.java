@@ -75,7 +75,7 @@ public class PaymentActivity extends AppCompatActivity {
         // setup Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.app_icon);
+        mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
