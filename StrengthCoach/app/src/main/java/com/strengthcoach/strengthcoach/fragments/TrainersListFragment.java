@@ -42,6 +42,7 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
         // Populate new objects
         this.trainers.addAll(trainers);
         adapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(0);
     }
 
     @Nullable

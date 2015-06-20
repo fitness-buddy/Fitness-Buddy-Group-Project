@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
@@ -16,14 +18,17 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.fragments.TrainersListFragment;
+import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity {
     private TrainersListFragment fragment;
+    private final int REQUEST_CODE = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if (id == R.id.action_map) {
             Intent intent = new Intent(this, MapActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);
         }
         else if (id == R.id.action_favorites) {
             populateFavoriteTrainers();
@@ -103,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
             public void done(List<Trainer> trainers, ParseException e) {
                 if (e == null) {
                     Log.d("DEBUG", "Retrieved " + trainers.size() + " trainers");
-                    finalFragment.setItems(trainers);
+                    refreshFragment(trainers);
                 } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
@@ -122,7 +127,7 @@ public class HomeActivity extends AppCompatActivity {
                 public void done(List<Trainer> trainers, ParseException e) {
                     if (e == null) {
                         Log.d("DEBUG", "Retrieved " + trainers.size() + " trainers");
-                        finalFragment.setItems(trainers);
+                        refreshFragment(trainers);
                     } else {
                         Log.d("DEBUG", "Error: " + e.getMessage());
                     }
@@ -140,5 +145,44 @@ public class HomeActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String userId = pref.getString("userId", "");
         return userId;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Get the name of gym from map activity
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            String gymName = data.getExtras().getString("gymName");
+            populateTrainersFromGymName(gymName);
+        }
+    }
+
+    private void populateTrainersFromGymName(final String gymName) {
+        final TrainersListFragment trainersListFragment = fragment;
+        ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
+        query.include("trainers");
+        query.whereEqualTo("name", gymName);
+        query.findInBackground(new FindCallback<Gym>() {
+            public void done(List<Gym> gyms, ParseException e) {
+                if (e == null) {
+                    Log.d("DEBUG", "Retrieved " + gyms.size() + " gyms");
+                    Gym gym = gyms.get(0);
+                    Log.d("DEBUG", "Retrieved " + gym.getTrainers().size() + " gyms");
+                    Toast.makeText(getBaseContext(), "Loaded trainers from " + gymName, Toast.LENGTH_SHORT).show();
+                    ArrayList<Trainer> trainers = gym.getTrainers();
+                    refreshFragment(trainers);
+                } else {
+                    Log.d("DEBUG", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void refreshFragment(List<Trainer> trainers) {
+        fragment.setItems(new ArrayList<Trainer>());
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.detach(fragment);
+        ft.attach(fragment);
+        ft.commit();
+        fragment.setItems(trainers);
     }
 }

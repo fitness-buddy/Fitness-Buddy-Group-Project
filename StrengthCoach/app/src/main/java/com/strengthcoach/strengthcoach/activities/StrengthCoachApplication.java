@@ -52,6 +52,8 @@ public class StrengthCoachApplication extends Application {
             }
         });
 
+
+
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
 }
