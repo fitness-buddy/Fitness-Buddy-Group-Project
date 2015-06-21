@@ -132,6 +132,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                     // Start login activity
                     Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                     startActivityForResult(intent, LOGIN_FOR_CHAT_ACTIVITY_ID);
+                    overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
                 }
                 else {
                     getCurrentUserAndStartChat(currentUserId);
@@ -333,6 +334,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                     // Start login activity
                     Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                     startActivityForResult(intent, LOGIN_FOR_CHAT_ACTIVITY_ID);
+                    overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
                 }
                 else {
                     getCurrentUserAndStartChat(currentUserId);
@@ -511,6 +513,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                     intent.putExtra("me", me);
                     intent.putExtra("other", other);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
                 } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
@@ -520,8 +523,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
     }
 
     private String getLoggedInUserId() {
-        SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String userId = pref.getString("userId", "");
         return userId;
     }

@@ -74,6 +74,7 @@ public class LoginActivity extends ActionBarActivity {
             Intent returnIntent = new Intent();
             setResult(resultCode, returnIntent);
             finish();
+            overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_bottom);
         }
     }
 

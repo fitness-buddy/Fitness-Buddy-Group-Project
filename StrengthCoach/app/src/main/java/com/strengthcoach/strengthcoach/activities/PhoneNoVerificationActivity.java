@@ -64,40 +64,37 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
         bVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (verifyCode.equals(etVerificationCode.getText().toString())) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
-                    query.whereEqualTo("phone_number", phoneno);
-                    query.getFirstInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                 if (object == null) {
-                                       simpleUser = new SimpleUser();
-                                       // need to save data to user model;
-                                       simpleUser.setPhoneNumber(phoneno);
-                                       simpleUser.setName(name);
-                                       simpleUser.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e == null) {
-                                                     Log.d("DEBUG!!!", "inside if of user ");
-                                                          //saved successfully
-                                                          getCurrentUserId(phoneno);
-                                                } else {
-                                                          Log.d("DEBUG!!!", "User Not Found");
-                                                       }
+            if (verifyCode.equals(etVerificationCode.getText().toString())) {
+                ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
+                query.whereEqualTo("phone_number", phoneno);
+                query.getFirstInBackground(new GetCallback<SimpleUser>() {
+                    public void done(SimpleUser user, ParseException e) {
+                        if (user == null) {
+                            simpleUser = new SimpleUser();
+                            // need to save data to user model;
+                            simpleUser.setPhoneNumber(phoneno);
+                            simpleUser.setName(name);
+                            simpleUser.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Log.d("DEBUG!!!", "inside if of user ");
+                                        //saved successfully
+                                        getCurrentUserId(phoneno);
+                                    } else {
+                                        Log.d("DEBUG!!!", "User Not Found");
+                                    }
 
-                                            }
-                                        });
-                                 } else {
-                                     getCurrentUserId(phoneno);
-                                 }
-                            }
-                    });
-                            Intent returnIntent = new Intent();
-                            setResult(RESULT_OK, returnIntent);
-                            finish();
+                                }
+                            });
+                        } else {
+                            getCurrentUserId(phoneno);
                         }
                     }
                 });
+            }
+            }
+        });
     }
 
     public void callRegenerateCode(View v){
@@ -140,18 +137,23 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
         query.whereEqualTo("phone_number", phoneNumber);
         query.getFirstInBackground(new GetCallback<ParseObject>(){
             public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    String userId = object.getObjectId().toString();
-                    String currentUserObjId = userId;
-                    SimpleUser.currentUserObjectId = currentUserObjId;
-                    // Write the userId in shared pref if the user successfully signed up
-                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    SharedPreferences.Editor edit = pref.edit();
-                    edit.putString("userId", userId);
-                    edit.commit();
-                } else {
-                    Log.d("DEBUG", "Error: " + e.getMessage());
-                }
+            if (e == null) {
+                String userId = object.getObjectId().toString();
+                String currentUserObjId = userId;
+                SimpleUser.currentUserObjectId = currentUserObjId;
+                // Write the userId in shared pref if the user successfully signed up
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor edit = pref.edit();
+                edit.putString("userId", userId);
+                edit.commit();
+
+                Intent returnIntent = new Intent();
+                setResult(RESULT_OK, returnIntent);
+                finish();
+                overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_bottom);
+            } else {
+                Log.d("DEBUG", "Error: " + e.getMessage());
+            }
             }
 
         });
