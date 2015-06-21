@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -123,12 +124,12 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         setNumReviews(holder, trainer);
         // Embed the trainer object in the view
         holder.trainer = trainer;
-        // animate(holder);
+        // Animate item
+        animate(holder);
     }
 
-    // DO NOT REMOVE: This will be used later for experimentation with animation
     private void animate(TrainerViewHolder holder) {
-        YoYo.with(Techniques.Hinge)
+        YoYo.with(Techniques.BounceInUp)
                 .duration(2000)
                 .playOn(holder.itemView);
     }
@@ -210,6 +211,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
                 intent =  new Intent(context, TrainerDetailsAnimatedActivity.class);
                 intent.putExtra("trainerId", trainer.getObjectId());
                 context.startActivity(intent);
+                ((Activity)context).overridePendingTransition(R.anim.enter_from_right, R.anim.stay_in_place);
             }
 
         }

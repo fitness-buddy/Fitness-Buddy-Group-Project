@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -43,6 +44,11 @@ public class MapActivity extends ActionBarActivity {
                         @Override
                         public void onInfoWindowClick(Marker marker) {
                             // TODO: pass gym information to main activity to show trainers only from there
+                            String title = marker.getTitle();
+                            String gymName = title.substring(0, title.indexOf("(") - 1);
+                            Intent intent = new Intent();
+                            intent.putExtra("gymName", gymName);
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                     });

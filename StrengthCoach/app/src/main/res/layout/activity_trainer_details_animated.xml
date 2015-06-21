@@ -203,7 +203,7 @@
         android:src="@drawable/ic_chat"
         android:layout_gravity="left|top"
         android:scaleType="center"
-        app:fab_colorNormal="@color/colorAccent"
-        app:fab_colorPressed="@color/amber" />
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorAccent" />
 
 </FrameLayout>

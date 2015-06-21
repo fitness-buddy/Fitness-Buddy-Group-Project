@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -30,6 +31,7 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
                 intent =  new Intent(mContext, TrainerDetailsAnimatedActivity.class);
                 intent.putExtra("trainerId", trainer.getObjectId());
                 mContext.startActivity(intent);
+                ((Activity)mContext).overridePendingTransition(R.anim.enter_from_right, R.anim.stay_in_place);
             }
         });
 
