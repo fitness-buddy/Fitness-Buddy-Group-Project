@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -18,6 +19,7 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.ChatItemAdapter;
 import com.strengthcoach.strengthcoach.models.ChatNotification;
@@ -66,6 +68,14 @@ public class ChatActivity extends ActionBarActivity {
         m_other = (ChatPerson)getIntent().getSerializableExtra("other");
 
         getSupportActionBar().setTitle(m_other.name);
+        ImageView ivToolbarImage = (ImageView) mToolbar.findViewById(R.id.ivToolbarImage);
+
+        if (m_other.imageUrl != null && !m_other.imageUrl.equals("")) {
+            Picasso.with(this).load(m_other.imageUrl).into(ivToolbarImage);
+        }
+        else {
+            ivToolbarImage.setImageResource(R.drawable.default_profile_image);
+        }
 
         m_messages = new ArrayList<>();
         messagesAdapter = new ChatItemAdapter(this, m_messages, m_me, m_other);

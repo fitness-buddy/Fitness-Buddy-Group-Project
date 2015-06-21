@@ -6,4 +6,10 @@
     android:background="@color/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/ivToolbarImage"
+        android:layout_gravity="right" />
+</android.support.v7.widget.Toolbar>
