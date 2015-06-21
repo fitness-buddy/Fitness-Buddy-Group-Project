@@ -76,7 +76,11 @@ public class CartActivity extends AppCompatActivity {
         lvCartItems.setAdapter(adSlots);
         populateCart();
     }
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_bottom);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,6 +158,7 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
             }
         });
     }

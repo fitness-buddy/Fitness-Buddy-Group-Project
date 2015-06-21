@@ -325,8 +325,13 @@ public class PaymentActivity extends AppCompatActivity {
                 }
             }
         });
+        overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
     }
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_bottom);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -380,6 +385,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         // MY_SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
         startActivityForResult(scanIntent, Constants.SCAN_REQUEST_CODE);
+        overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
     }
 
     @Override

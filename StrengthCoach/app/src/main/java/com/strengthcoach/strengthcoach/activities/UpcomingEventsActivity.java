@@ -142,6 +142,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingEventsActivity.this, BlockSlotActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
             }
         });
     }
