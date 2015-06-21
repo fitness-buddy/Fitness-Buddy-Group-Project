@@ -86,4 +86,7 @@
         <item>@drawable/ic_bug</item>
     </array>
 
+
+    <string name="regenerate_code_underline"><u>Regenerate Code</u></string>
+
 </resources>

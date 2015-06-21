@@ -10,7 +10,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:buttonStyle">@style/customButton</item>
-        <!--<item name="android:windowBackground">@android:color/white</item>-->
     </style>
 
     <style name="customButton" parent="@android:style/Widget.Button">

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -20,6 +22,7 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.helpers.Constants;
+import com.strengthcoach.strengthcoach.helpers.Utils;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 
 public class PhoneNoVerificationActivity extends ActionBarActivity {
@@ -28,11 +31,23 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
     String name, phoneno, verifyCode;
     Button bVerify;
     SimpleUser simpleUser;
-    Button regenerateCode;
+    TextView regenerateCode;
+    Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_no_verification);
+        // setup Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         setupViews();
         name =  getIntent().getStringExtra("etName");
         phoneno =  getIntent().getStringExtra("etPhoneNumber");
@@ -45,11 +60,10 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
     public void setupViews(){
         etVerificationCode = (EditText) findViewById(R.id.etVerificationCode);
         bVerify = (Button) findViewById(R.id.bVerify);
-        regenerateCode = (Button) findViewById(R.id.bRegenerateCode);
+
         bVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (verifyCode.equals(etVerificationCode.getText().toString())) {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
                     query.whereEqualTo("phone_number", phoneno);
@@ -84,16 +98,20 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
                         }
                     }
                 });
-        regenerateCode.setOnClickListener(new View.OnClickListener() {
+    }
 
-            @Override
-            public void onClick(View v) {
-                // Send SMS with verify code starts here
-                SmsManager smsManager = SmsManager.getDefault();
-                String smsMessage = verifyCode + " " + Constants.VERIFICATION_SMS_TEXT;
-                smsManager.sendTextMessage(phoneno, null, smsMessage, null, null);
-            }
-        });
+    public void callRegenerateCode(View v){
+        regenerateCode = (TextView) findViewById(R.id.bRegenerateCode);
+        // Create a new user and signup
+        String strRegeneratedCode = Utils.generateRandomCode();
+
+        // Send SMS with verify code starts here
+        SmsManager smsManager = SmsManager.getDefault();
+        String smsMessage = strRegeneratedCode + " " + Constants.VERIFICATION_SMS_TEXT;
+        smsManager.sendTextMessage(phoneno, null, smsMessage, null, null);
+
+        verifyCode = strRegeneratedCode;
+        Log.v("Regenerated Code","Regenerated Code  new  ************************************************************* "+verifyCode);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

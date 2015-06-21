@@ -1,17 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="com.strengthcoach.strengthcoach.activities.LoginActivity">
-    <TextView
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name"
         android:id="@+id/tvName"
         android:layout_marginLeft="43dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="@dimen/margin_90dp"
         android:layout_marginStart="43dp"
         android:layout_marginRight="10dp"
         android:layout_alignParentTop="true"
@@ -25,14 +26,16 @@
         android:layout_alignBottom="@+id/tvName"
         android:layout_toRightOf="@+id/tvName"
         android:ems="10"
+        android:background="@drawable/custom_edit_text"
+        android:textCursorDrawable="@drawable/cursor_color"
         />
 
-    <TextView
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mobile_no_label"
         android:id="@+id/tvPhoneNumber"
-	android:layout_marginRight="10dp"
+	    android:layout_marginRight="10dp"
         android:layout_marginTop="43dp"
         android:layout_below="@+id/tvName"
         android:layout_alignLeft="@+id/tvName"
@@ -46,21 +49,21 @@
         android:id="@+id/etLoginPhoneNumber"
         android:layout_toRightOf="@+id/tvPhoneNumber"
         android:layout_alignBottom="@+id/tvPhoneNumber"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:background="@drawable/custom_edit_text"
+        android:textCursorDrawable="@drawable/cursor_color"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
+        android:layout_marginRight="@dimen/margin_10dp"
         android:id="@+id/bLogin"
         android:layout_below="@+id/tvPhoneNumber"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="41dp"
-        android:background="#CCC76F6F"
-        android:textSize="20dp"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"/>
+        android:layout_marginTop="41dp"/>
 
 
 

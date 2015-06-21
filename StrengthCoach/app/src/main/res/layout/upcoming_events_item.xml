@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent" android:weightSum="5">
-    <TextView
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="@dimen/margin_20dp"
         android:layout_height="@dimen/margin_55dp"
         android:text="@string/sno"
@@ -24,7 +24,7 @@
         android:background="@color/white_bg"
         android:layout_gravity="center"/>
         />
-    <TextView
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="90dp"
         android:layout_height="@dimen/margin_55dp"
         android:text="@string/trainer"
@@ -33,7 +33,7 @@
         android:layout_toRightOf="@+id/ibDelete"
         android:layout_marginRight="@dimen/margin_20dp"
         android:gravity="center"/>
-    <TextView
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="@dimen/margin_70dp"
         android:layout_height="@dimen/margin_55dp"
         android:text="@string/slot_date"
@@ -42,7 +42,7 @@
         android:layout_toRightOf="@+id/tvTrainerName"
         android:layout_marginRight="@dimen/margin_20dp"
         android:gravity="center"/>
-    <TextView
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="@dimen/margin_42dp"
         android:layout_height="@dimen/margin_55dp"
         android:text="@string/slot_time"

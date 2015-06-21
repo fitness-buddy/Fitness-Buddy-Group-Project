@@ -14,4 +14,6 @@
     <!--<dimen name="nav_drawer_width">280dp</dimen>-->
     <dimen name="margin_55dp">55dp</dimen>
     <dimen name="nav_drawer_width">260dp</dimen>
+
+    <dimen name="margin_90dp">90dp</dimen>
 </resources>

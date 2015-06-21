@@ -3,6 +3,7 @@ package com.strengthcoach.strengthcoach.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -21,10 +22,14 @@ public class LoginActivity extends ActionBarActivity {
     EditText etName, etPhoneNumber;
     Button bLogin;
     ParseUser user;
+    Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // setup Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         setupViews();
     }
 
