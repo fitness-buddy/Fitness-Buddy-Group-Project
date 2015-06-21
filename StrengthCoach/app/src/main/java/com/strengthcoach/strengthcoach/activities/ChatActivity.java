@@ -155,6 +155,7 @@ public class ChatActivity extends ActionBarActivity {
         ParseQuery<Message> query = ParseQuery.getQuery("Message");
         query.whereContainedIn("fromObjectId", Arrays.asList(objectIds));
         query.whereContainedIn("toObjectId", Arrays.asList(objectIds));
+        query.orderByAscending("createdAt");
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
