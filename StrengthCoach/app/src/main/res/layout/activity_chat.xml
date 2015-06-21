@@ -4,6 +4,11 @@
     tools:context="com.strengthcoach.strengthcoach.activities.ChatActivity"
     android:background="#FFFFFF">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/wallpaper"
+        android:scaleType="centerCrop"/>
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
@@ -35,7 +40,7 @@
         android:textSize="25dp"
         android:background="@drawable/chat_item_background"
         android:padding="10dp"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
