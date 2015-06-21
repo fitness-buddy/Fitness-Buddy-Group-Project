@@ -350,6 +350,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                 Trainer.currentPrice  = m_trainer.getPrice();
                 Intent intent = new Intent(getBaseContext(), BlockSlotActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_bottom, R.anim.exit_to_top);
             }
         });
         // added by neeraja for booking slots ends
