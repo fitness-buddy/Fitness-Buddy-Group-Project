@@ -1,9 +1,7 @@
 package com.strengthcoach.strengthcoach.activities;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,23 +10,33 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.ChatItemAdapter;
-import com.strengthcoach.strengthcoach.adapters.ICurrentUserProvider;
+import com.strengthcoach.strengthcoach.models.ChatNotification;
+import com.strengthcoach.strengthcoach.models.ChatPerson;
 import com.strengthcoach.strengthcoach.models.Message;
-import com.strengthcoach.strengthcoach.models.Trainer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ChatActivity extends ActionBarActivity implements ICurrentUserProvider {
+public class ChatActivity extends ActionBarActivity {
 
-    Trainer m_trainer;
-    ArrayList<Message> messages;
+    ChatPerson m_me;
+    ChatPerson m_other;
+
+    ArrayList<Message> m_messages;
     ChatItemAdapter messagesAdapter;
-    String currentUserId;
+    ListView lvMessages;
 
     EditText etMessage;
 
@@ -37,34 +45,26 @@ public class ChatActivity extends ActionBarActivity implements ICurrentUserProvi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        messages = new ArrayList<>();
-        messagesAdapter = new ChatItemAdapter(this, messages, this);
-        ListView lvMessages = (ListView) findViewById(R.id.lvMessages);
+        m_me = (ChatPerson)getIntent().getSerializableExtra("me");
+        m_other = (ChatPerson)getIntent().getSerializableExtra("other");
+
+        m_messages = new ArrayList<>();
+        messagesAdapter = new ChatItemAdapter(this, m_messages, m_me, m_other);
+        lvMessages = (ListView) findViewById(R.id.lvMessages);
         lvMessages.setAdapter(messagesAdapter);
 
         etMessage = (EditText) findViewById(R.id.etMessage);
 
-        // Get the m_trainer object from parse and setup the view
-        String trainerId = getIntent().getStringExtra("trainerId");
-        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
-        query.whereEqualTo("objectId", trainerId);
-        query.findInBackground(new FindCallback<Trainer>() {
-            @Override
-            public void done(List<Trainer> list, com.parse.ParseException e) {
-                Log.d("DEBUG", ((Trainer) list.get(0)).getName());
-                m_trainer = list.get(0);
-                messagesAdapter.setTrainer(m_trainer);
-            }
-        });
+        addNewMessages();
 
-        if (getLoggedInUserId().equals("")) {
-            // Start login activity
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent, 20);
-        }
-        else {
-            currentUserId = getLoggedInUserId();
-        }
+        final Handler handler = new Handler();
+        final int delay = 2000; //milliseconds
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                addNewMessages();
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
     }
 
     @Override
@@ -91,51 +91,56 @@ public class ChatActivity extends ActionBarActivity implements ICurrentUserProvi
 
     public void onSendClicked(View view) {
         Message message = new Message();
-        message.setFromObjectId(currentUserId);
-        message.setToObjectId(m_trainer.getObjectId());
+        message.setFromObjectId(m_me.objectId);
+        message.setToObjectId(m_other.objectId);
         message.setText(etMessage.getText().toString());
         message.saveInBackground();
         messagesAdapter.add(message);
+        lvMessages.setSelection(lvMessages.getCount() - 1);
+
+        try {
+
+            ChatNotification notification = new ChatNotification();
+            notification.from = m_me;
+            notification.to = m_other;
+            notification.text = etMessage.getText().toString();
+            String jsonString = new Gson().toJson(notification);
+            JSONObject jsonObject = new JSONObject(jsonString);
+
+            ParseQuery pushQuery = ParseInstallation.getQuery();
+            pushQuery.whereEqualTo("channels", "");
+
+            ParsePush push = new ParsePush();
+            push.setQuery(pushQuery);
+            push.setData(jsonObject);
+            push.sendInBackground();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         etMessage.setText("");
-
-        // TODO: Remove fake message once trainer view is in place.
-        addFakeMessageFromTrainer();
     }
 
-    private void addFakeMessageFromTrainer() {
-        Message message = new Message();
-        message.setToObjectId(currentUserId);
-        message.setFromObjectId(m_trainer.getObjectId());
-        message.setText("Hello. I would love to work with you");
-        message.saveInBackground();
-        messagesAdapter.add(message);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 20) {
-            if(resultCode != RESULT_OK){
-                // User didn't login cancel book slot
-                Intent returnIntent = new Intent();
-                setResult(RESULT_CANCELED, returnIntent);
-                finish();
+    private void addNewMessages() {
+        String[] objectIds = {m_me.objectId, m_other.objectId};
+        ParseQuery<Message> query = ParseQuery.getQuery("Message");
+        query.whereContainedIn("fromObjectId", Arrays.asList(objectIds));
+        query.whereContainedIn("toObjectId", Arrays.asList(objectIds));
+        query.findInBackground(new FindCallback<Message>() {
+            public void done(List<Message> messages, ParseException e) {
+                if (e == null) {
+                    // Set the value of global current user object
+                    for (int i = 0; i < messages.size(); i++) {
+                        Message message = messages.get(i);
+                        if (!m_messages.contains(message)) {
+                            messagesAdapter.add(message);
+                            lvMessages.setSelection(lvMessages.getCount() - 1);
+                        }
+                    }
+                } else {
+                    Log.d("DEBUG", "Error: " + e.getMessage());
+                }
             }
-            else {
-                currentUserId = getLoggedInUserId();
-            }
-        }
-    }
-
-    private String getLoggedInUserId() {
-        SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        String userId = pref.getString("userId", "");
-        return userId;
-    }
-
-    @Override
-    public String currentUserId() {
-        return currentUserId;
+        });
     }
 }
