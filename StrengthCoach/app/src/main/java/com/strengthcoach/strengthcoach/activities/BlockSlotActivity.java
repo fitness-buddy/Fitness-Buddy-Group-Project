@@ -189,10 +189,10 @@ public class BlockSlotActivity extends ActionBarActivity{
                     bSlots.setSlotDate(userSelectedDate);
                     String[] selectedSlot = spSelectSlot.getSelectedItem().toString().split(" ");
                     String slotTime = selectedSlot[0];
-                    String finalSelectedSlot="";
-                    if(selectedSlot[1].equals(Constants.AM)){
+                    String finalSelectedSlot = "";
+                    if (selectedSlot[1].equals(Constants.AM)) {
                         finalSelectedSlot = slotTime;
-                    } else  if(selectedSlot[1].equals(Constants.PM)) {
+                    } else if (selectedSlot[1].equals(Constants.PM)) {
                         if (slotTime.equals("12")) {
                             finalSelectedSlot = slotTime;
                         } else {
@@ -217,7 +217,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                     bProceedToPayment.setVisibility(View.VISIBLE);
                     spSelectSlot.setSelection(0);
                 } else {
-                    Toast.makeText(BlockSlotActivity.this,"Select a slot",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BlockSlotActivity.this, "Select a slot", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -302,30 +302,29 @@ public class BlockSlotActivity extends ActionBarActivity{
                 if (e == null) {
                     listOfSlots.clear();
                     listOfSlots.add(Constants.SELECT_SLOT);
-                    for(ParseObject slots: trainerSlots){
+                    for (ParseObject slots : trainerSlots) {
                         int startTimeInt = Integer.valueOf(slots.getString("start_time"));
                         int endTimeInt = Integer.valueOf(slots.getString("end_time"));
                         arraySlots.clear();
                         for (int i = startTimeInt; startTimeInt < endTimeInt; startTimeInt++) {
                             arraySlots.add(startTimeInt);
                         }
-                            // find out time slots not in arBookedSlots
-                            List<Integer> noBookedSlots = new ArrayList<Integer>(arraySlots);
-                            noBookedSlots.removeAll(arBookedSlots);
+                        // find out time slots not in arBookedSlots
+                        List<Integer> noBookedSlots = new ArrayList<Integer>(arraySlots);
+                        noBookedSlots.removeAll(arBookedSlots);
 
-                            for (int k=0;k<noBookedSlots.size();k++){
-                                int intSlotsWithoutBookedSlots = noBookedSlots.get(k);
-                                String slotsWithoutBookedSlots;
-                                if(intSlotsWithoutBookedSlots <= 11)
-                                {
-                                    slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " "+Constants.AM;
-                                } else if (intSlotsWithoutBookedSlots==12) {
-                                    slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " " +Constants.PM;
-                                } else {
-                                     slotsWithoutBookedSlots = (intSlotsWithoutBookedSlots - 12) + " "+Constants.PM;
-                                }
-                                listOfSlots.add(slotsWithoutBookedSlots);
+                        for (int k = 0; k < noBookedSlots.size(); k++) {
+                            int intSlotsWithoutBookedSlots = noBookedSlots.get(k);
+                            String slotsWithoutBookedSlots;
+                            if (intSlotsWithoutBookedSlots <= 11) {
+                                slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " " + Constants.AM;
+                            } else if (intSlotsWithoutBookedSlots == 12) {
+                                slotsWithoutBookedSlots = intSlotsWithoutBookedSlots + " " + Constants.PM;
+                            } else {
+                                slotsWithoutBookedSlots = (intSlotsWithoutBookedSlots - 12) + " " + Constants.PM;
                             }
+                            listOfSlots.add(slotsWithoutBookedSlots);
+                        }
                         try {
                             Date d = simpleDateStrFormat.parse(sDate);
                             caldroidFragment.setBackgroundResourceForDate(R.color.pink, d);
@@ -336,7 +335,8 @@ public class BlockSlotActivity extends ActionBarActivity{
                         }
                         spSelectSlot.setAdapter(new ArrayAdapter<String>(BlockSlotActivity.this,
                                 android.R.layout.simple_spinner_item, listOfSlots));
-                    } }else {
+                    }
+                } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
             }
@@ -394,4 +394,11 @@ public class BlockSlotActivity extends ActionBarActivity{
         return userId;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        setResult(RESULT_CANCELED, returnIntent);
+        finish();
+        overridePendingTransition(R.anim.enter_from_top, R.anim.exit_to_bottom);
+    }
 }
