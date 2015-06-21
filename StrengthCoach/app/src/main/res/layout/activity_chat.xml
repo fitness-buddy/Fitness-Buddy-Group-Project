@@ -4,11 +4,14 @@
     tools:context="com.strengthcoach.strengthcoach.activities.ChatActivity"
     android:background="#FFFFFF">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvMessages"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/toolbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
