@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.strengthcoach.strengthcoach.R;
-import com.strengthcoach.strengthcoach.helpers.DeviceDimensionsHelper;
 
 public class LauncherActivity extends ActionBarActivity {
     Button bLogin;
