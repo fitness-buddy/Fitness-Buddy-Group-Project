@@ -98,6 +98,7 @@
             android:paddingRight="@dimen/margin_10dp"
             android:paddingTop="@dimen/margin_10dp"
             android:text="@string/cc_number"
+            android:textSize="15sp"
             android:textAlignment="center"
             android:textColor="@color/black"/>
 
@@ -125,12 +126,12 @@
             android:id="@+id/tvExpiry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:paddingEnd="@dimen/margin_10dp"
             android:paddingLeft="@dimen/margin_42dp"
             android:paddingRight="@dimen/margin_10dp"
             android:paddingTop="@dimen/margin_10dp"
             android:text="@string/cc_expiry"
+            android:textSize="@dimen/textsize_15sp"
             android:textColor="@color/black"
             android:layout_below="@+id/etCCNumber"
             android:layout_alignParentLeft="true"

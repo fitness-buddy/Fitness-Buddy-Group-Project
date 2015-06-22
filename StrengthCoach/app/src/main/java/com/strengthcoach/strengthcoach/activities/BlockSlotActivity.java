@@ -396,8 +396,6 @@ public class BlockSlotActivity extends ActionBarActivity{
 
     @Override
     public void onBackPressed() {
-        Intent returnIntent = new Intent();
-        setResult(RESULT_CANCELED, returnIntent);
         finish();
         overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_bottom);
     }

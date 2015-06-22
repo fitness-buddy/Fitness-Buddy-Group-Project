@@ -16,4 +16,5 @@
     <dimen name="nav_drawer_width">260dp</dimen>
 
     <dimen name="margin_90dp">90dp</dimen>
+    <dimen name="textsize_15sp">15sp</dimen>
 </resources>
