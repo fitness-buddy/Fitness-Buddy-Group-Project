@@ -16,6 +16,10 @@ import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.activities.ChatActivity;
 import com.strengthcoach.strengthcoach.models.ChatNotification;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Random;
 
 /**
@@ -66,8 +70,11 @@ public class PushBroadcastReceiver extends ParsePushBroadcastReceiver {
         PendingIntent pContentIntent = PendingIntent.getBroadcast(context, contentIntentRequestCode, contentIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         PendingIntent pDeleteIntent = PendingIntent.getBroadcast(context, deleteIntentRequestCode, deleteIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
+        Bitmap notificationLargeIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_profile_image);
+        if (data.from.imageUrl != null && data.from.imageUrl != "") {
+            notificationLargeIconBitmap = getBitmapFromURL(data.from.imageUrl);
+        }
 
-        Bitmap notificationLargeIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.app_icon);
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.app_icon)
@@ -86,5 +93,20 @@ public class PushBroadcastReceiver extends ParsePushBroadcastReceiver {
 
     private ChatNotification getDataFromIntent(Intent intent) {
         return new Gson().fromJson(intent.getExtras().getString(PARSE_DATA_KEY), ChatNotification.class);
+    }
+
+    public Bitmap getBitmapFromURL(String strURL) {
+        try {
+            URL url = new URL(strURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
