@@ -1,0 +1,119 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_bg"
+    tools:context="com.strengthcoach.strengthcoach.activities.LauncherActivity">
+
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/slide_animation" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/ivBackground"
+        android:background="#aa000000">
+
+        <com.strengthcoach.strengthcoach.customui.RobotoTextView
+            android:id="@+id/tvAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:text="@string/app_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/tvHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvAppName"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:gravity="center_horizontal"
+            android:text="@string/app_caption"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textsize_15sp"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvHeading"
+            android:layout_marginTop="120dp">
+
+            <TableRow
+                android:id="@+id/tableRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" android:weightSum="2">
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:id="@+id/tvTrainersCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_column="0"
+                    android:layout_weight="0.9"
+                    android:gravity="center_horizontal"
+                    android:text="@string/trainerscount"
+                    android:textSize="22sp"
+                    android:textColor="@color/colorPrimary"/>
+                <View
+                    android:id="@+id/viewSeperator"
+                    android:layout_width="1px"
+                    android:layout_height="50dp"
+                    android:layout_column="1"
+                    android:background="@color/colorPrimary" />
+
+
+                <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                    android:id="@+id/tvUsersCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/tvTrainerCount"
+                    android:layout_column="2"
+                    android:layout_weight="0.9"
+                    android:gravity="center_horizontal"
+                    android:text="@string/userscount"
+                    android:textSize="22sp"
+                    android:textColor="@color/colorPrimary"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/bLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvSkip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_20dp"
+            android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/tvSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/bLogin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/bLogin"
+            android:layout_marginBottom="@dimen/margin_20dp"
+            android:clickable="true"
+            android:onClick="callSkip"
+            android:text="@string/skip"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

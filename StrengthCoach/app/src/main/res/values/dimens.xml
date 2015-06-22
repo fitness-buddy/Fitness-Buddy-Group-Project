@@ -17,4 +17,5 @@
 
     <dimen name="margin_90dp">90dp</dimen>
     <dimen name="textsize_15sp">15sp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
 </resources>
