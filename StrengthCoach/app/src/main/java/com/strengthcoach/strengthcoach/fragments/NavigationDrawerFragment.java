@@ -11,9 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.activities.HomeActivity;
 import com.strengthcoach.strengthcoach.adapters.NavDrawerListAdapter;
 import com.strengthcoach.strengthcoach.models.NavDrawerItem;
 import com.strengthcoach.strengthcoach.views.CustomDrawerLayout;
@@ -134,7 +137,29 @@ public class NavigationDrawerFragment extends Fragment {
         navMenuIcons.recycle();
 
         // set the nav drawer adapter to populate the listview
-        adapter = new NavDrawerListAdapter(getActivity(), navDrawerItems);
+        adapter = new NavDrawerListAdapter(getActivity(), navDrawerItems, mDrawerLayout);
         mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mDrawerLayout.closeDrawers();
+                // Every view has two children; imageView and TextView
+                // View represents the entire row
+                // The tag is only attached to the imageview in the adapter
+                String tag = ((RelativeLayout) view).getChildAt(0).getTag().toString();
+                handleClick(tag);
+            }
+        });
+    }
+
+    private void handleClick(String tag) {
+        switch (tag) {
+            case "Home": ((HomeActivity) getActivity()).populateTrainers();
+                break;
+            case "Map": ((HomeActivity) getActivity()).launchMap();
+                break;
+            case "Favorites": ((HomeActivity) getActivity()).populateFavoriteTrainers();
+                break;
+        }
     }
 }

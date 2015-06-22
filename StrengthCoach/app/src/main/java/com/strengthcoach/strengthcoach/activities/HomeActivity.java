@@ -99,8 +99,13 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void launchMap() {
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
     // Pass the list of trainers to fragment
-    private void populateTrainers() {
+    public void populateTrainers() {
         final TrainersListFragment finalFragment = fragment;
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.include("favorited_by");
@@ -117,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // Pass the list of trainers to fragment
-    private void populateFavoriteTrainers() {
+    public void populateFavoriteTrainers() {
         final TrainersListFragment finalFragment = fragment;
         if (SimpleUser.currentUserObject != null) {
             ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
