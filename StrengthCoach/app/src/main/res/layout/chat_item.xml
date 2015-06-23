@@ -7,17 +7,29 @@
     <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvChatItem"
+        android:id="@+id/tvChatItemLeftAligned"
         android:layout_margin="10dp"
         android:textSize="20sp"
         android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:gravity="center_vertical|left"
+        android:background="@drawable/chat_item_background"
+        android:layout_toRightOf="@+id/ivOtherProfileImage"/>
+    <com.strengthcoach.strengthcoach.customui.RobotoTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvChatItemRightAligned"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:paddingLeft="10dp"
         android:paddingRight="20dp"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|left"
         android:background="@drawable/chat_item_background"
-        android:layout_toRightOf="@+id/ivOtherProfileImage"
-        android:layout_toLeftOf="@+id/ivUserProfileImage"/>
+        android:layout_toLeftOf="@+id/ivUserProfileImage" />
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="64dp"
         android:layout_height="64dp"

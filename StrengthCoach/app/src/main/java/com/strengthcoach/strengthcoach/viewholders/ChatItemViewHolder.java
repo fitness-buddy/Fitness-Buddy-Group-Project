@@ -7,7 +7,8 @@ import android.widget.TextView;
  * Created by varungupta on 6/8/15.
  */
 public class ChatItemViewHolder {
-    public TextView tvChatItem;
+    public TextView tvChatItemLeftAligned;
+    public TextView tvChatItemRightAligned;
     public ImageView ivOtherProfileImage;
     public ImageView ivUserProfileImage;
 }

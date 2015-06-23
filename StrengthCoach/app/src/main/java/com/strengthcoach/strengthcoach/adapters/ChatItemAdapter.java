@@ -39,7 +39,8 @@ public class ChatItemAdapter extends ArrayAdapter<Message> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_item, parent, false);
             viewHolder = new ChatItemViewHolder();
-            viewHolder.tvChatItem = (TextView)convertView.findViewById(R.id.tvChatItem);
+            viewHolder.tvChatItemLeftAligned = (TextView)convertView.findViewById(R.id.tvChatItemLeftAligned);
+            viewHolder.tvChatItemRightAligned = (TextView)convertView.findViewById(R.id.tvChatItemRightAligned);
             viewHolder.ivOtherProfileImage = (ImageView) convertView.findViewById(R.id.ivOtherProfileImage);
             viewHolder.ivUserProfileImage = (ImageView) convertView.findViewById(R.id.ivUserProfileImage);
             convertView.setTag(viewHolder);
@@ -48,10 +49,11 @@ public class ChatItemAdapter extends ArrayAdapter<Message> {
             viewHolder = (ChatItemViewHolder)convertView.getTag();
         }
 
-        viewHolder.tvChatItem.setText(message.getText());
-
         if (message.getFromObjectId().equals(m_me.objectId)) {
             // Message is from current user
+            viewHolder.tvChatItemRightAligned.setVisibility(View.VISIBLE);
+            viewHolder.tvChatItemRightAligned.setText(message.getText());
+
             viewHolder.ivUserProfileImage.setVisibility(View.VISIBLE);
             if (m_me.imageUrl.equals("")) {
                 viewHolder.ivUserProfileImage.setImageResource(R.drawable.default_profile_image);
@@ -59,9 +61,14 @@ public class ChatItemAdapter extends ArrayAdapter<Message> {
             else {
                 Picasso.with(getContext()).load(m_me.imageUrl).into(viewHolder.ivUserProfileImage);
             }
+
             viewHolder.ivOtherProfileImage.setVisibility(View.INVISIBLE);
+            viewHolder.tvChatItemLeftAligned.setVisibility(View.GONE);
         }
         else {
+            viewHolder.tvChatItemLeftAligned.setVisibility(View.VISIBLE);
+            viewHolder.tvChatItemLeftAligned.setText(message.getText());
+
             viewHolder.ivOtherProfileImage.setVisibility(View.VISIBLE);
             if (m_other.imageUrl.equals("")) {
                 viewHolder.ivOtherProfileImage.setImageResource(R.drawable.default_profile_image);
@@ -70,6 +77,7 @@ public class ChatItemAdapter extends ArrayAdapter<Message> {
                 Picasso.with(getContext()).load(m_other.imageUrl).into(viewHolder.ivOtherProfileImage);
             }
             viewHolder.ivUserProfileImage.setVisibility(View.INVISIBLE);
+            viewHolder.tvChatItemRightAligned.setVisibility(View.GONE);
         }
 
         return convertView;
