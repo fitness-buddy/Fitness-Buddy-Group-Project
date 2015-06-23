@@ -73,87 +73,92 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/about_me_header"
-                    android:textSize="25sp"
-                    android:textColor="#000000"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/dark_grey"
                     android:gravity="center_horizontal"/>
 
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvAboutTrainer"
-                    android:textSize="20sp"
-                    android:textColor="#555555"
-                    android:gravity="center_horizontal"/>
+                    android:textSize="18sp"
+                    android:textColor="@color/colorSecondaryText"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="fill_horizontal"/>
 
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/trainer_education_header"
-                    android:textSize="25sp"
-                    android:textColor="#000000"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/dark_grey"
                     android:gravity="center_horizontal"/>
 
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvTrainerEducation"
-                    android:textSize="20sp"
-                    android:textColor="#555555"
-                    android:gravity="center_horizontal"/>
+                    android:textSize="18sp"
+                    android:textColor="@color/colorSecondaryText"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="fill_horizontal"/>
 
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/trainer_achievements_header"
-                    android:textSize="25sp"
-                    android:textColor="#000000"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/dark_grey"
                     android:gravity="center_horizontal"/>
 
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvTrainerInterests"
-                    android:textSize="20sp"
-                    android:textColor="#555555"
-                    android:gravity="center_horizontal"/>
+                    android:textSize="18sp"
+                    android:textColor="@color/colorSecondaryText"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="fill_horizontal"/>
+
+                <fragment
+                    android:id="@+id/map"
+                    android:layout_marginTop="15dp"
+                    class="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/ivProfileImage2"
+                    android:layout_gravity="center_horizontal" />
 
                 <RatingBar
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ratingBar"
+                    android:layout_marginTop="10dp"
                     android:numStars="5"
                     android:stepSize="0.1"
                     android:isIndicator="true"
                     android:layout_gravity="center_horizontal"/>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="320dp"
-                    android:layout_height="320dp"
-                    android:id="@+id/ivProfileImage2"
-                    android:layout_gravity="center_horizontal" />
-
-                <com.strengthcoach.strengthcoach.customui.RobotoTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvContactTrainer"
-                    android:text="Contact Trainer"
-                    android:textColor="#C76F6F"
-                    android:textSize="20sp"
-                    android:gravity="center_horizontal"
-                    android:layout_margin="10dp"/>
-
-                <fragment
-                    android:id="@+id/map"
-                    class="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="512dp"/>
-
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvReviewsCount"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/dark_grey"
                     android:gravity="center_horizontal"
-                    android:textSize="25sp"
                     android:layout_margin="10dp"/>
 
             </LinearLayout>

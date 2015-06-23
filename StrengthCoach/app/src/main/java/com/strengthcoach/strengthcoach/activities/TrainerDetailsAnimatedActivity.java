@@ -263,10 +263,10 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         String educationAndCertifications = "";
         ArrayList<String> educationAndCertificationsArrayList = m_trainer.getEducationAndCertifications();
         for (int i = 0; i < educationAndCertificationsArrayList.size(); i++) {
-            educationAndCertifications += "&#8226; " + educationAndCertificationsArrayList.get(i);
+            educationAndCertifications +=  educationAndCertificationsArrayList.get(i);
 
             if (i != educationAndCertificationsArrayList.size() - 1) {
-                educationAndCertifications += "<br/>";
+                educationAndCertifications += " &#8226; ";
             }
         }
         tvTrainerEducation.setText(Html.fromHtml(educationAndCertifications));
@@ -275,10 +275,10 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         String interestsAndAchievements = "";
         ArrayList<String> interestsAndAchievementsArrayList = m_trainer.getInterestsAndAchievements();
         for (int i = 0; i < interestsAndAchievementsArrayList.size(); i++) {
-            interestsAndAchievements += "&#8226; " + interestsAndAchievementsArrayList.get(i);
+            interestsAndAchievements += interestsAndAchievementsArrayList.get(i);
 
             if (i != interestsAndAchievementsArrayList.size() - 1) {
-                interestsAndAchievements += "<br/>";
+                interestsAndAchievements += " &#8226; ";
             }
         }
         tvTrainerInterests.setText(Html.fromHtml(interestsAndAchievements));
@@ -299,7 +299,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                     m_map = map;
                     ParseGeoPoint parseGeoPoint = m_trainer.getGym().point();
                     LatLng point = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
-                    m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 16));
+                    m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
 
                     BitmapDescriptor defaultMarker =
                             BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
@@ -324,23 +324,6 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
 
         LinearLayout llReviews = (LinearLayout) findViewById(R.id.llContent);
         addReviewsInView(llReviews);
-
-        TextView tvContactTrainer = (TextView) findViewById(R.id.tvContactTrainer);
-        tvContactTrainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentUserId = getLoggedInUserId();
-                if (currentUserId.equals("")) {
-                    // Start login activity
-                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                    startActivityForResult(intent, LOGIN_FOR_CHAT_ACTIVITY_ID);
-                    overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
-                }
-                else {
-                    getCurrentUserAndStartChat(currentUserId);
-                }
-            }
-        });
 
         // added by neeraja for booking slots starts
         bBookSlot= (Button) findViewById(R.id.bBookSlot);

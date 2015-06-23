@@ -2,34 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
+    android:background="@color/white"
     android:paddingBottom="10dp">
     <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvReviewerName"
-        android:gravity="center_horizontal"
-        android:textSize="18sp"
-        android:textColor="#555555"/>
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:textColor="@color/dark_grey"
+        android:gravity="center_horizontal"/>
     <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvReviewDate"
-        android:gravity="center_horizontal"
-        android:textSize="18sp"
-        android:textColor="#555555"/>
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:gravity="center_horizontal"/>
     <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvReviewText"
-        android:gravity="left"
+        android:layout_marginTop="5dp"
         android:textSize="18sp"
-        android:textColor="#555555"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#555555"
-        android:layout_marginTop="10dp"></RelativeLayout>
+        android:textColor="@color/colorSecondaryText"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:gravity="fill_horizontal"/>
 </LinearLayout>
