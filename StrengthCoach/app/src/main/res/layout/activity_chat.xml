@@ -37,10 +37,10 @@
         android:layout_toLeftOf="@+id/btnSend"
         android:hint="Type your question"
         android:inputType="textCapSentences|textMultiLine"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:background="@drawable/chat_item_background"
         android:padding="10dp"
-        android:layout_margin="20dp" />
+        android:layout_margin="10dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:layout_alignTop="@+id/etMessage"
         android:layout_alignBottom="@+id/etMessage"
         android:onClick="onSendClicked"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textColor="#55ACEE"
         android:gravity="center_vertical|center_horizontal"
         android:layout_marginRight="10dp"/>
