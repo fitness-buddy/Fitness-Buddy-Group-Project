@@ -36,7 +36,7 @@
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/btnSend"
         android:hint="Type your question"
-        android:inputType="textCapSentences|textMultiLine"
+        android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
         android:textSize="20dp"
         android:background="@drawable/chat_item_background"
         android:padding="10dp"
