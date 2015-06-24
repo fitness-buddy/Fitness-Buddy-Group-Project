@@ -20,12 +20,14 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.parse.CountCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
+import com.strengthcoach.strengthcoach.activities.HomeActivity;
 import com.strengthcoach.strengthcoach.activities.TrainerDetailsAnimatedActivity;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
@@ -39,6 +41,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     private LayoutInflater inflater;
     List<Trainer> trainers;
     Context context;
+    private final int LOGIN_FOR_MARKING_FAVORITES = 117;
 
     public TrainerListAdapter(Context context, List<Trainer> trainers) {
         inflater = LayoutInflater.from(context);
@@ -54,43 +57,78 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
             // Handles clicks on favorite icon
             @Override
-            public void favoriteClick(View view, Trainer trainer) {
-                if (trainer.isFavorite()) {
-                    // If the trainer is already favorited; reset the icon; undo favorite
-                    ((ImageView) view).setImageResource(0);
-                    ((ImageView) view).setImageResource(R.drawable.heart);
-                    trainer.getFavoritedBy().remove(SimpleUser.currentUserObject);
-                    trainer.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Log.d("DEBUG", "Successfully removed favorite trainer");
-                            } else {
-                                e.printStackTrace();
+            public void favoriteClick(final View view, final Trainer trainer) {
+                String currentUserId = ((HomeActivity) context).getLoggedInUserId();
+                if (!currentUserId.equals("")) {
+                    zoomAnimation(view, trainer);
+                    if (SimpleUser.currentUserObject == null) {
+                        ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
+                        query.whereEqualTo("objectId", currentUserId);
+                        query.getFirstInBackground(new GetCallback<SimpleUser>() {
+                            @Override
+                            public void done(SimpleUser simpleUser, ParseException e) {
+                                SimpleUser.currentUserObject = simpleUser;
+                                markFavorite(trainer);
                             }
-                        }
-                    });
-                } else {
-                    // Change icon and save in parse
-                    ((ImageView) view).setImageResource(0);
-                    ((ImageView) view).setImageResource(R.drawable.heart_selected);
-                    ArrayList<SimpleUser> favorites = trainer.getFavoritedBy();
-                    if (favorites == null) {
-                        // This is to handle the case where current user is the one to mark the trainer
-                        // as favorite
-                        ArrayList<SimpleUser> favoritedBy = new ArrayList<SimpleUser>();
-                        favoritedBy.add(SimpleUser.currentUserObject);
-                        trainer.setFavoritedBy(favoritedBy);
-                        trainer.saveInBackground();
+                        });
                     } else {
-                        trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
+                        markFavorite(trainer);
                     }
-                    trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
-                    trainer.saveInBackground();
+                } else {
+                    // User needs to signup
+                    zoomAnimation(view, trainer);
+                    // Used to later mark the trainer as favorite over the network call
+                    ((HomeActivity) context).markedFavorite = trainer;
+                    ((HomeActivity) context).launchLoginActivity(LOGIN_FOR_MARKING_FAVORITES);
                 }
+            }
+
+            public void zoomAnimation(View view, Trainer trainer) {
+                ((ImageView) view).setImageResource(0);
+                // Give immediate feedback by changing drawable
+                if (trainer.isFavorite()) {
+                    ((ImageView) view).setImageResource(R.drawable.heart);
+                } else {
+                    // Mark Favorite
+                    ((ImageView) view).setImageResource(R.drawable.heart_selected);
+                }
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.zoom);
+                view.startAnimation(animation);
             }
         });
         return holder;
+    }
+
+    public void markFavorite(Trainer trainer) {
+        if (trainer.isFavorite()) {
+            // If the trainer is already favorited; reset the icon; undo favorite
+            trainer.getFavoritedBy().remove(SimpleUser.currentUserObject);
+            trainer.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Log.d("DEBUG", "Successfully removed favorite trainer");
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            ArrayList<SimpleUser> favorites = trainer.getFavoritedBy();
+            if (favorites == null) {
+                // This is to handle the case where current user is the one to mark the trainer
+                // as favorite
+                ArrayList<SimpleUser> favoritedBy = new ArrayList<SimpleUser>();
+                favoritedBy.add(SimpleUser.currentUserObject);
+                trainer.setFavoritedBy(favoritedBy);
+                trainer.saveInBackground();
+            } else {
+                trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
+            }
+            trainer.getFavoritedBy().add(SimpleUser.currentUserObject);
+            Log.d("DEBUG", "Successfully marked favorite trainer");
+            trainer.saveInBackground();
+        }
     }
 
     @Override
@@ -204,7 +242,6 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             // View specific clicks will be handled here
             if (view == ivFavorite) {
                 mListener.favoriteClick(view, trainer);
-                zoomAnimation(view);
             } else {
                 // Launch Trainer details activity
                 final Intent intent;
@@ -216,13 +253,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
         }
 
-        private void zoomAnimation(View view) {
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.zoom);
-            view.startAnimation(animation);
-        }
-
         public interface IMyViewHolderClicks {
-            public void favoriteClick(View view, Trainer trainer);
+            void favoriteClick(View view, Trainer trainer);
         }
     }
 }

@@ -17,6 +17,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.fragments.TrainersListFragment;
 import com.strengthcoach.strengthcoach.models.Gym;
@@ -28,9 +29,11 @@ import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity {
-    private TrainersListFragment fragment;
+    public static Trainer markedFavorite;
     private final int LOAD_TRAINERS_FOR_GYM = 20;
     private final int LOGIN_FOR_FAVORITES = 122;
+    private final int LOGIN_FOR_MARKING_FAVORITES = 117;
+    private TrainersListFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +90,7 @@ public class HomeActivity extends AppCompatActivity {
                         .build();
                 AppInviteDialog.show(this, content);
             }
-        }
-        else if (id == R.id.action_map) {
+        } else if (id == R.id.action_map) {
             launchMap();
         }
         return super.onOptionsItemSelected(item);
@@ -134,10 +136,37 @@ public class HomeActivity extends AppCompatActivity {
             });
         } else {
             // Ask the user to sign up
-            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-            startActivityForResult(intent, LOGIN_FOR_FAVORITES);
-            overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
+            launchLoginActivity(LOGIN_FOR_FAVORITES);
         }
+    }
+
+    public void launchLoginActivity(final int IDENTIFIER) {
+        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+        startActivityForResult(intent, IDENTIFIER);
+        overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
+    }
+
+    // No need to update the fav icon because it is already done through the adapter
+    public void handleFavorite() {
+        ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
+        query.whereEqualTo("objectId", SimpleUser.currentUserObjectId);
+        query.getFirstInBackground(new GetCallback<SimpleUser>() {
+            @Override
+            public void done(SimpleUser simpleUser, ParseException e) {
+                SimpleUser.currentUserObject = simpleUser;
+                markedFavorite.getFavoritedBy().add(SimpleUser.currentUserObject);
+                markedFavorite.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d("DEBUG", "Successfully marked favorite trainer");
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void showFavorites() {
@@ -156,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private String getLoggedInUserId() {
+    public String getLoggedInUserId() {
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String userId = pref.getString("userId", "");
@@ -176,6 +205,9 @@ public class HomeActivity extends AppCompatActivity {
                 case LOGIN_FOR_FAVORITES:
                     populateFavoriteTrainers();
                     break;
+
+                case LOGIN_FOR_MARKING_FAVORITES:
+                    handleFavorite();
             }
         }
     }
