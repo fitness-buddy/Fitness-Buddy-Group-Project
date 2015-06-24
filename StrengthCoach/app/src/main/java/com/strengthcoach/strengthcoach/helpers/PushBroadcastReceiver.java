@@ -71,9 +71,9 @@ public class PushBroadcastReceiver extends ParsePushBroadcastReceiver {
         PendingIntent pDeleteIntent = PendingIntent.getBroadcast(context, deleteIntentRequestCode, deleteIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Bitmap notificationLargeIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_profile_image);
-        if (data.from.imageUrl != null && data.from.imageUrl != "") {
+        /*if (data.from.imageUrl != null && data.from.imageUrl != "") {
             notificationLargeIconBitmap = getBitmapFromURL(data.from.imageUrl);
-        }
+        }*/
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
