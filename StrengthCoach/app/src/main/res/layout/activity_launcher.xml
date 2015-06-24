@@ -99,21 +99,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/tvSkip"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/margin_20dp"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_alignLeft="@+id/tvAppName"
+            android:layout_alignStart="@+id/tvAppName"
+            android:layout_alignRight="@+id/tvAppName"
+            android:layout_alignEnd="@+id/tvAppName" />
 
         <TextView
             android:id="@+id/tvSkip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_55dp"
             android:layout_alignLeft="@+id/bLogin"
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/bLogin"
             android:layout_marginBottom="@dimen/margin_20dp"
             android:clickable="true"
             android:onClick="callSkip"
+            android:gravity="center_horizontal|center_vertical"
             android:text="@string/skip"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_alignRight="@+id/bLogin"
+            android:layout_alignEnd="@+id/bLogin" />
     </RelativeLayout>
 </RelativeLayout>
