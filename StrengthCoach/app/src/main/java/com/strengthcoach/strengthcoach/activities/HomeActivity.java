@@ -110,6 +110,7 @@ public class HomeActivity extends AppCompatActivity {
         final TrainersListFragment finalFragment = fragment;
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.include("favorited_by");
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Trainer>() {
             public void done(List<Trainer> trainers, ParseException e) {
                 if (e == null) {
