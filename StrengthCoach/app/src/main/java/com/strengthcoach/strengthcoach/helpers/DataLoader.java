@@ -11,6 +11,7 @@ import com.strengthcoach.strengthcoach.models.Gym;
 import com.strengthcoach.strengthcoach.models.Review;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
+import com.strengthcoach.strengthcoach.models.TrainerSlots;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -453,6 +454,28 @@ public class DataLoader {
                 }
             }
         });
+    }
+
+
+    public static void slotsforalltrainers() {
+        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+        query.findInBackground(new FindCallback<Trainer>() {
+            public void done(List<Trainer> objects, ParseException e) {
+                if (e == null) {
+                    for (final Trainer trainer : objects) {
+                        TrainerSlots slots = new TrainerSlots();
+                          slots.setDay("Friday");
+                          slots.setStartTime("8");
+                          slots.setEndTime("1342");
+                          slots.setTrainerId(trainer);
+                          slots.saveInBackground();
+                                        Log.d("DEBUG", "Found " + objects.size() + " trainer objects");
+                                    }
+                                }  else {
+                                    Log.d("DEBUG", "Find all trainer slots objects query FAILED");
+                                }
+                            }
+                        });
     }
 
     // Creates two new fake users.

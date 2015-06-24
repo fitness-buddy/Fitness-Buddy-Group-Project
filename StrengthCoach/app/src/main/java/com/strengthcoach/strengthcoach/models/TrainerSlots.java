@@ -64,4 +64,6 @@ public class TrainerSlots extends ParseObject {
         put("booked_by", bookedBy);
     }
 
+    public void setTrainerId (ParseObject trainerId){put("trainer_id", trainerId);}
+
 }
