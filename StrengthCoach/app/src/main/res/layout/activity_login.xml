@@ -24,8 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/etLoginName"
+        android:focusable="true"
         android:layout_alignBottom="@+id/tvName"
         android:layout_toRightOf="@+id/tvName"
+        android:textSize="@dimen/textsize_15sp"
         android:ems="10"
         android:background="@drawable/custom_edit_text"
         android:textCursorDrawable="@drawable/cursor_color"
@@ -51,6 +53,7 @@
         android:layout_toRightOf="@+id/tvPhoneNumber"
         android:layout_alignBottom="@+id/tvPhoneNumber"
         android:layout_marginRight="10dp"
+        android:textSize="@dimen/textsize_15sp"
         android:background="@drawable/custom_edit_text"
         android:textCursorDrawable="@drawable/cursor_color"
         />
