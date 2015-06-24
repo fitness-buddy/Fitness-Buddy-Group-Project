@@ -77,22 +77,28 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            String appLinkUrl, previewImageUrl;
+//        if (id == R.id.action_settings) {
+//            String appLinkUrl, previewImageUrl;
+//
+//            appLinkUrl = "https://github.com/varungu/Android-Bootcamp";
+//            previewImageUrl = "http://www.ajayengineeringworks.com/Adminpanel/product_images/06c3757555a99c26ee8f3e8bebdaba0c.jpg";
+//
+//            if (AppInviteDialog.canShow()) {
+//                AppInviteContent content = new AppInviteContent.Builder()
+//                        .setApplinkUrl(appLinkUrl)
+//                        .setPreviewImageUrl(previewImageUrl)
+//                        .build();
+//                AppInviteDialog.show(this, content);
+//            }
+//        } else if (id == R.id.action_map) {
+//            launchMap();
+//        }
 
-            appLinkUrl = "https://github.com/varungu/Android-Bootcamp";
-            previewImageUrl = "http://www.ajayengineeringworks.com/Adminpanel/product_images/06c3757555a99c26ee8f3e8bebdaba0c.jpg";
-
-            if (AppInviteDialog.canShow()) {
-                AppInviteContent content = new AppInviteContent.Builder()
-                        .setApplinkUrl(appLinkUrl)
-                        .setPreviewImageUrl(previewImageUrl)
-                        .build();
-                AppInviteDialog.show(this, content);
-            }
-        } else if (id == R.id.action_map) {
+        if (id == R.id.action_map) {
             launchMap();
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 
