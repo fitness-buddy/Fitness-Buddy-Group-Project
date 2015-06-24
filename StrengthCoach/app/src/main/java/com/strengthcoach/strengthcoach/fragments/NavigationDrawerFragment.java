@@ -94,7 +94,7 @@ public class NavigationDrawerFragment extends Fragment {
         };
 
         if(!mUserLearnedDrawer && !mFromSavedInstanceState) {
-           mDrawerLayout.openDrawer(containerView);
+           //mDrawerLayout.openDrawer(containerView);
         }
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerLayout.post(new Runnable() {

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
@@ -28,7 +29,8 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     private TrainersListFragment fragment;
-    private final int REQUEST_CODE = 20;
+    private final int LOAD_TRAINERS_FOR_GYM = 20;
+    private final int LOGIN_FOR_FAVORITES = 122;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void launchMap() {
         Intent intent = new Intent(this, MapActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
+        startActivityForResult(intent, LOAD_TRAINERS_FOR_GYM);
     }
 
     // Pass the list of trainers to fragment
@@ -117,25 +119,41 @@ public class HomeActivity extends AppCompatActivity {
     // Pass the list of trainers to fragment
     public void populateFavoriteTrainers() {
         final TrainersListFragment finalFragment = fragment;
-        if (SimpleUser.currentUserObject != null) {
-            ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
-            query.include("favorited_by");
-            query.whereEqualTo("favorited_by", SimpleUser.currentUserObject);
-            query.findInBackground(new FindCallback<Trainer>() {
-                public void done(List<Trainer> trainers, ParseException e) {
-                    if (e == null) {
-                        Log.d("DEBUG", "Retrieved " + trainers.size() + " trainers");
-                        refreshFragment(trainers);
-                    } else {
-                        Log.d("DEBUG", "Error: " + e.getMessage());
-                    }
+        String currentUserId = getLoggedInUserId();
+
+        // If userId is found; user has already signed up
+        if (!currentUserId.equals("")) {
+            ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
+            query.whereEqualTo("objectId", currentUserId);
+            query.getFirstInBackground(new GetCallback<SimpleUser>() {
+                @Override
+                public void done(SimpleUser simpleUser, ParseException e) {
+                    SimpleUser.currentUserObject = simpleUser;
+                    showFavorites();
                 }
             });
         } else {
             // Ask the user to sign up
             Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, LOGIN_FOR_FAVORITES);
+            overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
         }
+    }
+
+    public void showFavorites() {
+        ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+        query.include("favorited_by");
+        query.whereEqualTo("favorited_by", SimpleUser.currentUserObject);
+        query.findInBackground(new FindCallback<Trainer>() {
+            public void done(List<Trainer> trainers, ParseException e) {
+                if (e == null) {
+                    Log.d("DEBUG", "Retrieved " + trainers.size() + " trainers");
+                    refreshFragment(trainers);
+                } else {
+                    Log.d("DEBUG", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 
     private String getLoggedInUserId() {
@@ -147,10 +165,18 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Get the name of gym from map activity
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            String gymName = data.getExtras().getString("gymName");
-            populateTrainersFromGymName(gymName);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case LOAD_TRAINERS_FOR_GYM:
+                    // Get the name of gym from map activity
+                    String gymName = data.getExtras().getString("gymName");
+                    populateTrainersFromGymName(gymName);
+                    break;
+
+                case LOGIN_FOR_FAVORITES:
+                    populateFavoriteTrainers();
+                    break;
+            }
         }
     }
 

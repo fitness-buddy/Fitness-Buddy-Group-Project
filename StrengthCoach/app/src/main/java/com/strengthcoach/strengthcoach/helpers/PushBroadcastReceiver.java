@@ -85,8 +85,6 @@ public class PushBroadcastReceiver extends ParsePushBroadcastReceiver {
                         .setGroup("999")
                         .setGroupSummary(true)
                         .setContentText(data.text);
-
-
         notificationManager.notify("MyTag", 0, builder.build());
 
     }

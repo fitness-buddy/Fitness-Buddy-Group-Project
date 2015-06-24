@@ -486,6 +486,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                     me.name = user.getName();
                     me.objectId = user.getObjectId();
                     me.imageUrl = "";
+                    SimpleUser.currentUserObject = user;
 
                     ChatPerson other = new ChatPerson();
                     other.name = m_trainer.getName();
@@ -508,6 +509,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
     private String getLoggedInUserId() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String userId = pref.getString("userId", "");
+        SimpleUser.currentUserObjectId = userId;
         return userId;
     }
 
