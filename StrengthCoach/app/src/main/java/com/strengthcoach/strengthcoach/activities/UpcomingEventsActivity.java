@@ -111,6 +111,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
         query.whereEqualTo("trainer_id", trainer);
         query.whereEqualTo("user_id", user);
         query.whereEqualTo("status", Constants.BOOKED);
+        query.orderByAscending("slot_date");
         adSlots.clear();
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> trainerSlots, ParseException e) {
