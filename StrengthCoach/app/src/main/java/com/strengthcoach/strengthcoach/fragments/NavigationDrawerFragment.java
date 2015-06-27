@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -154,11 +155,20 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void handleClick(String tag) {
         switch (tag) {
-            case "Home": ((HomeActivity) getActivity()).populateTrainers();
+            case "Home":
+                ((HomeActivity) getActivity()).populateTrainers();
                 break;
-            case "Map": ((HomeActivity) getActivity()).launchMap();
+            case "Map":
+                ((HomeActivity) getActivity()).launchMap();
                 break;
-            case "Favorites": ((HomeActivity) getActivity()).populateFavoriteTrainers();
+            case "Favorites":
+                ((HomeActivity) getActivity()).populateFavoriteTrainers();
+                break;
+            case "Sign Out":
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                SharedPreferences.Editor edit = pref.edit();
+                edit.clear();
+                edit.commit();
                 break;
         }
     }

@@ -72,6 +72,7 @@
         <item>Write Review</item>
         <item>Invite Friends</item>
         <item>Settings</item>
+        <item>Sign Out</item>
         <item>Report a bug</item>
     </string-array>
 
@@ -87,6 +88,7 @@
         <item>@drawable/ic_write_review</item>
         <item>@drawable/ic_social</item>
         <item>@drawable/ic_settings</item>
+        <item>@drawable/ic_signup</item>
         <item>@drawable/ic_bug</item>
     </array>
 

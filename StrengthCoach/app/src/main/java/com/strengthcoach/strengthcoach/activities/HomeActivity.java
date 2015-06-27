@@ -37,6 +37,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        SignOut();
+
         fragment = (TrainersListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
         String currentUserId = getLoggedInUserId();
@@ -245,5 +248,12 @@ public class HomeActivity extends AppCompatActivity {
         ft.attach(fragment);
         ft.commit();
         fragment.setItems(trainers);
+    }
+
+    public void SignOut() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor edit = pref.edit();
+        edit.clear();
+        edit.commit();
     }
 }
