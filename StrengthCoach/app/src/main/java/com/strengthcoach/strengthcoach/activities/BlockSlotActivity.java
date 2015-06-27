@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -42,7 +43,7 @@ public class BlockSlotActivity extends ActionBarActivity{
     Date currentDate, dateAfterMonth;
     Button bProceedToPayment, bAddToCart;
     Date previousDate = null;
-    String userSelectedDate;
+    Date userSelectedDate;
     Spinner spSelectSlot;
     String dayOfTheWeek, selectedDate;
     SimpleDateFormat simpleDayFormat = new SimpleDateFormat(Constants.DAY_OF_WEEK_FORMAT);
@@ -108,7 +109,7 @@ public class BlockSlotActivity extends ActionBarActivity{
 
         dayOfTheWeek = simpleDayFormat.format(date);
         selectedDate = simpleDateStrFormat.format(date);
-        userSelectedDate = selectedDate;
+        userSelectedDate = date;
         alreadyBookedSlots(Trainer.currentTrainerObjectId, dayOfTheWeek, selectedDate);
         setupListener();
 
@@ -169,6 +170,18 @@ public class BlockSlotActivity extends ActionBarActivity{
             }
         });
 
+       /* spSelectSlot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(!spSelectSlot.getSelectedItem().toString().equals("Select a slot") && spSelectSlot.getSelectedItem().toString() != null) {
+                    alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(date),simpleDateStrFormat.format(date));
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });*/
+
         bAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,7 +199,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                     ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
                     bSlots.setTrainerId(trainer);
                     bSlots.setBookedByUserId(user);
-                    bSlots.setSlotDate(userSelectedDate);
+                    bSlots.setSlotDate(simpleDateStrFormat.format(userSelectedDate));
                     String[] selectedSlot = spSelectSlot.getSelectedItem().toString().split(" ");
                     String slotTime = selectedSlot[0];
                     String finalSelectedSlot = "";
@@ -207,11 +220,10 @@ public class BlockSlotActivity extends ActionBarActivity{
                         public void done(ParseException e) {
                             if (e == null) {
                                 Log.d("DEBUG!!!", "Slot Saved Successfully ");
-
+                                alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(userSelectedDate),simpleDateStrFormat.format(userSelectedDate));
                             } else {
                                 Log.d("DEBUG!!!", "Slot Not Saved");
                             }
-
                         }
                     });
                     bProceedToPayment.setVisibility(View.VISIBLE);
@@ -238,7 +250,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                 caldroidFragment.setBackgroundResourceForDate(R.color.pink, date);
                 previousDate = date;
                 caldroidFragment.refreshView();
-                userSelectedDate = simpleDateStrFormat.format(date);
+                userSelectedDate = date;
                 alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(date),simpleDateStrFormat.format(date));
 
 
