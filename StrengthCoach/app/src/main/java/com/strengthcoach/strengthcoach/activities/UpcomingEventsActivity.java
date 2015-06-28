@@ -60,10 +60,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
         lvUpcomingEvents.addHeaderView(header);
         adSlots = new UpcomingEventsAdapter(UpcomingEventsActivity.this, alSlots);
         // adding header to the list view ends
-        // adding footer to the list view
-        View footer = LayoutInflater.from(UpcomingEventsActivity.this).inflate( R.layout.upcoming_events_footer, null);
-        bBookMoreSlots = (Button) footer.findViewById(R.id.bBookMoreSlots);
-        lvUpcomingEvents.addFooterView(footer);
+        bBookMoreSlots = (Button) findViewById(R.id.bBookMoreSlots);
         lvUpcomingEvents.setAdapter(adSlots);
         populateEvents();
     }

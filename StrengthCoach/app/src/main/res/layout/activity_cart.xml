@@ -17,4 +17,13 @@
         android:layout_below="@id/toolbar" />
 
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_60dp"
+        android:text="@string/payment"
+        style="@style/activityTransitionButton"
+        android:id="@+id/bProceedtoPayment"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

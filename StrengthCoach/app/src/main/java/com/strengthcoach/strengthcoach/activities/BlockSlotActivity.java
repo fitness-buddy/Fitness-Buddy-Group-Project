@@ -162,26 +162,12 @@ public class BlockSlotActivity extends ActionBarActivity{
 
 
     public void setupListener(){
-        // spSelectSlot.setOnItemSelectedListener(this);
         bProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 callCartActivity();
             }
         });
-
-       /* spSelectSlot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(!spSelectSlot.getSelectedItem().toString().equals("Select a slot") && spSelectSlot.getSelectedItem().toString() != null) {
-                    alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(date),simpleDateStrFormat.format(date));
-                }
-            }
-
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                return;
-            }
-        });*/
-
         bAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

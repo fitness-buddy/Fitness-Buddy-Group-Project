@@ -18,4 +18,8 @@
     <dimen name="margin_90dp">90dp</dimen>
     <dimen name="textsize_15sp">15sp</dimen>
     <dimen name="margin_5dp">5dp</dimen>
+
+
+    <dimen name="textsize_20sp">20sp</dimen>
+    <dimen name="margin_60dp">60dp</dimen>
 </resources>

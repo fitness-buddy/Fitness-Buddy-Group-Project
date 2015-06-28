@@ -71,7 +71,7 @@ public class CartActivity extends AppCompatActivity {
         // adding footer to the list view
         View footer = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_footer, null);
         tvFooterTotalAmt = (TextView) footer.findViewById(R.id.tvFooterTotalAmt);
-        bProceedtoPayment = (Button) footer.findViewById(R.id.bProceedtoPayment);
+        bProceedtoPayment = (Button) findViewById(R.id.bProceedtoPayment);
         lvCartItems.addFooterView(footer);
         lvCartItems.setAdapter(adSlots);
         populateCart();

@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:text="@string/verify_button_text"
         android:id="@+id/bVerify"
+        style="@style/customButton"
         android:layout_toRightOf="@+id/etVerificationCode"
         android:layout_below="@+id/verificationText" />
 

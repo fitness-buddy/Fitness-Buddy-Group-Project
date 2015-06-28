@@ -156,12 +156,12 @@
 
         <Button
             android:id="@+id/bSubmit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/etCCNumber"
-            android:layout_alignRight="@+id/etCCNumber"
-            android:layout_below="@+id/etExpiry"
-            android:layout_toRightOf="@+id/etExpiry"
-            android:text="@string/bSubmit" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_60dp"
+            style="@style/activityTransitionButton"
+            android:text="@string/bSubmit"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 </RelativeLayout>
