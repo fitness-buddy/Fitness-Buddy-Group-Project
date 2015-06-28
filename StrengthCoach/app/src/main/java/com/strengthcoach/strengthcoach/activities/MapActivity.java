@@ -51,6 +51,7 @@ public class MapActivity extends ActionBarActivity {
                             intent.putExtra("gymName", gymName);
                             setResult(RESULT_OK, intent);
                             finish();
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         }
                     });
 

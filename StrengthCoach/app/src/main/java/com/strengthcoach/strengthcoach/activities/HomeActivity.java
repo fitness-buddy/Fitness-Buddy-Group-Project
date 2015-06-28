@@ -106,6 +106,7 @@ public class HomeActivity extends AppCompatActivity {
     public void launchMap() {
         Intent intent = new Intent(this, MapActivity.class);
         startActivityForResult(intent, LOAD_TRAINERS_FOR_GYM);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     // Pass the list of trainers to fragment
