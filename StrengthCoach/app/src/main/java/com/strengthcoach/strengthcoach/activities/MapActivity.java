@@ -13,6 +13,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -57,8 +58,27 @@ public class MapActivity extends ActionBarActivity {
                     GPSTracker gpsTracker = new GPSTracker(getBaseContext());
                     double latitude = gpsTracker.getLatitude();
                     double longitude = gpsTracker.getLongitude();
-                    LatLng point = new LatLng(latitude, longitude);
-                    m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
+                    final LatLng point = new LatLng(latitude, longitude);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(point)      // Sets the center of the map to Mountain View
+                            .zoom(0)                   // Sets the zoom
+                            .build();                   // Creates a CameraPosition from the builder
+                    m_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), new GoogleMap.CancelableCallback() {
+                        @Override
+                        public void onFinish() {
+                            CameraPosition cameraPosition = new CameraPosition.Builder()
+                                    .target(point)      // Sets the center of the map to Mountain View
+                                    .zoom(15)                   // Sets the zoom
+                                    .build();                   // Creates a CameraPosition from the builder
+                            m_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
 
                     ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
                     query.include("address");
