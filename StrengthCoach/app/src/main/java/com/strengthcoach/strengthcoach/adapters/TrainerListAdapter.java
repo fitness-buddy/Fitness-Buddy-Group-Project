@@ -11,14 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -92,8 +91,10 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
                     // Mark Favorite
                     ((ImageView) view).setImageResource(R.drawable.heart_selected);
                 }
-                Animation animation = AnimationUtils.loadAnimation(context, R.anim.zoom);
-                view.startAnimation(animation);
+//                Animation animation = AnimationUtils.loadAnimation(context, R.anim.zoom);
+//                view.startAnimation(animation);
+
+
             }
         });
         return holder;
@@ -207,6 +208,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         RatingBar ratingBar;
         TextView tvNumReviews;
         ImageView ivFavorite;
+        ImageView ivAnimatedHeart;
         public IMyViewHolderClicks mListener;
         private final Context context;
         TrainerListPagerAdapter mTrainerListPagerAdapter;
@@ -229,6 +231,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             tvNumReviews = (TextView) itemView.findViewById(R.id.tvNumReviews);
             ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
+            ivAnimatedHeart = (ImageView) itemView.findViewById(R.id.ivAnimatedHeart);
             mListener = listener;
             // Set the click listeners for the views
             ivFavorite.setOnClickListener(this);
@@ -242,6 +245,29 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             // View specific clicks will be handled here
             if (view == ivFavorite) {
                 mListener.favoriteClick(view, trainer);
+                YoYo.with(Techniques.TakingOff)
+                        .duration(1000).withListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        ivAnimatedHeart.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ivAnimatedHeart.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                })
+                        .playOn(ivAnimatedHeart);
             } else {
                 // Launch Trainer details activity
                 final Intent intent;

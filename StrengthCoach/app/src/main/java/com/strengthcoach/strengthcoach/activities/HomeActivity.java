@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Later refactor this logic and move to nav drawer
         SignOut();
 
         fragment = (TrainersListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);

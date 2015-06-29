@@ -52,9 +52,6 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
         name =  getIntent().getStringExtra("etName");
         phoneno =  getIntent().getStringExtra("etPhoneNumber");
         verifyCode =  getIntent().getStringExtra("verifyCode");
-
-
-
     }
 
     public void setupViews(){
