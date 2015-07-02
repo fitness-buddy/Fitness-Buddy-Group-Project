@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -99,15 +100,19 @@
             android:paddingRight="@dimen/margin_10dp"
             android:paddingTop="@dimen/margin_10dp"
             android:text="@string/cc_number"
-            android:textSize="15sp"
             android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
 
         <EditText
             android:id="@+id/etCCNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvCardNumber"
+            android:layout_toEndOf="@+id/tvCardNumber"
+            android:layout_toRightOf="@+id/tvCardNumber"
+            android:background="@drawable/custom_edit_text"
             android:hint="@string/cc_number_hint"
             android:inputType="number"
             android:maxLength="19"
@@ -115,28 +120,24 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray"
-            android:background="@drawable/custom_edit_text"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:layout_alignTop="@+id/tvCardNumber"
-            android:layout_toRightOf="@+id/tvCardNumber"
-            android:layout_toEndOf="@+id/tvCardNumber" />
+            android:textColorHint="@color/colorHighlight"
+            android:textCursorDrawable="@drawable/cursor_color" />
 
 
         <com.strengthcoach.strengthcoach.customui.RobotoTextView
             android:id="@+id/tvExpiry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etCCNumber"
             android:paddingEnd="@dimen/margin_10dp"
             android:paddingLeft="@dimen/margin_42dp"
             android:paddingRight="@dimen/margin_10dp"
             android:paddingTop="@dimen/margin_10dp"
             android:text="@string/cc_expiry"
-            android:textSize="@dimen/textsize_15sp"
             android:textColor="@color/black"
-            android:layout_below="@+id/etCCNumber"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="@dimen/textsize_15sp" />
 
         <EditText
             android:id="@+id/etExpiry"
@@ -145,23 +146,31 @@
             android:layout_alignLeft="@+id/etCCNumber"
             android:layout_alignStart="@+id/etCCNumber"
             android:layout_below="@+id/etCCNumber"
+            android:background="@drawable/custom_edit_text"
             android:hint="@string/cc_expiry_hint"
             android:inputType="date"
             android:paddingBottom="@dimen/margin_20dp"
             android:singleLine="true"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray"
-            android:background="@drawable/custom_edit_text"
-            android:textCursorDrawable="@drawable/cursor_color"/>
+            android:textColorHint="@color/colorHighlight"
+            android:textCursorDrawable="@drawable/cursor_color" />
 
-        <Button
-            android:id="@+id/bSubmit"
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/ripple"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_60dp"
-            style="@style/activityTransitionButton"
-            android:text="@string/bSubmit"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            app:mrl_rippleOverlay="true"
+            app:mrl_rippleRoundedCorners="10dp">
+
+            <Button
+                android:id="@+id/bSubmit"
+                style="@style/activityTransitionButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_60dp"
+                android:text="@string/bSubmit" />
+        </com.balysv.materialripple.MaterialRippleLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -55,19 +56,22 @@
                 android:id="@+id/tableRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true" android:weightSum="2">
+                android:layout_centerHorizontal="true"
+                android:weightSum="2">
+
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
                     android:id="@+id/tvTrainersCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_column="0"
                     android:layout_weight="0.9"
                     android:gravity="center_horizontal"
                     android:text="@string/trainerscount"
-                    android:textSize="22sp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22sp" />
+
                 <View
                     android:id="@+id/viewSeperator"
                     android:layout_width="1px"
@@ -87,39 +91,44 @@
                     android:layout_weight="0.9"
                     android:gravity="center_horizontal"
                     android:text="@string/userscount"
-                    android:textSize="22sp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22sp" />
 
             </TableRow>
 
         </TableLayout>
 
-        <Button
-            android:id="@+id/bLogin"
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/ripple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/tvSkip"
-            android:text="@string/login"
-            android:gravity="center_horizontal|center_vertical"
-            android:layout_alignLeft="@+id/tvAppName"
-            android:layout_alignStart="@+id/tvAppName"
-            android:layout_alignRight="@+id/tvAppName"
-            android:layout_alignEnd="@+id/tvAppName" />
+            android:layout_alignLeft="@+id/tvSkip"
+            android:layout_alignStart="@+id/tvSkip"
+            android:layout_alignRight="@+id/tvSkip"
+            android:layout_alignEnd="@+id/tvSkip"
+            app:mrl_rippleOverlay="true"
+            app:mrl_rippleRoundedCorners="10dp">
+            <Button
+                android:id="@+id/bLogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/login"/>
+        </com.balysv.materialripple.MaterialRippleLayout>
 
         <TextView
             android:id="@+id/tvSkip"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_55dp"
-            android:layout_alignLeft="@+id/bLogin"
             android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/bLogin"
             android:layout_marginBottom="@dimen/margin_20dp"
             android:clickable="true"
-            android:onClick="callSkip"
             android:gravity="center_horizontal|center_vertical"
+            android:onClick="callSkip"
             android:text="@string/skip"
-            android:textColor="@color/white"
-            android:layout_alignRight="@+id/bLogin"
-            android:layout_alignEnd="@+id/bLogin" />
+            android:textColor="@color/white" />
+
+
     </RelativeLayout>
 </RelativeLayout>

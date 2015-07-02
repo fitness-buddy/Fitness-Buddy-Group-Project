@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -16,14 +17,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar" />
 
-
-    <Button
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/ripple"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_60dp"
-        android:text="@string/payment"
-        style="@style/activityTransitionButton"
-        android:id="@+id/bProceedtoPayment"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        app:mrl_rippleOverlay="true"
+        app:mrl_rippleRoundedCorners="10dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/payment"
+            style="@style/activityTransitionButton"
+            android:id="@+id/bProceedtoPayment"
+          />
+    </com.balysv.materialripple.MaterialRippleLayout>
 </RelativeLayout>

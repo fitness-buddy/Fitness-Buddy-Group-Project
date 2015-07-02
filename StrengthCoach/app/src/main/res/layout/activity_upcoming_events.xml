@@ -1,25 +1,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context="com.strengthcoach.strengthcoach.activities.UpcomingEventsActivity">
 
-    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <ListView
+        android:id="@+id/lvUpcomingEvents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lvUpcomingEvents"
-        android:layout_below="@+id/toolbar"
-        />
+        android:layout_below="@+id/toolbar" />
 
-    <Button
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/ripple"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_60dp"
-        android:text="@string/bookmoreslots"
-        style="@style/activityTransitionButton"
-        android:id="@+id/bBookMoreSlots"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        app:mrl_rippleOverlay="true"
+        app:mrl_rippleRoundedCorners="10dp">
+
+        <Button
+            android:id="@+id/bBookMoreSlots"
+            style="@style/activityTransitionButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/bookmoreslots" />
+    </com.balysv.materialripple.MaterialRippleLayout>
 </RelativeLayout>
 
