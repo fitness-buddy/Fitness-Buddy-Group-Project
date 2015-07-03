@@ -9,6 +9,7 @@
     <item name="black_translucent" type="color">#80000000</item>
     <item name="grey_accent" type="color">#757575</item>
     <item name="amber" type="color">#FFC107</item>
+	<item name="red_border" type="color">#ffff3249</item>
 
     <color name="book_slot">#b355acee</color>
     <color name="colorPrimary">#55acee</color>

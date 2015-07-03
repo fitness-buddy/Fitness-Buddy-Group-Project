@@ -42,5 +42,7 @@ public class Constants {
 
     public static final String CC= "5200 8282 8282 8210";
     public static final String EXPIRY_DATE= "10/16";
+	
+	public static final int PROFILE_PIC_BORDER_WIDTH = 6;
 }
 
