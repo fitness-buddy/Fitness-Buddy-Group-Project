@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.activities.HomeActivity;
 import com.strengthcoach.strengthcoach.activities.TrainerDetailsAnimatedActivity;
+import com.strengthcoach.strengthcoach.helpers.Constants;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
