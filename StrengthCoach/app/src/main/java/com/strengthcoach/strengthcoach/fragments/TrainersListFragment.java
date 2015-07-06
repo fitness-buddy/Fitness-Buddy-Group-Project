@@ -60,6 +60,8 @@ public class TrainersListFragment extends Fragment implements ObservableScrollVi
         // Initialize empty list
         this.trainers = new ArrayList<>();
         adapter = new TrainerListAdapter(getActivity(), trainers);
+        // allows for optimizations
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

@@ -8,18 +8,20 @@
         android:layout_height="335dp"
         android:id="@+id/rlImageContainer">
 
-        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/pager"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v4.view.ViewPager>
+            android:layout_height="335dp"
+            android:id="@+id/ivImage"
+            android:transitionName="profilePicture"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ivFavorite"
-            android:layout_alignTop="@+id/pager"
-            android:layout_alignRight="@+id/pager"
+            android:layout_alignTop="@+id/ivImage"
+            android:layout_alignRight="@+id/ivImage"
             android:padding="20dp"
             android:onClick="onFavoriteClicked"/>
 
@@ -35,7 +37,7 @@
             android:textColor="@color/white"
             android:textSize="25dp"
             android:gravity="center_vertical"
-            android:layout_alignLeft="@+id/pager"/>
+            android:layout_alignLeft="@+id/ivImage"/>
     </RelativeLayout>
 
     <View

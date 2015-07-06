@@ -3,6 +3,7 @@ package com.strengthcoach.strengthcoach.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,7 +22,7 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = mLayoutInflater.inflate(R.layout.trainer_image, container, false);
-        ImageView ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
+        final ImageView ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
         Picasso.with(mContext).load(trainer.getImages().get(position)).into(ivImage);
         container.addView(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -30,8 +31,14 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
                 final Intent intent;
                 intent =  new Intent(mContext, TrainerDetailsAnimatedActivity.class);
                 intent.putExtra("trainerId", trainer.getObjectId());
-                mContext.startActivity(intent);
-                ((Activity)mContext).overridePendingTransition(R.anim.enter_from_right, R.anim.stay_in_place);
+                // Sending this separately to quickly load the image to support smooth shared element
+                // transition
+                intent.putExtra("imageUrl", trainer.getImages().get(0));
+
+                // Shared element transition
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity)mContext, ivImage, "profilePicture");
+                mContext.startActivity(intent, options.toBundle());
             }
         });
 

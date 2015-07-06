@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
@@ -86,8 +85,8 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
     GoogleMap m_map;
     Button bBookSlot;
     TrainerDetailPagerAdapter mDetailPagerAdapter;
-    ViewPager mViewPager;
     String trainerId;
+    String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +100,13 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
         mTitleView = (TextView) findViewById(R.id.title);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
         mImageContainer = (RelativeLayout) findViewById(R.id.rlImageContainer);
 
         // Get the trainer object from parse and setup the view
+        imageUrl = getIntent().getStringExtra("imageUrl");
+        // Load the image as early as possible for a smooth shared element tranistion animation
+        setupImage();
+
         trainerId = getIntent().getStringExtra("trainerId");
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.whereEqualTo("objectId", trainerId);
@@ -116,7 +118,6 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                 m_trainer = list.get(0);
                 mTitleView.setText(m_trainer.getName());
                 setTitle(null);
-                setupViewPager();
 
                 // Get the gym where the trainer goes to workout
                 getTrainerGym();
@@ -160,6 +161,11 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                 mScrollView.scrollTo(0, 0);
             }
         });
+    }
+
+    private void setupImage() {
+        ImageView ivImage = (ImageView) findViewById(R.id.ivImage);
+        Picasso.with(this).load(imageUrl).into(ivImage);
     }
 
     protected int getActionBarSize() {
@@ -342,11 +348,6 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
 
     }
 
-    private void setupViewPager() {
-        mDetailPagerAdapter = new TrainerDetailPagerAdapter(this, m_trainer);
-        mViewPager.setAdapter(mDetailPagerAdapter);
-    }
-
     private void addReviewsInView(LinearLayout llReviews){
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -527,7 +528,6 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
     public void onBackPressed() {
         Intent returnIntent = new Intent();
         setResult(RESULT_CANCELED, returnIntent);
-        finish();
-        overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_right);
+        supportFinishAfterTransition();
     }
 }

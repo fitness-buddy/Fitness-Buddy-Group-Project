@@ -1,9 +1,9 @@
 package com.strengthcoach.strengthcoach.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -204,7 +204,6 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     // Custom ViewHolder
     static class TrainerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView ivImage;
         CircleImageView ivProfileImage;
         TextView tvPrice;
         TextView tvTrainerName;
@@ -227,7 +226,6 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             context = itemView.getContext();
 
             // Get the reference to views
-            ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
             ivProfileImage = (CircleImageView) itemView.findViewById(R.id.ivProfileImage);
             tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
             tvTrainerName = (TextView) itemView.findViewById(R.id.tvTrainerName);
@@ -277,8 +275,14 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
                 final Intent intent;
                 intent =  new Intent(context, TrainerDetailsAnimatedActivity.class);
                 intent.putExtra("trainerId", trainer.getObjectId());
-                context.startActivity(intent);
-                ((Activity)context).overridePendingTransition(R.anim.enter_from_right, R.anim.stay_in_place);
+                // Sending this separately to quickly load the image to support smooth shared element
+                // transition
+                intent.putExtra("imageUrl", trainer.getImages().get(0));
+
+                // Shared element transition
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((HomeActivity)context, mViewPager, "profilePicture");
+                context.startActivity(intent, options.toBundle());
             }
 
         }

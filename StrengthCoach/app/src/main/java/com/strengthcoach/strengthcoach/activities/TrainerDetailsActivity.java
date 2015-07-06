@@ -57,6 +57,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * DEPRECATED: Use TrainerDetailsAnimatedActivity instead
+ */
 public class TrainerDetailsActivity extends ActionBarActivity {
 
     Trainer m_trainer;

@@ -20,7 +20,8 @@
         <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="335dp">
+            android:layout_height="335dp"
+            android:transitionName="profilePicture">
         </android.support.v4.view.ViewPager>
 
         <TextView
