@@ -20,7 +20,7 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = mLayoutInflater.inflate(R.layout.trainer_image, container, false);
         final ImageView ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
         Picasso.with(mContext).load(trainer.getImages().get(position)).into(ivImage);
@@ -33,7 +33,7 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
                 intent.putExtra("trainerId", trainer.getObjectId());
                 // Sending this separately to quickly load the image to support smooth shared element
                 // transition
-                intent.putExtra("imageUrl", trainer.getImages().get(0));
+                intent.putExtra("imageUrl", trainer.getImages().get(position));
 
                 // Shared element transition
                 ActivityOptionsCompat options = ActivityOptionsCompat.
