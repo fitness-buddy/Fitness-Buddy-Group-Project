@@ -143,7 +143,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
         // Set the profile image
         holder.ivProfileImage.setImageResource(0);
-		holder.ivProfileImage.setBorderColor(context.getResources().getColor(R.color.red_border));
+		holder.ivProfileImage.setBorderColor(context.getResources().getColor(R.color.white));
         holder.ivProfileImage.setBorderWidth(Constants.PROFILE_PIC_BORDER_WIDTH);
         holder.ivProfileImage.setBorderOverlay(true);
         Picasso.with(context).load(trainer.getProfileImageUrl()).into(holder.ivProfileImage);
