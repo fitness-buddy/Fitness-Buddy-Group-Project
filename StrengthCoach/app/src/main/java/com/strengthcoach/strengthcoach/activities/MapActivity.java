@@ -106,12 +106,7 @@ public class MapActivity extends ActionBarActivity {
 
 
                                 Bitmap icon = null;
-                                if (count < 10) {
-                                    icon = drawTextToBitmap(getBaseContext(), R.drawable.pin_green, String.valueOf(count));
-                                }
-                                else {
-                                    icon = drawTextToBitmap(getBaseContext(), R.drawable.pin_red, String.valueOf(count));
-                                }
+                                icon = drawTextToBitmap(getBaseContext(), R.drawable.pin_map, String.valueOf(count));
 
                                 // Creates and adds marker to the map
                                 Marker marker = m_map.addMarker(new MarkerOptions()
@@ -153,7 +148,7 @@ public class MapActivity extends ActionBarActivity {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.parseColor("#FFFFFF"));
         // text size in pixels
-        paint.setTextSize((int) (20 * scale));
+        paint.setTextSize((int) (17 * scale));
         // text shadow
         paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
 
@@ -161,7 +156,7 @@ public class MapActivity extends ActionBarActivity {
         Rect bounds = new Rect();
         paint.getTextBounds(gText, 0, gText.length(), bounds);
         int x = (bitmap.getWidth() - bounds.width())/2;
-        int y = (int) ((bitmap.getHeight() + bounds.height())/2.5);
+        int y = (int) ((bitmap.getHeight() + bounds.height())/2.8);
 
         canvas.drawText(gText, x, y, paint);
 
