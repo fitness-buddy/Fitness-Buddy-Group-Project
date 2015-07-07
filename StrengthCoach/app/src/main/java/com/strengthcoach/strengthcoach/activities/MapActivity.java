@@ -1,6 +1,14 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -11,7 +19,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -81,26 +88,37 @@ public class MapActivity extends ActionBarActivity {
                         }
                     });
 
+
                     ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
                     query.include("address");
                     query.include("trainers");
                     query.findInBackground(new FindCallback<Gym>() {
                         public void done(List<Gym> gyms, com.parse.ParseException e) {
                             for (int i = 0; i < gyms.size(); i++) {
-                                BitmapDescriptor defaultMarker =
-                                        BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+
+                                int count = gyms.get(i).getTrainers().size();
+
                                 // Extract content from alert dialog
-                                String title = gyms.get(i).getName() + " (" + gyms.get(i).getTrainers().size() + " trainers)";
+                                String title = gyms.get(i).getName() + " (" + count + " trainers)";
                                 String snippet = gyms.get(i).getAddress().toString();
                                 ParseGeoPoint parseGeoPoint = gyms.get(i).point();
                                 LatLng point = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
+
+
+                                Bitmap icon = null;
+                                if (count < 10) {
+                                    icon = drawTextToBitmap(getBaseContext(), R.drawable.pin_green, String.valueOf(count));
+                                }
+                                else {
+                                    icon = drawTextToBitmap(getBaseContext(), R.drawable.pin_red, String.valueOf(count));
+                                }
 
                                 // Creates and adds marker to the map
                                 Marker marker = m_map.addMarker(new MarkerOptions()
                                         .position(point)
                                         .title(title)
                                         .snippet(snippet)
-                                        .icon(defaultMarker));
+                                        .icon(BitmapDescriptorFactory.fromBitmap(icon)));
                                 marker.showInfoWindow();
                             }
                         }
@@ -110,6 +128,44 @@ public class MapActivity extends ActionBarActivity {
         } else {
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public Bitmap drawTextToBitmap(Context gContext,
+                                   int gResId,
+                                   String gText) {
+        Resources resources = gContext.getResources();
+        float scale = resources.getDisplayMetrics().density;
+        Bitmap bitmap =
+                BitmapFactory.decodeResource(resources, gResId);
+
+        android.graphics.Bitmap.Config bitmapConfig =
+                bitmap.getConfig();
+        // set default bitmap config if none
+        if(bitmapConfig == null) {
+            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        }
+        // resource bitmaps are imutable,
+        // so we need to convert it to mutable one
+        bitmap = bitmap.copy(bitmapConfig, true);
+
+        Canvas canvas = new Canvas(bitmap);
+        // new antialised Paint
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.parseColor("#FFFFFF"));
+        // text size in pixels
+        paint.setTextSize((int) (20 * scale));
+        // text shadow
+        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+
+        // draw text to the Canvas center
+        Rect bounds = new Rect();
+        paint.getTextBounds(gText, 0, gText.length(), bounds);
+        int x = (bitmap.getWidth() - bounds.width())/2;
+        int y = (int) ((bitmap.getHeight() + bounds.height())/2.5);
+
+        canvas.drawText(gText, x, y, paint);
+
+        return bitmap;
     }
 
     @Override
