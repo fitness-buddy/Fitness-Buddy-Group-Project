@@ -6,14 +6,13 @@
     android:background="@color/white_bg"
     tools:context="com.strengthcoach.strengthcoach.activities.LauncherActivity">
 
-    <ImageView
+    <com.flaviofaria.kenburnsview.KenBurnsView
         android:id="@+id/ivBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitXY"
-        android:src="@drawable/slide_animation" />
+        android:scaleType="fitXY" />
 
     <RelativeLayout
         android:layout_width="match_parent"
