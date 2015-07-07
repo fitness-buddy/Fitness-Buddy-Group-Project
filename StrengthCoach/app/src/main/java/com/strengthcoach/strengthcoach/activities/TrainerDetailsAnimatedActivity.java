@@ -30,6 +30,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -55,6 +57,7 @@ import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.TrainerDetailPagerAdapter;
 import com.strengthcoach.strengthcoach.models.ChatPerson;
 import com.strengthcoach.strengthcoach.models.Gym;
+import com.strengthcoach.strengthcoach.models.LocalTrainer;
 import com.strengthcoach.strengthcoach.models.Review;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
@@ -87,6 +90,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
     TrainerDetailPagerAdapter mDetailPagerAdapter;
     String trainerId;
     String imageUrl;
+    LocalTrainer localTrainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +108,14 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
 
         // Get the trainer object from parse and setup the view
         imageUrl = getIntent().getStringExtra("imageUrl");
-        // Load the image as early as possible for a smooth shared element tranistion animation
-        setupImage();
 
-        trainerId = getIntent().getStringExtra("trainerId");
+        // Get the localTrainer object
+        localTrainer = (LocalTrainer) getIntent().getSerializableExtra("localTrainer");
+
+        // Load the image as early as possible for a smooth shared element tranistion animation
+        setupBasicInfo();
+
+        trainerId = localTrainer.getId();
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.whereEqualTo("objectId", trainerId);
         query.include("favorited_by");
@@ -161,11 +169,6 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                 mScrollView.scrollTo(0, 0);
             }
         });
-    }
-
-    private void setupImage() {
-        ImageView ivImage = (ImageView) findViewById(R.id.ivImage);
-        Picasso.with(this).load(imageUrl).into(ivImage);
     }
 
     protected int getActionBarSize() {
@@ -251,23 +254,37 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         view.startAnimation(animation);
     }
 
-    private void setupTrainerView() {
+    private void setupBasicInfo() {
+        ImageView ivImage = (ImageView) findViewById(R.id.ivImage);
+        Picasso.with(this).load(imageUrl).into(ivImage);
+
+        // Show trainer name
+        mTitleView.setText(localTrainer.getName());
+        YoYo.with(Techniques.FlipInX)
+                .duration(2000)
+                .playOn(mTitleView);
+
+        // Show fav icon
         ImageView ivFavorite = (ImageView) findViewById(R.id.ivFavorite);
-        if (m_trainer.isFavorite()) {
+        if (localTrainer.isFavorite()) {
             ivFavorite.setImageResource(R.drawable.heart_selected);
         } else {
             ivFavorite.setImageResource(R.drawable.heart);
         }
+        YoYo.with(Techniques.Landing)
+                .duration(2000)
+                .playOn(ivFavorite);
 
         TextView tvAboutTrainer = (TextView) findViewById(R.id.tvAboutTrainer);
-        tvAboutTrainer.setText(m_trainer.getAboutMe());
+        tvAboutTrainer.setText(localTrainer.getAboutMe());
 
         TextView tvPrice = (TextView) findViewById(R.id.tvPrice);
-        tvPrice.setText(m_trainer.getPriceFormatted());
+        tvPrice.setText(localTrainer.getPriceFormatted());
+        YoYo.with(Techniques.RubberBand).duration(2000).playOn(tvPrice);
 
         TextView tvTrainerEducation = (TextView) findViewById(R.id.tvTrainerEducation);
         String educationAndCertifications = "";
-        ArrayList<String> educationAndCertificationsArrayList = m_trainer.getEducationAndCertifications();
+        ArrayList<String> educationAndCertificationsArrayList = localTrainer.getEducationAndCertifications();
         for (int i = 0; i < educationAndCertificationsArrayList.size(); i++) {
             educationAndCertifications +=  educationAndCertificationsArrayList.get(i);
 
@@ -279,7 +296,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
 
         TextView tvTrainerInterests = (TextView) findViewById(R.id.tvTrainerInterests);
         String interestsAndAchievements = "";
-        ArrayList<String> interestsAndAchievementsArrayList = m_trainer.getInterestsAndAchievements();
+        ArrayList<String> interestsAndAchievementsArrayList = localTrainer.getInterestsAndAchievements();
         for (int i = 0; i < interestsAndAchievementsArrayList.size(); i++) {
             interestsAndAchievements += interestsAndAchievementsArrayList.get(i);
 
@@ -290,13 +307,15 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         tvTrainerInterests.setText(Html.fromHtml(interestsAndAchievements));
 
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        ratingBar.setRating((float) m_trainer.getRatings());
+        ratingBar.setRating((float) localTrainer.getRatings());
         Drawable progress = ratingBar.getProgressDrawable();
         DrawableCompat.setTint(progress, Color.parseColor("#FFD700"));
 
         ImageView ivProfileImage2 = (ImageView) findViewById(R.id.ivProfileImage2);
-        Picasso.with(this).load(m_trainer.getProfileImageUrl()).into(ivProfileImage2);
+        Picasso.with(this).load(localTrainer.getProfileImageUrl()).into(ivProfileImage2);
+    }
 
+    private void setupTrainerView() {
         SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
         if (mapFragment != null) {
             mapFragment.getMapAsync(new OnMapReadyCallback() {

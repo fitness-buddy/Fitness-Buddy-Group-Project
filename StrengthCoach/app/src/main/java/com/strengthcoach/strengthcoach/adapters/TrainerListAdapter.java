@@ -29,6 +29,7 @@ import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.activities.HomeActivity;
 import com.strengthcoach.strengthcoach.activities.TrainerDetailsAnimatedActivity;
 import com.strengthcoach.strengthcoach.helpers.Constants;
+import com.strengthcoach.strengthcoach.models.LocalTrainer;
 import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
@@ -274,7 +275,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
                 // Launch Trainer details activity
                 final Intent intent;
                 intent =  new Intent(context, TrainerDetailsAnimatedActivity.class);
-                intent.putExtra("trainerId", trainer.getObjectId());
+                LocalTrainer localTrainer = new LocalTrainer(trainer);
+                intent.putExtra("localTrainer", localTrainer);
                 // Sending this separately to quickly load the image to support smooth shared element
                 // transition
                 intent.putExtra("imageUrl", trainer.getImages().get(0));

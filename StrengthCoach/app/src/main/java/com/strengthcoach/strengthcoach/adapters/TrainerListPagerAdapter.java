@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.activities.TrainerDetailsAnimatedActivity;
+import com.strengthcoach.strengthcoach.models.LocalTrainer;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
@@ -30,10 +31,11 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
             public void onClick(View v) {
                 final Intent intent;
                 intent =  new Intent(mContext, TrainerDetailsAnimatedActivity.class);
-                intent.putExtra("trainerId", trainer.getObjectId());
                 // Sending this separately to quickly load the image to support smooth shared element
                 // transition
                 intent.putExtra("imageUrl", trainer.getImages().get(position));
+                LocalTrainer localTrainer = new LocalTrainer(trainer);
+                intent.putExtra("localTrainer", localTrainer);
 
                 // Shared element transition
                 ActivityOptionsCompat options = ActivityOptionsCompat.
