@@ -10,9 +10,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,7 +30,6 @@ import com.parse.FindCallback;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.strengthcoach.strengthcoach.R;
-import com.strengthcoach.strengthcoach.helpers.GPSTracker;
 import com.strengthcoach.strengthcoach.models.Gym;
 
 import java.util.List;
@@ -36,6 +37,11 @@ import java.util.List;
 public class MapActivity extends ActionBarActivity {
 
     GoogleMap m_map;
+    // Location of 24 hour fitness gym
+    // Hardcoding to fix the zoom point
+    double latitude = 37.404324;
+    double longitude = -122.108046;
+    final LatLng point = new LatLng(latitude, longitude);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,24 +68,46 @@ public class MapActivity extends ActionBarActivity {
                         }
                     });
 
-                    // Get coordinates
-                    GPSTracker gpsTracker = new GPSTracker(getBaseContext());
-                    double latitude = gpsTracker.getLatitude();
-                    double longitude = gpsTracker.getLongitude();
-                    final LatLng point = new LatLng(latitude, longitude);
-
+                    // Start zoom
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(point)      // Sets the center of the map to Mountain View
-                            .zoom(0)                   // Sets the zoom
+                            .zoom(14)                   // Sets the zoom
                             .build();                   // Creates a CameraPosition from the builder
                     m_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), new GoogleMap.CancelableCallback() {
                         @Override
                         public void onFinish() {
-                            CameraPosition cameraPosition = new CameraPosition.Builder()
-                                    .target(point)      // Sets the center of the map to Mountain View
-                                    .zoom(15)                   // Sets the zoom
-                                    .build();                   // Creates a CameraPosition from the builder
-                            m_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                            ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
+                            query.include("address");
+                            query.include("trainers");
+                            query.findInBackground(new FindCallback<Gym>() {
+                                public void done(List<Gym> gyms, com.parse.ParseException e) {
+                                    for (int i = 0; i < gyms.size(); i++) {
+
+                                        int count = gyms.get(i).getTrainers().size();
+
+                                        // Extract content from alert dialog
+                                        String title = gyms.get(i).getName() + " (" + count + " trainers)";
+                                        String snippet = gyms.get(i).getAddress().toString();
+                                        ParseGeoPoint parseGeoPoint = gyms.get(i).point();
+                                        LatLng point = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
+
+
+                                        Bitmap icon = null;
+                                        icon = drawTextToBitmap(getBaseContext(), R.drawable.pin_map, String.valueOf(count));
+
+                                        // Creates and adds marker to the map
+                                        Marker marker = m_map.addMarker(new MarkerOptions()
+                                                .position(point)
+                                                .title(title)
+                                                .snippet(snippet)
+                                                .icon(BitmapDescriptorFactory.fromBitmap(icon)));
+                                        // Make the markers drop and bounce
+                                        dropPinEffect(marker);
+                                    }
+                                }
+                            });
+
                         }
 
                         @Override
@@ -87,42 +115,55 @@ public class MapActivity extends ActionBarActivity {
 
                         }
                     });
-
-
-                    ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
-                    query.include("address");
-                    query.include("trainers");
-                    query.findInBackground(new FindCallback<Gym>() {
-                        public void done(List<Gym> gyms, com.parse.ParseException e) {
-                            for (int i = 0; i < gyms.size(); i++) {
-
-                                int count = gyms.get(i).getTrainers().size();
-
-                                // Extract content from alert dialog
-                                String title = gyms.get(i).getName() + " (" + count + " trainers)";
-                                String snippet = gyms.get(i).getAddress().toString();
-                                ParseGeoPoint parseGeoPoint = gyms.get(i).point();
-                                LatLng point = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
-
-
-                                Bitmap icon = null;
-                                icon = drawTextToBitmap(getBaseContext(), R.drawable.pin_map, String.valueOf(count));
-
-                                // Creates and adds marker to the map
-                                Marker marker = m_map.addMarker(new MarkerOptions()
-                                        .position(point)
-                                        .title(title)
-                                        .snippet(snippet)
-                                        .icon(BitmapDescriptorFactory.fromBitmap(icon)));
-                                marker.showInfoWindow();
-                            }
-                        }
-                    });
                 }
             });
         } else {
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void dropPinEffect(final Marker marker) {
+        // Handler allows us to repeat a code block after a specified delay
+        final android.os.Handler handler = new android.os.Handler();
+        final long start = SystemClock.uptimeMillis();
+        final long duration = 4000;
+
+        // Use the bounce interpolator
+        final android.view.animation.Interpolator interpolator =
+                new BounceInterpolator();
+
+        // Animate marker with a bounce updating its position every 5ms
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                // Calculate t for bounce based on elapsed time
+                float t = Math.max(
+                        1 - interpolator.getInterpolation((float) elapsed
+                                / duration), 0);
+                // Set the anchor
+                marker.setAnchor(0.5f, 1.0f + 14 * t);
+
+                if (t > 0.0) {
+                    // Post this event again 15ms from now.
+                    handler.postDelayed(this, 5);
+                } else { // done elapsing, show window
+                    marker.showInfoWindow();
+                }
+            }
+        });
+
+        // Once the bounce animation finishes, zoom in to the fixed point
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(point)      // Sets the center of the map to Mountain View
+                        .zoom(15)                   // Sets the zoom
+                        .build();                   // Creates a CameraPosition from the builder
+                m_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        }, 3500);
     }
 
     public Bitmap drawTextToBitmap(Context gContext,
