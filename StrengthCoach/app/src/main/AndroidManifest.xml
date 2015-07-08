@@ -74,7 +74,7 @@
         </activity>
          <activity
             android:name=".activities.LoginActivity"
-            android:label="@string/login"
+            android:label="@string/signup"
             android:windowSoftInputMode="stateVisible">
         </activity>
         <activity

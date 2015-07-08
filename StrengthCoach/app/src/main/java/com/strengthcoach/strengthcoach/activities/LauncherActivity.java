@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.strengthcoach.strengthcoach.R;
@@ -17,7 +16,7 @@ import com.strengthcoach.strengthcoach.R;
 public class LauncherActivity extends ActionBarActivity {
     Button bLogin;
     ImageView ivBackground;
-    TextView tvSkip;
+    Button bSkip;
     View decorView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,16 @@ public class LauncherActivity extends ActionBarActivity {
         frameAnimation.setExitFadeDuration(2000);
         frameAnimation.start();
 
-        tvSkip = (TextView) findViewById(R.id.tvSkip);
+        bSkip = (Button) findViewById(R.id.bSkip);
+        bSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LauncherActivity.this, HomeActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
+            }
+        });
+
         bLogin = (Button) findViewById(R.id.bLogin);
         bLogin.setOnClickListener(new View.OnClickListener(){
 
@@ -70,8 +78,8 @@ public class LauncherActivity extends ActionBarActivity {
         Intent intent = new Intent(LauncherActivity.this, HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

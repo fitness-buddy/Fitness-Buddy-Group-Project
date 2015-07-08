@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/ivBackground"
-        android:background="#aa000000">
+        android:background="#80000000">
 
         <com.strengthcoach.strengthcoach.customui.RobotoTextView
             android:id="@+id/tvAppName"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_20dp"
             android:text="@string/app_name"
             android:textColor="@color/colorPrimary"
             android:textSize="50sp" />
@@ -49,13 +49,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvHeading"
-            android:layout_marginTop="120dp">
+            android:layout_marginTop="140dp">
 
             <TableRow
                 android:id="@+id/tableRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:weightSum="2">
 
                 <com.strengthcoach.strengthcoach.customui.RobotoTextView
@@ -65,7 +64,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_column="0"
-                    android:layout_weight="0.9"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="@string/trainerscount"
                     android:textColor="@color/colorPrimary"
@@ -87,7 +86,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@+id/tvTrainerCount"
                     android:layout_column="2"
-                    android:layout_weight="0.9"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="@string/userscount"
                     android:textColor="@color/colorPrimary"
@@ -101,33 +100,44 @@
             android:id="@+id/ripple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tvSkip"
-            android:layout_alignLeft="@+id/tvSkip"
-            android:layout_alignStart="@+id/tvSkip"
-            android:layout_alignRight="@+id/tvSkip"
-            android:layout_alignEnd="@+id/tvSkip"
+            android:layout_above="@+id/rippleSkip"
+            android:layout_centerHorizontal="true"
+            android:layout_alignLeft="@+id/rippleSkip"
+            android:layout_alignStart="@+id/rippleSkip"
+            android:layout_alignRight="@+id/rippleSkip"
+            android:layout_alignEnd="@+id/rippleSkip"
             app:mrl_rippleOverlay="true"
             app:mrl_rippleRoundedCorners="10dp">
             <Button
                 android:id="@+id/bLogin"
-                android:layout_width="match_parent"
+                android:layout_width="270dp"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/login"/>
+                android:background="@drawable/launcher_login_button"
+                android:textSize="20sp"
+                android:text="@string/signup"/>
         </com.balysv.materialripple.MaterialRippleLayout>
 
-        <TextView
-            android:id="@+id/tvSkip"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_55dp"
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/rippleSkip"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/margin_20dp"
-            android:clickable="true"
-            android:gravity="center_horizontal|center_vertical"
-            android:onClick="callSkip"
-            android:text="@string/skip"
-            android:textColor="@color/white" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginBottom="@dimen/margin_55dp"
+            android:layout_centerHorizontal="true"
+            app:mrl_rippleOverlay="true"
+            app:mrl_rippleRoundedCorners="10dp">
+            <Button
+                android:id="@+id/bSkip"
+                android:layout_width="270dp"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:background="@drawable/launcher_skip_login_button"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/skip"/>
+        </com.balysv.materialripple.MaterialRippleLayout>
 
     </RelativeLayout>
 </RelativeLayout>

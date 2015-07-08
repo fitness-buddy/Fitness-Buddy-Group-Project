@@ -102,9 +102,11 @@ public class MapActivity extends ActionBarActivity {
                                                 .title(title)
                                                 .snippet(snippet)
                                                 .icon(BitmapDescriptorFactory.fromBitmap(icon)));
+
                                         // Make the markers drop and bounce
                                         dropPinEffect(marker);
                                     }
+
                                 }
                             });
 
@@ -143,6 +145,7 @@ public class MapActivity extends ActionBarActivity {
                                 / duration), 0);
                 // Set the anchor
                 marker.setAnchor(0.5f, 1.0f + 14 * t);
+
 
                 if (t > 0.0) {
                     // Post this event again 15ms from now.

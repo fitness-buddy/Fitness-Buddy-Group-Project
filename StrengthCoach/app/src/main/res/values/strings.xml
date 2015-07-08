@@ -6,7 +6,7 @@
     <string name="title_activity_phone_no_verification">Phone Number Verification</string>
     <string name="verification_code">Verification Code</string>
     <string name="name">Full Name</string>
-    <string name="login">Login/Sign Up</string>
+    <string name="signup">Sign Up</string>
     <string name="verify_button_text">Verify</string>
     <string name="regenerate_code">Regenerate Code</string>
     <string name="title_activity_block_slot">Book Slot</string>
@@ -95,7 +95,7 @@
 
     <string name="regenerate_code_underline"><u>Regenerate Code</u></string>
     <string name="app_caption">Discover the power of personal training</string>
-    <string name="skip"><u>Skip Login/Signup</u></string>
+    <string name="skip">Skip Sign Up</string>
     <string name="trainerscount">1,000+\nTrainers</string>
     <string name="userscount">10,000+\nUsers</string>
 
