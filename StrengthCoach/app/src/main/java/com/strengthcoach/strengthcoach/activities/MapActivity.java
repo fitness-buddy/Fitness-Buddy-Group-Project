@@ -156,7 +156,7 @@ public class MapActivity extends ActionBarActivity {
         Rect bounds = new Rect();
         paint.getTextBounds(gText, 0, gText.length(), bounds);
         int x = (bitmap.getWidth() - bounds.width())/2;
-        int y = (int) ((bitmap.getHeight() + bounds.height())/2.8);
+        int y = (int) ((bitmap.getHeight() + bounds.height())/1.5);
 
         canvas.drawText(gText, x, y, paint);
 
