@@ -2,16 +2,15 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -383,6 +382,7 @@ public class BlockSlotActivity extends ActionBarActivity{
     public void callCartActivity() {
         Intent intent = new Intent(BlockSlotActivity.this, CartActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
     }
 
     private String getLoggedInUserId() {
