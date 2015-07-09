@@ -26,10 +26,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_50dp"
             android:text="@string/app_name"
             android:textColor="@color/colorPrimary"
-            android:textSize="50sp" />
+            android:textSize="44sp" />
 
         <TextView
             android:id="@+id/tvHeading"
@@ -114,7 +114,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
                 android:background="@drawable/launcher_login_button"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:text="@string/signup"/>
         </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20dp"
-            android:layout_marginBottom="@dimen/margin_55dp"
+            android:layout_marginBottom="@dimen/margin_60dp"
             android:layout_centerHorizontal="true"
             app:mrl_rippleOverlay="true"
             app:mrl_rippleRoundedCorners="10dp">
@@ -134,7 +134,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
                 android:background="@drawable/launcher_skip_login_button"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
                 android:text="@string/skip"/>
         </com.balysv.materialripple.MaterialRippleLayout>
