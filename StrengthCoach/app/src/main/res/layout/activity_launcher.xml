@@ -113,7 +113,7 @@
                 android:layout_width="270dp"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
-                android:background="@drawable/launcher_login_button"
+                android:background="@drawable/primary_blue_button"
                 android:textSize="18sp"
                 android:text="@string/signup"/>
         </com.balysv.materialripple.MaterialRippleLayout>

@@ -21,4 +21,5 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="hyperlinkColor">#0645AD</color>
+    <color name="checkoutBtnColor">#1C649B</color>
 </resources>
