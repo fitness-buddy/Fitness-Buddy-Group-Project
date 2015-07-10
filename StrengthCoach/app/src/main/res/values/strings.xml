@@ -104,5 +104,6 @@
     <string name="book_slot_dialog_title">Select time</string>
     <string name="positive_text">Add to cart</string>
     <string name="pick_date">Pick an available date</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

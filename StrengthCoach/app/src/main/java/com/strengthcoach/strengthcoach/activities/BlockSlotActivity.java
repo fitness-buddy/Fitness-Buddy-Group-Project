@@ -215,6 +215,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                             }
                         })
                         .positiveText(R.string.positive_text)
+                        .negativeText(R.string.cancel)
                         .show();
             }
         });
@@ -305,7 +306,6 @@ public class BlockSlotActivity extends ActionBarActivity{
             public void done(List<ParseObject> trainerSlots, com.parse.ParseException e) {
                 if (e == null) {
                     listOfSlots.clear();
-                    listOfSlots.add(Constants.SELECT_SLOT);
                     for (ParseObject slots : trainerSlots) {
                         int startTimeInt = Integer.valueOf(slots.getString("start_time"));
                         int endTimeInt = Integer.valueOf(slots.getString("end_time"));
