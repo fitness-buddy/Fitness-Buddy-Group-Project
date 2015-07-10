@@ -11,65 +11,6 @@
         android:id="@+id/tvHeaderTrainerName"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginRight="@dimen/margin_20dp"
-        android:layout_marginBottom="@dimen/margin_42dp"
+        android:layout_marginBottom="@dimen/margin_10dp"
         />
-
-    <com.strengthcoach.strengthcoach.customui.RobotoTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/priceperhour"
-        android:id="@+id/tvPricePerSlot"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/margin_20dp"
-        android:layout_marginRight="@dimen/margin_20dp"
-        android:layout_marginBottom="@dimen/margin_42dp"/>
-
-
-    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="match_parent"  android:weightSum="4" android:paddingTop="@dimen/margin_42dp">
-
-        <com.strengthcoach.strengthcoach.customui.RobotoTextView
-            android:layout_width="@dimen/margin_42dp"
-            android:layout_height="@dimen/margin_42dp"
-            android:text="@string/sno"
-            android:id="@+id/tvHeaderSerialNo"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/margin_10dp"
-            android:gravity="center"
-            android:layout_marginRight="@dimen/margin_20dp"
-            android:textStyle="bold"
-            />
-        <com.strengthcoach.strengthcoach.customui.RobotoTextView
-            android:layout_width="@dimen/margin_42dp"
-            android:layout_height="@dimen/margin_42dp"
-            android:text="@string/delete"
-            android:id="@+id/tvHeaderDelete"
-            android:layout_weight="0.04"
-            android:layout_toRightOf="@+id/tvHeaderSerialNo"
-            android:layout_marginRight="@dimen/margin_20dp"
-            android:gravity="center"
-            android:textStyle="bold"/>
-
-        <com.strengthcoach.strengthcoach.customui.RobotoTextView
-            android:layout_width="@dimen/margin_70dp"
-            android:layout_height="@dimen/margin_42dp"
-            android:text="@string/slot_date"
-            android:id="@+id/tvHeaderSlotDate"
-            android:layout_weight="1.48"
-            android:layout_toRightOf="@+id/tvHeaderTrainerName"
-            android:layout_marginRight="@dimen/margin_20dp"
-            android:gravity="center"
-            android:textStyle="bold"/>
-        <com.strengthcoach.strengthcoach.customui.RobotoTextView
-            android:layout_width="@dimen/margin_70dp"
-            android:layout_height="@dimen/margin_42dp"
-            android:text="@string/slot_time"
-            android:id="@+id/tvHeaderSlotTime"
-            android:layout_weight="1.48"
-            android:layout_toRightOf="@+id/tvHeaderSlotDate"
-            android:layout_marginRight="@dimen/margin_10dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            />
-    </LinearLayout>
 </RelativeLayout>

@@ -30,6 +30,8 @@ import java.util.List;
  */
 public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
 
+    public int noOfSlots;
+
     public CartItemsAdapter(Context context, List<BlockedSlots> objects) {
         super(context, R.layout.cart_item, objects);
     }
@@ -68,10 +70,10 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
             @Override
             public void onClick(View view) {
                 String currentUser;
-                if (SimpleUser.currentUserObjectId == null){
+                if (SimpleUser.currentUserObjectId == null) {
                     SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
-                    currentUser = pref.getString("userId","");
-                }else {
+                    currentUser = pref.getString("userId", "");
+                } else {
                     currentUser = SimpleUser.currentUserObjectId;
                 }
                 ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
@@ -85,14 +87,14 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
                 query.findInBackground(new FindCallback<ParseObject>() {
                     public void done(List<ParseObject> selected, ParseException e) {
                         if (e == null) {
-                            for(ParseObject ss : selected)
-                            {
+                            for (ParseObject ss : selected) {
                                 ss.deleteInBackground();
-                                    // remove element from arraylist and notifiy adapter about the change
-                                    CartActivity.alSlots.remove(position);
-                                    int slotAmount = Trainer.currentPrice * CartActivity.alSlots.size();
-                                    CartActivity.tvFooterTotalAmt.setText(Html.fromHtml("Total Amount: <b>$" + slotAmount+"</b>"));
-                                    CartActivity.adSlots.notifyDataSetChanged();
+                                // remove element from arraylist and notifiy adapter about the change
+                                CartActivity.alSlots.remove(position);
+                                int slotAmount = Trainer.currentPrice * CartActivity.alSlots.size();
+                                CartActivity.tvNoOfSlots.setText(CartActivity.alSlots.size()+" * $" +Trainer.currentPrice+".00 = $"+slotAmount+".00" );
+                                CartActivity.tvFooterTotalAmt.setText(Html.fromHtml("Total Amount: <b>$" + slotAmount + ".00</b>"));
+                                CartActivity.adSlots.notifyDataSetChanged();
                             }
                         } else {
                             //Handle condition here
@@ -101,6 +103,7 @@ public class CartItemsAdapter extends ArrayAdapter<BlockedSlots> {
                 });
             }
         });
+        noOfSlots = CartActivity.alSlots.size();
         return convertView;
     }
 }

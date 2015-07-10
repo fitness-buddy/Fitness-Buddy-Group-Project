@@ -40,7 +40,7 @@ public class CartActivity extends AppCompatActivity {
     public static ListView lvCartItems;
     Button bProceedtoPayment;
     Date currentDate;
-    public static TextView tvHeaderTrainerName, tvFooterTotalAmt, tvPricePerSlot;
+    public static TextView tvHeaderTrainerName, tvFooterTotalAmt, tvPricePerSlot, tvNoOfSlots;
     private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +62,14 @@ public class CartActivity extends AppCompatActivity {
         // adding header to the list view starts
         View header = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_header, null);
         tvHeaderTrainerName = (TextView) header.findViewById(R.id.tvHeaderTrainerName);
-        tvPricePerSlot = (TextView) header.findViewById(R.id.tvPricePerSlot);
         tvHeaderTrainerName.setText(Html.fromHtml("Trainer: <b>" + Trainer.currentTrainerName+"</b"));
-        tvPricePerSlot.setText(Html.fromHtml("Price/slot: <b>$" + Trainer.currentPrice+"</b>"));
         lvCartItems.addHeaderView(header);
         adSlots = new CartItemsAdapter(CartActivity.this, alSlots);
         // adding header to the list view ends
         // adding footer to the list view
         View footer = LayoutInflater.from(CartActivity.this).inflate( R.layout.cart_item_footer, null);
         tvFooterTotalAmt = (TextView) footer.findViewById(R.id.tvFooterTotalAmt);
+        tvNoOfSlots = (TextView) footer.findViewById(R.id.tvNoOfSlots);
         bProceedtoPayment = (Button) findViewById(R.id.bProceedtoPayment);
         lvCartItems.addFooterView(footer);
         lvCartItems.setAdapter(adSlots);
@@ -140,7 +139,9 @@ public class CartActivity extends AppCompatActivity {
                             }
                             if (alSlots.size() > 0) {
                                 int slotAmount = Trainer.currentPrice*alSlots.size();
-                                tvFooterTotalAmt.setText(Html.fromHtml("Total Amount: <b>$" + slotAmount + "</b>"));
+                                int aSize = alSlots.size();
+                                tvNoOfSlots.setText(aSize+" * $" +Trainer.currentPrice+".00 = $"+slotAmount+".00");
+                                tvFooterTotalAmt.setText(Html.fromHtml("Total Amount: <b>$" + slotAmount + ".00</b>"));
                             }
                             adSlots.notifyDataSetChanged();
                         } catch (java.text.ParseException e1) {

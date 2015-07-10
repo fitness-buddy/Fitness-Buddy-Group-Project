@@ -15,7 +15,9 @@
         android:id="@+id/lvCartItems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar" />
+        android:layout_below="@id/toolbar"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/ripple"
