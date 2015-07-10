@@ -22,4 +22,6 @@
     <color name="colorDivider">#B6B6B6</color>
     <color name="hyperlinkColor">#0645AD</color>
     <color name="checkoutBtnColor">#1C649B</color>
+    <color name="availableSlotColor">#33B5E5</color>
+    <color name="selectedSlotColor">#189C64</color>
 </resources>

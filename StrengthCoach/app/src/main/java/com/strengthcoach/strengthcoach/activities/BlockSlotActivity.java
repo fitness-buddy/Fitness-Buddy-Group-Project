@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -44,7 +43,6 @@ public class BlockSlotActivity extends ActionBarActivity{
     Button bProceedToPayment;
     Date previousDate = null;
     Date userSelectedDate;
-    Spinner spSelectSlot;
     String dayOfTheWeek, selectedDate;
     SimpleDateFormat simpleDayFormat = new SimpleDateFormat(Constants.DAY_OF_WEEK_FORMAT);
     SimpleDateFormat simpleDateStrFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
@@ -141,7 +139,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                         Date result = calendar.getTime();
                         for (int i = 0; i < listOfAvailableDays.size(); i++) {
                             if (listOfAvailableDays.contains(simpleDayFormat.format(result))) {
-                                caldroidFragment.setBackgroundResourceForDate(R.color.colorPrimary, result);
+                                caldroidFragment.setBackgroundResourceForDate(R.color.availableSlotColor, result);
                                 caldroidFragment.setTextColorForDate(R.color.white, result);
                             } else {
                                 unAvailableDates.add(result);
@@ -237,12 +235,12 @@ public class BlockSlotActivity extends ActionBarActivity{
             public void onSelectDate(Date date, View view) {
                 // changing the background color of earlier selected date to blue
                 if (previousDate != null ){
-                    caldroidFragment.setBackgroundResourceForDate(R.color.colorPrimary, previousDate);
+                    caldroidFragment.setBackgroundResourceForDate(R.color.availableSlotColor, previousDate);
                     caldroidFragment.refreshView();
                 }
                 flag=false;
                 // changing the background color of selected date to pink
-                caldroidFragment.setBackgroundResourceForDate(R.color.pink, date);
+                caldroidFragment.setBackgroundResourceForDate(R.color.selectedSlotColor, date);
                 previousDate = date;
                 caldroidFragment.refreshView();
                 userSelectedDate = date;
@@ -336,7 +334,7 @@ public class BlockSlotActivity extends ActionBarActivity{
 
                         try {
                             Date d = simpleDateStrFormat.parse(sDate);
-                            caldroidFragment.setBackgroundResourceForDate(R.color.pink, d);
+                            caldroidFragment.setBackgroundResourceForDate(R.color.selectedSlotColor, d);
                             previousDate = d;
                             caldroidFragment.refreshView();
                         } catch (java.text.ParseException e1) {
