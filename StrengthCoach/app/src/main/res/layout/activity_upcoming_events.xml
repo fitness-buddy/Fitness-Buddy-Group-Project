@@ -39,7 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/success_message"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textColor="@color/dark_grey"/>
 
         </LinearLayout>
 
@@ -49,14 +50,14 @@
     <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upcoming Slots"
+        android:text="@string/title_activity_upcoming_events"
         android:textSize="@dimen/textsize_20sp"
         android:id="@+id/tvUpcomingSlots"
         android:textStyle="bold"
-        android:textColor="@color/book_slot"
+        android:textColor="@color/grey_accent"
         android:layout_below="@+id/rlSuccess"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_14dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_alignParentStart="true" />
 
@@ -79,15 +80,12 @@
         app:mrl_rippleRoundedCorners="10dp">
 
         <Button
-            android:id="@+id/bBookMoreSlots"
+            android:id="@+id/bHome"
             style="@style/activityTransitionButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/bookmoreslots" />
+            android:text="@string/home" />
     </com.balysv.materialripple.MaterialRippleLayout>
-
-
-
 
 </RelativeLayout>
 

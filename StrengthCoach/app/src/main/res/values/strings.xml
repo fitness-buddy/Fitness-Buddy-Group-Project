@@ -51,6 +51,7 @@
 
     <string name="title_activity_upcoming_events">Upcoming Workout Events</string>
     <string name="bookmoreslots">Book Slots</string>
+    <string name="home">Home</string>
     <string name="select_time_slot">Select time slot</string>
     <string name="title_activity_trainer_details_animated">TrainerDetailsAnimatedActivity</string>
 

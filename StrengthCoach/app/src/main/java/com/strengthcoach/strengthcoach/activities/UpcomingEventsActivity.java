@@ -36,7 +36,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
     public static ArrayList<BlockedSlots> alSlots;
     public static UpcomingEventsAdapter adSlots;
     public static ListView lvUpcomingEvents;
-    Button bBookMoreSlots;
+    Button bHome;
     Date currentDate;
     TextView tvSuccessMessage,tvUpcomingSlots;
     Toolbar mToolbar;
@@ -55,9 +55,9 @@ public class UpcomingEventsActivity extends AppCompatActivity {
         tvSuccessMessage = (TextView) findViewById(R.id.tvSuccessMessage);
         tvUpcomingSlots = (TextView) findViewById(R.id.tvUpcomingSlots);
         tvSuccessMessage.setText("Booking Successful");
-        bBookMoreSlots = (Button) findViewById(R.id.bBookMoreSlots);
+        bHome = (Button) findViewById(R.id.bHome);
         adSlots = new UpcomingEventsAdapter(UpcomingEventsActivity.this, alSlots);
-        bBookMoreSlots = (Button) findViewById(R.id.bBookMoreSlots);
+        bHome = (Button) findViewById(R.id.bHome);
         lvUpcomingEvents.setAdapter(adSlots);
         populateEvents();
     }
@@ -131,11 +131,11 @@ public class UpcomingEventsActivity extends AppCompatActivity {
                 }
             }
         });
-        bBookMoreSlots.setOnClickListener(new View.OnClickListener() {
+        bHome.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UpcomingEventsActivity.this, BlockSlotActivity.class);
+                Intent intent = new Intent(UpcomingEventsActivity.this, HomeActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
             }
