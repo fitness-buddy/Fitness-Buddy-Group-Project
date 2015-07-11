@@ -9,6 +9,8 @@
         android:layout_height="wrap_content"
         android:text="@string/trainer"
         android:id="@+id/tvHeaderTrainerName"
+        android:textSize="18sp"
+        android:textColor="@color/dark_grey"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginRight="@dimen/margin_20dp"
         android:layout_marginBottom="@dimen/margin_10dp"
