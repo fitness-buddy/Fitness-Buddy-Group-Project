@@ -104,7 +104,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
         query.include("trainer_id");
         query.whereEqualTo("trainer_id", trainer);
         query.whereEqualTo("user_id", user);
-        query.whereEqualTo("status", Constants.BOOKED);
+        query.whereEqualTo("status", "addtocart");
         query.orderByAscending("slot_date");
         adSlots.clear();
         query.findInBackground(new FindCallback<ParseObject>() {
