@@ -49,7 +49,7 @@
     <string name="slot_time">Time </string>
     <string name="or">(or) </string>
 
-    <string name="title_activity_upcoming_events">Upcoming Slots</string>
+    <string name="title_activity_upcoming_events">Upcoming Workout Events</string>
     <string name="bookmoreslots">Book Slots</string>
     <string name="select_time_slot">Select time slot</string>
     <string name="title_activity_trainer_details_animated">TrainerDetailsAnimatedActivity</string>
@@ -106,5 +106,6 @@
     <string name="pick_date">Pick an available date</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_card_scanned">CardScannedActivity</string>
+    <string name="success_message">Payment Received</string>
 
 </resources>

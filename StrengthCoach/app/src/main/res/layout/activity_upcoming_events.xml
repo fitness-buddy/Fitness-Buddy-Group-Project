@@ -18,21 +18,32 @@
         android:id="@+id/rlSuccess" android:background="@color/light_blue"
         android:layout_below="@+id/ivUpcomingSlotsBackground">
 
-        <TextView
-            android:id="@+id/tvSuccessMessage"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ivSuccess"
-            android:layout_marginRight="@dimen/margin_42dp"/>
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:id="@+id/linearLayout">
 
-        <ImageView
-            android:layout_width="@dimen/margin_20dp"
-            android:layout_height="@dimen/margin_20dp"
-            android:src="@mipmap/ic_succcess"
-            android:layout_marginLeft="@dimen/margin_50dp"
-            android:id="@+id/ivSuccess"
-            android:layout_alignTop="@+id/tvSuccessMessage"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_succcess"
+                android:id="@+id/ivSuccess"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp" />
+
+            <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                android:id="@+id/tvSuccessMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/success_message"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 
     <com.strengthcoach.strengthcoach.customui.RobotoTextView
