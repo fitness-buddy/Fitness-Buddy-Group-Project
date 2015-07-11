@@ -10,74 +10,58 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <com.strengthcoach.strengthcoach.customui.RobotoTextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="43dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="@dimen/margin_90dp"
-        android:text="@string/name" />
 
-    <EditText
-        android:id="@+id/etLoginName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvName"
-        android:layout_toRightOf="@+id/tvName"
-        android:background="@drawable/custom_edit_text"
-        android:ems="10"
-        android:focusable="true"
-        android:textCursorDrawable="@drawable/cursor_color"
-        android:textSize="@dimen/textsize_15sp" />
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/loginHolder"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/etLoginName"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_edit_text"
+            android:hint="@string/name"
+            android:ems="10"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="18sp" />
 
-    <com.strengthcoach.strengthcoach.customui.RobotoTextView
-        android:id="@+id/tvPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvName"
-        android:layout_alignStart="@+id/tvName"
-        android:layout_below="@+id/tvName"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="43dp"
-        android:text="@string/mobile_no_label" />
-
-    <EditText
-        android:id="@+id/etLoginPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvPhoneNumber"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@+id/tvPhoneNumber"
-        android:background="@drawable/custom_edit_text"
-        android:ems="10"
-        android:inputType="phone"
-        android:textCursorDrawable="@drawable/cursor_color"
-        android:textSize="@dimen/textsize_15sp" />
+        <EditText
+            android:id="@+id/etLoginPhoneNumber"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:background="@drawable/custom_edit_text"
+            android:hint="@string/mobile_no_label"
+            android:ems="10"
+            android:inputType="phone"
+            android:layout_gravity="center"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/ripple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tvPhoneNumber"
-        android:layout_marginTop="41dp"
+        android:layout_below="@+id/loginHolder"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         app:mrl_rippleOverlay="true"
         app:mrl_rippleRoundedCorners="10dp">
 
         <Button
             android:id="@+id/bLogin"
-            style="@style/customButton"
-            android:layout_width="wrap_content"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/primary_blue_button"
+            android:textSize="18sp"
             android:text="@string/signup" />
 
     </com.balysv.materialripple.MaterialRippleLayout>
-
 </RelativeLayout>

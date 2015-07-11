@@ -253,6 +253,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void SignOut() {
+        SimpleUser.currentUserObject.deleteInBackground();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor edit = pref.edit();
         edit.clear();
