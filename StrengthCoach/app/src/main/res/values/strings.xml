@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Strength Coach</string>
-    <string name="phone_verification_text">Please enter the verification code from the text already sent to your mobile</string>
+    <string name="phone_verification_text">Enter verification code</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_phone_no_verification">Phone Number Verification</string>
@@ -8,7 +8,7 @@
     <string name="name">Full Name</string>
     <string name="signup">Sign Up</string>
     <string name="verify_button_text">Verify</string>
-    <string name="regenerate_code">Regenerate Code</string>
+    <string name="regenerate_code">Resend Code</string>
     <string name="title_activity_block_slot">Book Slot</string>
     <string name="title_activity_payment">Payment</string>
 
