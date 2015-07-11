@@ -22,6 +22,8 @@ import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 import com.strengthcoach.strengthcoach.viewholders.CartItemViewHolder;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,7 +54,8 @@ public class UpcomingEventsAdapter extends ArrayAdapter<BlockedSlots> {
 
         viewHolder.tvSerialNo.setText((position+1)+"");
         viewHolder.tvTrainerName.setText(Trainer.currentTrainerName);
-        viewHolder.tvSlotDate.setText(slots.getSlotDate());
+        SimpleDateFormat dt = new SimpleDateFormat("MMMM dd");
+        viewHolder.tvSlotDate.setText(dt.format(new Date(slots.getSlotDate())));
         String slot = slots.getSlotTime();
         String finalSlot ="";
         if(Integer.valueOf(slot) <= 11)
