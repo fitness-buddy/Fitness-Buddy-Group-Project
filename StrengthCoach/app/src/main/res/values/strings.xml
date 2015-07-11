@@ -51,6 +51,7 @@
 
     <string name="title_activity_upcoming_events">Upcoming Slots</string>
     <string name="bookmoreslots">Book Slots</string>
+    <string name="select_time_slot">Select time slot</string>
     <string name="title_activity_trainer_details_animated">TrainerDetailsAnimatedActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -100,5 +101,9 @@
     <string name="userscount">10,000+\nUsers</string>
 
     <string name="checkout">Checkout</string>
+    <string name="book_slot_dialog_title">Select time</string>
+    <string name="positive_text">Add to cart</string>
+    <string name="pick_date">Pick an available date</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

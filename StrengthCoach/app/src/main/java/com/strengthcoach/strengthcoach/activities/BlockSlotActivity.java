@@ -1,5 +1,6 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,11 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -40,10 +40,9 @@ import java.util.List;
 public class BlockSlotActivity extends ActionBarActivity{
     CaldroidFragment caldroidFragment;
     Date currentDate, dateAfterMonth;
-    Button bProceedToPayment, bAddToCart;
+    Button bProceedToPayment;
     Date previousDate = null;
     Date userSelectedDate;
-    Spinner spSelectSlot;
     String dayOfTheWeek, selectedDate;
     SimpleDateFormat simpleDayFormat = new SimpleDateFormat(Constants.DAY_OF_WEEK_FORMAT);
     SimpleDateFormat simpleDateStrFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
@@ -56,6 +55,7 @@ public class BlockSlotActivity extends ActionBarActivity{
     BlockedSlots  bSlots ;
     boolean flag;
     Toolbar mToolbar;
+    Button bSelectSlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +75,9 @@ public class BlockSlotActivity extends ActionBarActivity{
         });
 
 
-        spSelectSlot = (Spinner) findViewById(R.id.spSelectSlot);
-        bAddToCart = (Button) findViewById(R.id.bAddToCart);
         bProceedToPayment = (Button)findViewById(R.id.bProceedToPayment);
+        bSelectSlot = (Button) findViewById(R.id.bSelectSlot);
+
         name =  getIntent().getStringExtra("etName");
         phoneno =  getIntent().getStringExtra("etPhoneNumber");
         flag=false;
@@ -98,7 +98,7 @@ public class BlockSlotActivity extends ActionBarActivity{
             caldroidFragment.setMinDate(currentDate); // disable dates prior to current date
             caldroidFragment.setMaxDate(dateAfterMonth);// disable dates after a month from current date
             getDaysBetweenDates(currentDate, dateAfterMonth, Trainer.currentTrainerObjectId);
-            setupCaldroidListener();
+            setupCaldroidListener(this);
 
 
             FragmentTransaction t = getSupportFragmentManager().beginTransaction();
@@ -109,10 +109,8 @@ public class BlockSlotActivity extends ActionBarActivity{
         dayOfTheWeek = simpleDayFormat.format(date);
         selectedDate = simpleDateStrFormat.format(date);
         userSelectedDate = date;
-        alreadyBookedSlots(Trainer.currentTrainerObjectId, dayOfTheWeek, selectedDate);
-        setupListener();
-
-
+        alreadyBookedSlots(Trainer.currentTrainerObjectId, dayOfTheWeek, selectedDate, this);
+        setupListener(this);
 
         if (getLoggedInUserId().equals("")) {
             // Start login activity
@@ -141,7 +139,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                         Date result = calendar.getTime();
                         for (int i = 0; i < listOfAvailableDays.size(); i++) {
                             if (listOfAvailableDays.contains(simpleDayFormat.format(result))) {
-                                caldroidFragment.setBackgroundResourceForDate(R.color.colorPrimary, result);
+                                caldroidFragment.setBackgroundResourceForDate(R.color.availableSlotColor, result);
                                 caldroidFragment.setTextColorForDate(R.color.white, result);
                             } else {
                                 unAvailableDates.add(result);
@@ -160,66 +158,77 @@ public class BlockSlotActivity extends ActionBarActivity{
     }
 
 
-    public void setupListener(){
+    public void setupListener(final Context context){
+        bSelectSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> list = listOfSlots;
+                CharSequence[] cs = list.toArray(new CharSequence[list.size()]);
+                new MaterialDialog.Builder(context)
+                        .title(R.string.book_slot_dialog_title)
+                        .items(cs)
+                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                bSlots = new BlockedSlots();
+                                // need to save data to user model;
+                                String currentUser;
+                                if (SimpleUser.currentUserObjectId == null) {
+                                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    currentUser = pref.getString("userId", "");
+                                } else {
+                                    currentUser = SimpleUser.currentUserObjectId;
+                                }
+                                ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
+                                ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
+                                bSlots.setTrainerId(trainer);
+                                bSlots.setBookedByUserId(user);
+                                bSlots.setSlotDate(simpleDateStrFormat.format(userSelectedDate));
+                                String[] selectedSlot = text.toString().split(" ");
+                                String slotTime = selectedSlot[0];
+                                String finalSelectedSlot = "";
+                                if (selectedSlot[1].equals(Constants.AM)) {
+                                    finalSelectedSlot = slotTime;
+                                } else if (selectedSlot[1].equals(Constants.PM)) {
+                                    if (slotTime.equals("12")) {
+                                        finalSelectedSlot = slotTime;
+                                    } else {
+                                        int intSlot = 12 + Integer.valueOf(slotTime);
+                                        finalSelectedSlot = Integer.toString(intSlot);
+                                    }
+                                }
+                                bSlots.setSlotTime(finalSelectedSlot);
+                                bSlots.setStatus(Constants.ADD_TO_CART);
+                                bSlots.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            Log.d("DEBUG!!!", "Slot Saved Successfully ");
+                                            alreadyBookedSlots(Trainer.currentTrainerObjectId, simpleDayFormat.format(userSelectedDate), simpleDateStrFormat.format(userSelectedDate), context);
+                                        } else {
+                                            Log.d("DEBUG!!!", "Slot Not Saved");
+                                        }
+                                    }
+                                });
+                                bProceedToPayment.setVisibility(View.VISIBLE);
+                                return true;
+                            }
+                        })
+                        .positiveText(R.string.positive_text)
+                        .negativeText(R.string.cancel)
+                        .show();
+            }
+        });
+
         bProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 callCartActivity();
             }
         });
-        bAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bSlots = new BlockedSlots();
-                // need to save data to user model;
-                String currentUser;
-                if (SimpleUser.currentUserObjectId == null) {
-                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    currentUser = pref.getString("userId", "");
-                } else {
-                    currentUser = SimpleUser.currentUserObjectId;
-                }
-                if (!spSelectSlot.getSelectedItem().toString().equals("Select a slot") && spSelectSlot.getSelectedItem().toString() != null) {
-                    ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
-                    ParseObject user = ParseObject.createWithoutData("SimpleUser", currentUser);
-                    bSlots.setTrainerId(trainer);
-                    bSlots.setBookedByUserId(user);
-                    bSlots.setSlotDate(simpleDateStrFormat.format(userSelectedDate));
-                    String[] selectedSlot = spSelectSlot.getSelectedItem().toString().split(" ");
-                    String slotTime = selectedSlot[0];
-                    String finalSelectedSlot = "";
-                    if (selectedSlot[1].equals(Constants.AM)) {
-                        finalSelectedSlot = slotTime;
-                    } else if (selectedSlot[1].equals(Constants.PM)) {
-                        if (slotTime.equals("12")) {
-                            finalSelectedSlot = slotTime;
-                        } else {
-                            int intSlot = 12 + Integer.valueOf(slotTime);
-                            finalSelectedSlot = Integer.toString(intSlot);
-                        }
-                    }
-                    bSlots.setSlotTime(finalSelectedSlot);
-                    bSlots.setStatus(Constants.ADD_TO_CART);
-                    bSlots.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Log.d("DEBUG!!!", "Slot Saved Successfully ");
-                                alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(userSelectedDate),simpleDateStrFormat.format(userSelectedDate));
-                            } else {
-                                Log.d("DEBUG!!!", "Slot Not Saved");
-                            }
-                        }
-                    });
-                    bProceedToPayment.setVisibility(View.VISIBLE);
-                    spSelectSlot.setSelection(0);
-                } else {
-                    Toast.makeText(BlockSlotActivity.this, "Select a slot", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
-    public void setupCaldroidListener(){
+
+    public void setupCaldroidListener(final Context context){
         // Setup listener
         final CaldroidListener listener = new CaldroidListener() {
 
@@ -227,16 +236,16 @@ public class BlockSlotActivity extends ActionBarActivity{
             public void onSelectDate(Date date, View view) {
                 // changing the background color of earlier selected date to blue
                 if (previousDate != null ){
-                    caldroidFragment.setBackgroundResourceForDate(R.color.colorPrimary, previousDate);
+                    caldroidFragment.setBackgroundResourceForDate(R.color.availableSlotColor, previousDate);
                     caldroidFragment.refreshView();
                 }
                 flag=false;
                 // changing the background color of selected date to pink
-                caldroidFragment.setBackgroundResourceForDate(R.color.pink, date);
+                caldroidFragment.setBackgroundResourceForDate(R.color.selectedSlotColor, date);
                 previousDate = date;
                 caldroidFragment.refreshView();
                 userSelectedDate = date;
-                alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(date),simpleDateStrFormat.format(date));
+                alreadyBookedSlots(Trainer.currentTrainerObjectId,simpleDayFormat.format(date),simpleDateStrFormat.format(date), context);
 
 
             }
@@ -262,7 +271,7 @@ public class BlockSlotActivity extends ActionBarActivity{
         };
         caldroidFragment.setCaldroidListener(listener);
     }
-    public void alreadyBookedSlots(final String trainerId, final String sDay, final String sDate) {
+    public void alreadyBookedSlots(final String trainerId, final String sDay, final String sDate, final Context context) {
         arBookedSlots.clear();
         ParseObject trainer = ParseObject.createWithoutData("Trainer", trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("BlockedSlots");
@@ -280,14 +289,13 @@ public class BlockSlotActivity extends ActionBarActivity{
                 } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
-                populateAvailableSlots(trainerId, sDay, sDate);
+                populateAvailableSlots(trainerId, sDay, sDate, context);
             }
-
-
         });
 
     }
-    public void populateAvailableSlots(final String trainerId, final String day, final String sDate) {
+    public void populateAvailableSlots(final String trainerId, final String day, final String sDate, final Context context) {
+        final TextView tvSlotsInfo = (TextView) findViewById(R.id.tvSlotsInfo);
         final ParseObject trainer = ParseObject.createWithoutData("Trainer",trainerId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TrainerSlots");
         query.selectKeys(Arrays.asList("start_time", "end_time"));
@@ -298,7 +306,6 @@ public class BlockSlotActivity extends ActionBarActivity{
             public void done(List<ParseObject> trainerSlots, com.parse.ParseException e) {
                 if (e == null) {
                     listOfSlots.clear();
-                    listOfSlots.add(Constants.SELECT_SLOT);
                     for (ParseObject slots : trainerSlots) {
                         int startTimeInt = Integer.valueOf(slots.getString("start_time"));
                         int endTimeInt = Integer.valueOf(slots.getString("end_time"));
@@ -309,7 +316,6 @@ public class BlockSlotActivity extends ActionBarActivity{
                         // find out time slots not in arBookedSlots
                         List<Integer> noBookedSlots = new ArrayList<Integer>(arraySlots);
                         noBookedSlots.removeAll(arBookedSlots);
-
                         for (int k = 0; k < noBookedSlots.size(); k++) {
                             int intSlotsWithoutBookedSlots = noBookedSlots.get(k);
                             String slotsWithoutBookedSlots;
@@ -322,23 +328,24 @@ public class BlockSlotActivity extends ActionBarActivity{
                             }
                             listOfSlots.add(slotsWithoutBookedSlots);
                         }
+                        SimpleDateFormat dt = new SimpleDateFormat("MMMM dd");
+                        tvSlotsInfo.setText(listOfSlots.size() + " slots available on " + dt.format(new Date(sDate)) + ", " + day);
+                        bSelectSlot.setBackground(getResources().getDrawable(R.drawable.primary_blue_button));
+
                         try {
                             Date d = simpleDateStrFormat.parse(sDate);
-                            caldroidFragment.setBackgroundResourceForDate(R.color.pink, d);
+                            caldroidFragment.setBackgroundResourceForDate(R.color.selectedSlotColor, d);
                             previousDate = d;
                             caldroidFragment.refreshView();
                         } catch (java.text.ParseException e1) {
                             e1.printStackTrace();
                         }
-                        spSelectSlot.setAdapter(new ArrayAdapter<String>(BlockSlotActivity.this,
-                                android.R.layout.simple_spinner_item, listOfSlots));
                     }
                 } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
             }
         });
-
     }
 
     @Override

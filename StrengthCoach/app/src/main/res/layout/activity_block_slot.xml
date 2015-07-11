@@ -25,17 +25,52 @@
             <FrameLayout
                 android:id="@+id/flCalendar"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"></FrameLayout>
+                android:layout_alignParentTop="true"/>
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvSlotsInfo"
+                android:layout_marginTop="25dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorSecondaryText"
+                android:text="@string/pick_date"
+                android:gravity="center_horizontal" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/btnSelectSlotRipple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvSlotsInfo"
+                android:layout_marginTop="25dp"
+                android:layout_centerHorizontal="true"
+                app:mrl_rippleOverlay="true"
+                app:mrl_rippleRoundedCorners="10dp">
+
+                <Button
+                    android:id="@+id/bSelectSlot"
+                    android:layout_width="270dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:background="@drawable/disabled_grey_button"
+                    android:textSize="18sp"
+                    android:text="@string/select_time_slot"/>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/llCalendar"  android:layout_marginTop="47dp">
-
 
             <TextView
                 android:id="@+id/tvSelectSlot"
@@ -46,39 +81,6 @@
                 android:layout_marginLeft="@dimen/margin_70dp"
                 android:text="@string/select_slot" />
 
-            <Spinner
-                android:id="@+id/spSelectSlot"
-                android:layout_width="150dp"
-                android:layout_height="@dimen/margin_42dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/custom_spinner"
-                android:spinnerMode="dropdown"
-                android:prompt="@string/select_slot"
-                android:dropDownVerticalOffset="@dimen/margin_20dp"
-                android:layout_alignTop="@+id/tvSelectSlot"
-                android:layout_alignLeft="@+id/tvSelectSlot"
-                android:layout_alignStart="@+id/tvSelectSlot"
-                android:layout_marginRight="@dimen/margin_20dp"
-                android:layout_centerInParent="true"/>
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/ripple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:mrl_rippleRoundedCorners="10dp"
-                app:mrl_rippleOverlay="true"
-                android:layout_centerInParent="true"
-                android:layout_alignBottom="@+id/spSelectSlot"
-                android:layout_toRightOf="@+id/spSelectSlot"
-                android:layout_toEndOf="@+id/spSelectSlot">
-            <Button
-                android:id="@+id/bAddToCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cart"
-                android:layout_alignParentTop="true"
-                style="@style/customButton"
-            />
-</com.balysv.materialripple.MaterialRippleLayout>
             <com.balysv.materialripple.MaterialRippleLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_60dp"
@@ -94,6 +96,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/checkout"
                     style="@style/activityTransitionButton"
+                    android:background="@color/checkoutBtnColor"
                     android:visibility="gone"
                     />
             </com.balysv.materialripple.MaterialRippleLayout>
