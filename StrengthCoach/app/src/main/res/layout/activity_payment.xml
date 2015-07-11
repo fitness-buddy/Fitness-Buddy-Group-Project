@@ -10,32 +10,32 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <com.strengthcoach.strengthcoach.customui.RobotoTextView
-        android:id="@+id/tvScan"
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/rippleScanCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_horizontal_margin"
-        android:text="@string/scan_card"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/dark_grey" />
-
-    <ImageButton
-        android:id="@+id/scanButton"
-        android:layout_width="@dimen/margin_70dp"
-        android:layout_height="@dimen/margin_70dp"
-        android:layout_below="@+id/tvScan"
+        android:layout_marginTop="@dimen/margin_60dp"
+        android:layout_marginBottom="@dimen/margin_60dp"
         android:layout_centerHorizontal="true"
-        android:onClick="onScanClick"
-        android:src="@mipmap/ic_camera"
-        android:visibility="visible" />
+        app:mrl_rippleOverlay="true"
+        app:mrl_rippleRoundedCorners="10dp">
+        <Button
+            android:id="@+id/scanButton"
+            android:layout_width="270dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/primary_blue_button"
+            android:textSize="18sp"
+            android:onClick="onScanClick"
+            android:text="@string/scan_card"/>
+    </com.balysv.materialripple.MaterialRippleLayout>
 
     <LinearLayout
         android:id="@+id/divScanButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/scanButton"
+        android:layout_below="@+id/rippleScanCard"
         android:layout_marginBottom="@dimen/margin_30dp"
         android:layout_marginTop="@dimen/margin_30dp"
         android:orientation="horizontal"

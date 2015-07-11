@@ -27,6 +27,7 @@
             android:ems="10"
             android:focusable="true"
             android:layout_gravity="center"
+            android:textColor="@color/dark_grey"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="18sp" />
 
@@ -40,6 +41,7 @@
             android:ems="10"
             android:inputType="phone"
             android:layout_gravity="center"
+            android:textColor="@color/dark_grey"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="18sp" />
     </LinearLayout>

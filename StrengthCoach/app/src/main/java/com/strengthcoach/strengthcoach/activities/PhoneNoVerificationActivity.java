@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -31,7 +30,7 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
     String name, phoneno, verifyCode;
     Button bVerify;
     SimpleUser simpleUser;
-    TextView regenerateCode;
+    Button regenerateCode;
     Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +94,7 @@ public class PhoneNoVerificationActivity extends ActionBarActivity {
     }
 
     public void callRegenerateCode(View v){
-        regenerateCode = (TextView) findViewById(R.id.bRegenerateCode);
+        regenerateCode = (Button) findViewById(R.id.bRegenerateCode);
         // Create a new user and signup
         String strRegeneratedCode = Utils.generateRandomCode();
 
