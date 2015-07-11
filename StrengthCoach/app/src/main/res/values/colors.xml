@@ -24,4 +24,6 @@
     <color name="checkoutBtnColor">#1C649B</color>
     <color name="availableSlotColor">#33B5E5</color>
     <color name="selectedSlotColor">#189C64</color>
+
+    <color name="light_blue">#A8E2FF</color>
 </resources>
