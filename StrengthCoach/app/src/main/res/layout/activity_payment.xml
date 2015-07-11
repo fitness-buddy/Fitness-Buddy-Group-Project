@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:layout_marginTop="@dimen/margin_60dp"
-        android:layout_marginBottom="@dimen/margin_60dp"
+        android:layout_marginTop="@dimen/margin_50dp"
+        android:layout_marginBottom="@dimen/margin_50dp"
         android:layout_centerHorizontal="true"
         app:mrl_rippleOverlay="true"
         app:mrl_rippleRoundedCorners="10dp">
@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rippleScanCard"
         android:layout_marginBottom="@dimen/margin_30dp"
-        android:layout_marginTop="@dimen/margin_30dp"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -81,80 +80,86 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:paddingTop="20dp"
+            android:textStyle="bold"
             android:text="@string/enter_manually"
+            android:textSize="18sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/black" />
+            android:textColor="@color/grey_accent" />
 
-        <com.strengthcoach.strengthcoach.customui.RobotoTextView
-            android:id="@+id/tvCardNumber"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvEnterManually"
-            android:layout_marginTop="45dp"
-            android:paddingEnd="@dimen/margin_10dp"
-            android:paddingLeft="@dimen/margin_42dp"
-            android:paddingRight="@dimen/margin_10dp"
-            android:paddingTop="@dimen/margin_10dp"
-            android:text="@string/cc_number"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:id="@+id/llNumberInfoHolder"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:layout_below="@+id/tvEnterManually">
+
+            <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                android:id="@+id/tvCardNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="@string/cc_number"
+                android:textSize="18sp"
+                android:textColor="@color/grey_accent" />
 
 
-        <EditText
-            android:id="@+id/etCCNumber"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/etCCNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tvCardNumber"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/cc_number_hint"
+                android:inputType="number"
+                android:maxLength="19"
+                android:paddingBottom="@dimen/margin_10dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@color/dark_grey"
+                android:textColorHint="@color/colorHighlight"
+                android:textCursorDrawable="@drawable/cursor_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tvCardNumber"
-            android:layout_toEndOf="@+id/tvCardNumber"
-            android:layout_toRightOf="@+id/tvCardNumber"
-            android:background="@drawable/custom_edit_text"
-            android:hint="@string/cc_number_hint"
-            android:inputType="number"
-            android:maxLength="19"
-            android:paddingBottom="@dimen/margin_10dp"
-            android:singleLine="true"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textColorHint="@color/colorHighlight"
-            android:textCursorDrawable="@drawable/cursor_color" />
+            android:layout_below="@+id/llNumberInfoHolder"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:orientation="horizontal">
 
+            <com.strengthcoach.strengthcoach.customui.RobotoTextView
+                android:id="@+id/tvExpiry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="25dp"
+                android:text="@string/cc_expiry"
+                android:textSize="18sp"
+                android:textColor="@color/grey_accent" />
 
-        <com.strengthcoach.strengthcoach.customui.RobotoTextView
-            android:id="@+id/tvExpiry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/etCCNumber"
-            android:paddingEnd="@dimen/margin_10dp"
-            android:paddingLeft="@dimen/margin_42dp"
-            android:paddingRight="@dimen/margin_10dp"
-            android:paddingTop="@dimen/margin_10dp"
-            android:text="@string/cc_expiry"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textsize_15sp" />
-
-        <EditText
-            android:id="@+id/etExpiry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/etCCNumber"
-            android:layout_alignStart="@+id/etCCNumber"
-            android:layout_below="@+id/etCCNumber"
-            android:background="@drawable/custom_edit_text"
-            android:hint="@string/cc_expiry_hint"
-            android:inputType="date"
-            android:paddingBottom="@dimen/margin_20dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/colorHighlight"
-            android:textCursorDrawable="@drawable/cursor_color" />
-
+            <EditText
+                android:id="@+id/etExpiry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/etCCNumber"
+                android:layout_alignStart="@+id/etCCNumber"
+                android:layout_below="@+id/etCCNumber"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/cc_expiry_hint"
+                android:inputType="date"
+                android:paddingBottom="@dimen/margin_20dp"
+                android:singleLine="true"
+                android:textSize="18sp"
+                android:textColor="@color/dark_grey"
+                android:textColorHint="@color/colorHighlight"
+                android:textCursorDrawable="@drawable/cursor_color" />
+        </LinearLayout>
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/ripple"
             android:layout_width="match_parent"
