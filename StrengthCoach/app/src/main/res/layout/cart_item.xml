@@ -41,14 +41,14 @@
         android:gravity="center" />
 
     <ImageButton
-        android:layout_width="@dimen/margin_20dp"
-        android:layout_height="@dimen/margin_20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/ibDelete"
-        android:src="@mipmap/ic_delete"
-        android:layout_marginRight="@dimen/margin_30dp"
+        android:src="@drawable/ic_delete"
+        android:background="@color/white"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
+        android:layout_marginRight="@dimen/margin_30dp"
         android:layout_weight="0.04"
-        android:background="@color/white_bg"
         android:layout_gravity="center"/>
 </LinearLayout>
