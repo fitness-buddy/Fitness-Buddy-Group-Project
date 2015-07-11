@@ -312,7 +312,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         DrawableCompat.setTint(progress, Color.parseColor("#FFD700"));
 
         ImageView ivProfileImage2 = (ImageView) findViewById(R.id.ivProfileImage2);
-        Picasso.with(this).load(localTrainer.getProfileImageUrl()).into(ivProfileImage2);
+        Picasso.with(this).load(localTrainer.getProfileImageUrl()).placeholder(R.drawable.default_profile).into(ivProfileImage2);
     }
 
     private void setupTrainerView() {

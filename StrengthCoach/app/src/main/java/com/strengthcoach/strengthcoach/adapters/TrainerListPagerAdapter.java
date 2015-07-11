@@ -24,7 +24,7 @@ public class TrainerListPagerAdapter extends CustomBasePagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = mLayoutInflater.inflate(R.layout.trainer_image, container, false);
         final ImageView ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
-        Picasso.with(mContext).load(trainer.getImages().get(position)).into(ivImage);
+        Picasso.with(mContext).load(trainer.getImages().get(position)).placeholder(R.drawable.app_icon).into(ivImage);
         container.addView(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
