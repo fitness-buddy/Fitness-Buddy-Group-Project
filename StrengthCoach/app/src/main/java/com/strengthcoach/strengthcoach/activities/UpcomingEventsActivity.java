@@ -41,6 +41,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
     public static ListView lvUpcomingEvents;
     Button bBookMoreSlots;
     Date currentDate;
+    TextView tvSuccessMessage,tvUpcomingSlots;
     Toolbar mToolbar;
 
     @Override
@@ -48,18 +49,17 @@ public class UpcomingEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_events);
 
-        // setup Toolbar
+/*        // setup Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mToolbar);*/
 
         alSlots = new ArrayList<>();
         lvUpcomingEvents = (ListView) findViewById(R.id.lvUpcomingEvents);
+        tvSuccessMessage = (TextView) findViewById(R.id.tvSuccessMessage);
+        tvUpcomingSlots = (TextView) findViewById(R.id.tvUpcomingSlots);
+        tvSuccessMessage.setText("Thanks!! Slot Booking Successful");
         bBookMoreSlots = (Button) findViewById(R.id.bBookMoreSlots);
-        // adding header to the list view starts
-        View header = LayoutInflater.from(UpcomingEventsActivity.this).inflate(R.layout.upcoming_events_header, null);
-        lvUpcomingEvents.addHeaderView(header);
         adSlots = new UpcomingEventsAdapter(UpcomingEventsActivity.this, alSlots);
-        // adding header to the list view ends
         bBookMoreSlots = (Button) findViewById(R.id.bBookMoreSlots);
         lvUpcomingEvents.setAdapter(adSlots);
         populateEvents();

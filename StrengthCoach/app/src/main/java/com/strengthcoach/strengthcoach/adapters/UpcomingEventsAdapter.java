@@ -44,7 +44,6 @@ public class UpcomingEventsAdapter extends ArrayAdapter<BlockedSlots> {
             viewHolder.tvTrainerName = (TextView)convertView.findViewById(R.id.tvTrainerName);
             viewHolder.tvSlotDate = (TextView)convertView.findViewById(R.id.tvSlotDate);
             viewHolder.tvSlotTime = (TextView)convertView.findViewById(R.id.tvSlotTime);
-            viewHolder.ibDelete = (ImageButton)convertView.findViewById(R.id.ibDelete);
             convertView.setTag(viewHolder);
         }
         else {
@@ -65,7 +64,7 @@ public class UpcomingEventsAdapter extends ArrayAdapter<BlockedSlots> {
             finalSlot = (Integer.valueOf(slot) - 12) + " "+Constants.PM;
         }
         viewHolder.tvSlotTime.setText(finalSlot);
-        viewHolder.ibDelete.setOnClickListener(new View.OnClickListener() {
+       /* viewHolder.ibDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String currentUser;
@@ -98,7 +97,7 @@ public class UpcomingEventsAdapter extends ArrayAdapter<BlockedSlots> {
                     }
                 });
             }
-        });
+        });*/
         return convertView;
     }
 }

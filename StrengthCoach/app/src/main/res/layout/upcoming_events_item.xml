@@ -13,18 +13,7 @@
         android:layout_marginLeft="@dimen/margin_10dp"
         android:gravity="center"/>
 
-    <ImageButton
-        android:layout_width="@dimen/margin_20dp"
-        android:layout_height="@dimen/margin_20dp"
-        android:id="@+id/ibDelete"
-        android:src="@mipmap/ic_delete"
-        android:layout_marginRight="@dimen/margin_20dp"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:layout_weight="0.04"
-        android:background="@color/white_bg"
-        android:layout_gravity="center"/>
-        />
+
     <com.strengthcoach.strengthcoach.customui.RobotoTextView
         android:layout_width="90dp"
         android:layout_height="@dimen/margin_55dp"
@@ -52,6 +41,4 @@
         android:layout_toRightOf="@+id/tvSlotDate"
         android:layout_marginRight="@dimen/margin_10dp"
         android:gravity="center"/>
-
-
 </LinearLayout>
