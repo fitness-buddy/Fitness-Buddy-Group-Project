@@ -192,141 +192,148 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+
         bSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cardNumber == null) {
-                    cardNumber = "";
-                    String[] cardNumberParts = etCCNumber.getText().toString().split(" ");
-                    for (int i = 0; i < cardNumberParts.length; i++) {
-                        cardNumber = cardNumber + cardNumberParts[i];
-                    }
-                }
-
-                int expMonth = Integer.parseInt(etExpiry.getText().toString().split("/")[0].trim());
-                int expYear = Integer.parseInt(etExpiry.getText().toString().split("/")[1].trim());
-
-                final Card card = new Card(
-                        cardNumber,
-                        expMonth,
-                        expYear, null);
-
-                boolean validation = card.validateCard();
-                if (validation) {
-                    startProgress();
-                    new Stripe().createToken(
-                            card,
-                            Constants.STRIPE_PUBLISHABLE_KEY,
-                            new TokenCallback() {
-                                public void onSuccess(Token token) {
-                                    com.stripe.Stripe.apiKey = Constants.STRIPE_SECRET_KEY;
-                                    //Customer Parameters HashMap
-                                    final Map<String, Object> customerParams = new HashMap();
-                                    customerParams.put("description", "Customer for " +
-                                            currentUser.getName());
-                                    customerParams.put("card", token.getId());
-
-                                    new AsyncTask<Void, Void, Void>() {
-                                        Customer cust;
-
-                                        @Override
-                                        protected Void doInBackground(Void... params) {
-                                            try {
-                                                if (edit == 0) {
-                                                    cust = Customer.create(customerParams);
-                                                } else {
-                                                    cust = editCustomer;
-                                                    editCustomer.update(customerParams);
-                                                }
-                                            } catch (com.stripe.exception.AuthenticationException |
-                                                    InvalidRequestException |
-                                                    APIConnectionException |
-                                                    CardException | APIException e) {
-                                                Log.e("PaymentActivity", "Error: " + e.getMessage());
-                                            }
-                                            return null;
-                                        }
-
-                                        protected void onPostExecute(Void result) {
-                                            Toast.makeText(PaymentActivity.this, "Payment Successful", Toast.LENGTH_SHORT);
-                                            if (cust != null) {
-                                                ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
-                                                query.whereEqualTo("objectId", cUser);
-                                                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                                                    public void done(ParseObject trainerSlots, com.parse.ParseException e) {
-                                                        if (e == null) {
-                                                            trainerSlots.put(Constants.tokenIdKey, cust.getId());
-                                                            currentUser.setTokenId(cust.getId());
-                                                            trainerSlots.put(Constants.cardTypeKey, card.getType());
-                                                            trainerSlots.put(Constants.last4Key, card.getLast4());
-                                                            trainerSlots.put(Constants.expDateKey, card.getExpMonth() + " / " + card.getExpYear());
-                                                            trainerSlots.saveInBackground(new SaveCallback() {
-                                                                @Override
-                                                                public void done(com.parse.ParseException
-                                                                                         e) {
-                                                                    if (e != null) {
-                                                                        Toast.makeText(PaymentActivity.this,
-                                                                                getResources().getString(
-                                                                                        R.string.not_saved),
-                                                                                Toast.LENGTH_SHORT).show();
-                                                                        Log.e("Payment Activity", "Card not saved! " +
-                                                                                e.getMessage());
-                                                                    } else {
-                                                                        final Intent intent;
-                                                                        intent = new Intent(PaymentActivity.this, UpcomingEventsActivity.class);
-                                                                        intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
-                                                                        PaymentActivity.this.startActivity(intent);
-
-                                                                    }
-                                                                }
-                                                            });
-                                                        } else {
-                                                            Log.d("DEBUG", "Error: " + e.getMessage());
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                                ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
-                                                ParseObject user = ParseObject.createWithoutData("SimpleUser", cUser);
-                                                ParseQuery<ParseObject> paidSlots = ParseQuery.getQuery("BlockedSlots");
-                                                paidSlots.selectKeys(Arrays.asList("objectId"));
-                                                paidSlots.include("trainer_id");
-                                                paidSlots.whereEqualTo("trainer_id", trainer);
-                                                paidSlots.whereEqualTo("user_id", user);
-                                                paidSlots.whereEqualTo("status", Constants.ADD_TO_CART);
-                                                paidSlots.findInBackground(new FindCallback<ParseObject>() {
-                                                    public void done(List<ParseObject> trainerSlots, ParseException e) {
-                                                        if (e == null) {
-                                                            for (ParseObject slots : trainerSlots) {
-                                                                slots.put("status",Constants.BOOKED);
-                                                                slots.saveInBackground();
-                                                            }
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                    }.execute();
-                                    finishProgress();
-                                }
-                                public void onError(Exception error) {
-                                    handleError(error.getLocalizedMessage());
-                                    finishProgress();
-                                }
-                            });
-
-                } else if (!card.validateNumber()) {
-                    handleError(Constants.INVALID_CREDITCARD_NUMBER);
-                } else if (!card.validateExpiryDate()) {
-                    handleError(Constants.INVALID_EXPIRYDATE);
-                } else if (!card.validateCVC()) {
-                    handleError(Constants.INVALID_CVC);
-                } else {
-                    handleError(Constants.INVALID_CREDITCARD_DETAILS);
-                }
+                onSubmitClicked();
             }
         });
         overridePendingTransition(R.anim.enter_from_bottom, R.anim.stay_in_place);
     }
+
+    public void onSubmitClicked() {
+        if (cardNumber == null) {
+            cardNumber = "";
+            String[] cardNumberParts = etCCNumber.getText().toString().split(" ");
+            for (int i = 0; i < cardNumberParts.length; i++) {
+                cardNumber = cardNumber + cardNumberParts[i];
+            }
+        }
+
+        int expMonth = Integer.parseInt(etExpiry.getText().toString().split("/")[0].trim());
+        int expYear = Integer.parseInt(etExpiry.getText().toString().split("/")[1].trim());
+
+        final Card card = new Card(
+                cardNumber,
+                expMonth,
+                expYear, null);
+
+        boolean validation = card.validateCard();
+        if (validation) {
+            startProgress();
+            new Stripe().createToken(
+                    card,
+                    Constants.STRIPE_PUBLISHABLE_KEY,
+                    new TokenCallback() {
+                        public void onSuccess(Token token) {
+                            com.stripe.Stripe.apiKey = Constants.STRIPE_SECRET_KEY;
+                            //Customer Parameters HashMap
+                            final Map<String, Object> customerParams = new HashMap();
+                            customerParams.put("description", "Customer for " +
+                                    currentUser.getName());
+                            customerParams.put("card", token.getId());
+
+                            new AsyncTask<Void, Void, Void>() {
+                                Customer cust;
+
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        if (edit == 0) {
+                                            cust = Customer.create(customerParams);
+                                        } else {
+                                            cust = editCustomer;
+                                            editCustomer.update(customerParams);
+                                        }
+                                    } catch (com.stripe.exception.AuthenticationException |
+                                            InvalidRequestException |
+                                            APIConnectionException |
+                                            CardException | APIException e) {
+                                        Log.e("PaymentActivity", "Error: " + e.getMessage());
+                                    }
+                                    return null;
+                                }
+
+                                protected void onPostExecute(Void result) {
+                                    Toast.makeText(PaymentActivity.this, "Payment Successful", Toast.LENGTH_SHORT);
+                                    if (cust != null) {
+                                        ParseQuery<ParseObject> query = ParseQuery.getQuery("SimpleUser");
+                                        query.whereEqualTo("objectId", cUser);
+                                        query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                            public void done(ParseObject trainerSlots, com.parse.ParseException e) {
+                                                if (e == null) {
+                                                    trainerSlots.put(Constants.tokenIdKey, cust.getId());
+                                                    currentUser.setTokenId(cust.getId());
+                                                    trainerSlots.put(Constants.cardTypeKey, card.getType());
+                                                    trainerSlots.put(Constants.last4Key, card.getLast4());
+                                                    trainerSlots.put(Constants.expDateKey, card.getExpMonth() + " / " + card.getExpYear());
+                                                    trainerSlots.saveInBackground(new SaveCallback() {
+                                                        @Override
+                                                        public void done(com.parse.ParseException
+                                                                                 e) {
+                                                            if (e != null) {
+                                                                Toast.makeText(PaymentActivity.this,
+                                                                        getResources().getString(
+                                                                                R.string.not_saved),
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                Log.e("Payment Activity", "Card not saved! " +
+                                                                        e.getMessage());
+                                                            } else {
+                                                                final Intent intent;
+                                                                intent = new Intent(PaymentActivity.this, UpcomingEventsActivity.class);
+                                                                intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
+                                                                PaymentActivity.this.startActivity(intent);
+                                                                overridePendingTransition(R.anim.enter_from_bottom, R.anim.exit_to_top);
+
+                                                            }
+                                                        }
+                                                    });
+                                                } else {
+                                                    Log.d("DEBUG", "Error: " + e.getMessage());
+                                                }
+                                            }
+                                        });
+                                    }
+                                    ParseObject trainer = ParseObject.createWithoutData("Trainer", Trainer.currentTrainerObjectId);
+                                    ParseObject user = ParseObject.createWithoutData("SimpleUser", cUser);
+                                    ParseQuery<ParseObject> paidSlots = ParseQuery.getQuery("BlockedSlots");
+                                    paidSlots.selectKeys(Arrays.asList("objectId"));
+                                    paidSlots.include("trainer_id");
+                                    paidSlots.whereEqualTo("trainer_id", trainer);
+                                    paidSlots.whereEqualTo("user_id", user);
+                                    paidSlots.whereEqualTo("status", Constants.ADD_TO_CART);
+                                    paidSlots.findInBackground(new FindCallback<ParseObject>() {
+                                        public void done(List<ParseObject> trainerSlots, ParseException e) {
+                                            if (e == null) {
+                                                for (ParseObject slots : trainerSlots) {
+                                                    slots.put("status",Constants.BOOKED);
+                                                    slots.saveInBackground();
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }.execute();
+                            finishProgress();
+                        }
+                        public void onError(Exception error) {
+                            handleError(error.getLocalizedMessage());
+                            finishProgress();
+                        }
+                    });
+
+        } else if (!card.validateNumber()) {
+            handleError(Constants.INVALID_CREDITCARD_NUMBER);
+        } else if (!card.validateExpiryDate()) {
+            handleError(Constants.INVALID_EXPIRYDATE);
+        } else if (!card.validateCVC()) {
+            handleError(Constants.INVALID_CVC);
+        } else {
+            handleError(Constants.INVALID_CREDITCARD_DETAILS);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         finish();
@@ -392,26 +399,40 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        String resultStr;
-        if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
-            CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+        if (requestCode == Constants.SCAN_REQUEST_CODE) {
+            String resultStr;
+            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
 
-            // Never log a raw card number. Avoid displaying it, but if necessary use getFormattedCardNumber()
-            resultStr = scanResult.getRedactedCardNumber();
-            cardNumber = scanResult.getFormattedCardNumber();
+                // Never log a raw card number. Avoid displaying it, but if necessary use getFormattedCardNumber()
+                resultStr = scanResult.getRedactedCardNumber();
+                cardNumber = scanResult.getFormattedCardNumber();
 
-            etCCNumber.setText(resultStr);
+                etCCNumber.setText(resultStr);
 
-            // Do something with the raw number, e.g.:
-            // myService.setCardNumber( scanResult.cardNumber );
+                // Do something with the raw number, e.g.:
+                // myService.setCardNumber( scanResult.cardNumber );
 
-            if (scanResult.isExpiryValid()) {
-                resultStr = scanResult.expiryMonth + "/" + scanResult.expiryYear;
-                etExpiry.setText(resultStr);
+                if (scanResult.isExpiryValid()) {
+                    resultStr = scanResult.expiryMonth + "/" + scanResult.expiryYear;
+                    etExpiry.setText(resultStr);
+                }
+            } else {
+                etCCNumber.setText(Constants.CC);
+                etExpiry.setText(Constants.EXPIRY_DATE);
+
+                Intent intent = new Intent(this, CardScannedActivity.class);
+                startActivityForResult(intent, Constants.SCANNED_REQUEST_CODE);
             }
-        } else {
-            etCCNumber.setText(Constants.CC);
-            etExpiry.setText(Constants.EXPIRY_DATE);
+        }
+        else {
+            //onSubmitClicked();
+
+            final Intent intent;
+            intent = new Intent(PaymentActivity.this, UpcomingEventsActivity.class);
+            intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
+            PaymentActivity.this.startActivity(intent);
+            overridePendingTransition(R.anim.enter_from_bottom, R.anim.exit_to_top);
         }
     }
 }

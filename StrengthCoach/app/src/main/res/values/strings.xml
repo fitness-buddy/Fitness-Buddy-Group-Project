@@ -105,5 +105,6 @@
     <string name="positive_text">Add to cart</string>
     <string name="pick_date">Pick an available date</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_card_scanned">CardScannedActivity</string>
 
 </resources>
