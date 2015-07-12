@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -271,7 +272,66 @@ public class HomeActivity extends AppCompatActivity  {
     }
 
     public void SignOut() {
+        if (SimpleUser.currentUserObject != null)
+        {
+            {
+                // Delete favorites
+                ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
+                query.include("favorited_by");
+                query.whereEqualTo("favorited_by", SimpleUser.currentUserObject);
+                query.findInBackground(new FindCallback<Trainer>() {
+                    public void done(List<Trainer> trainers, ParseException e) {
+                        if (e == null) {
+                            for (int i = 0; i < trainers.size(); i++) {
+                                Trainer t = trainers.get(i);
+                                t.getFavoritedBy().remove(SimpleUser.currentUserObject);
+                                t.saveInBackground();
+                            }
+                        } else {
+                            Log.d("DEBUG", "Error: " + e.getMessage());
+                        }
+                    }
+                });
+            }
+
+            {
+                // Delete items in cart
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("BlockedSlots");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> slots, ParseException e) {
+                        if (e == null) {
+                            for (int i = 0; i < slots.size(); i++) {
+                                ParseObject slot = slots.get(i);
+                                slot.deleteInBackground();
+                            }
+                        } else {
+                            Log.d("DEBUG", "Error: " + e.getMessage());
+                        }
+                    }
+                });
+            }
+
+            {
+                // Delete messages
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Message");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> slots, ParseException e) {
+                        if (e == null) {
+                            for (int i = 0; i < slots.size(); i++) {
+                                ParseObject slot = slots.get(i);
+                                slot.deleteInBackground();
+                            }
+                        } else {
+                            Log.d("DEBUG", "Error: " + e.getMessage());
+                        }
+                    }
+                });
+            }
+        }
+
+        // Sign-out
         SimpleUser.currentUserObject.deleteInBackground();
+        SimpleUser.currentUserObject = null;
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor edit = pref.edit();
         edit.clear();

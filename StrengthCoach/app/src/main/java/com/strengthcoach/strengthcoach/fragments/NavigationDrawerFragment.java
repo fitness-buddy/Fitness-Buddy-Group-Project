@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -165,10 +164,7 @@ public class NavigationDrawerFragment extends Fragment {
                 ((HomeActivity) getActivity()).populateFavoriteTrainers();
                 break;
             case "Sign Out":
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                SharedPreferences.Editor edit = pref.edit();
-                edit.clear();
-                edit.commit();
+                ((HomeActivity) getActivity()).SignOut();
                 break;
         }
     }
