@@ -264,7 +264,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         // Show trainer name
         mTitleView.setText(localTrainer.getName());
         YoYo.with(Techniques.FlipInX)
-                .duration(2000)
+                .duration(1200)
                 .playOn(mTitleView);
 
         // Show fav icon
@@ -275,7 +275,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
             ivFavorite.setImageResource(R.drawable.heart);
         }
         YoYo.with(Techniques.Landing)
-                .duration(2000)
+                .duration(1200)
                 .playOn(ivFavorite);
 
         TextView tvAboutTrainer = (TextView) findViewById(R.id.tvAboutTrainer);
@@ -283,7 +283,7 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
 
         TextView tvPrice = (TextView) findViewById(R.id.tvPrice);
         tvPrice.setText(localTrainer.getPriceFormatted());
-        YoYo.with(Techniques.RubberBand).duration(2000).playOn(tvPrice);
+        YoYo.with(Techniques.RubberBand).duration(1200).playOn(tvPrice);
 
         TextView tvTrainerEducation = (TextView) findViewById(R.id.tvTrainerEducation);
         String educationAndCertifications = "";
