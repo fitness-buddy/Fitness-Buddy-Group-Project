@@ -2,14 +2,16 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -17,6 +19,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.fragments.TrainersListFragment;
 import com.strengthcoach.strengthcoach.models.Gym;
@@ -27,24 +30,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity  {
     public static Trainer markedFavorite;
     private final int LOAD_TRAINERS_FOR_GYM = 20;
     private final int LOGIN_FOR_FAVORITES = 122;
     private final int LOGIN_FOR_MARKING_FAVORITES = 117;
     private TrainersListFragment fragment;
+    MenuItem miActionProgressItem;
+    ProgressWheel progressWheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         // Later refactor this logic and move to nav drawer
 //        SignOut();
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.navigationBarColor));
-        }
 
         fragment = (TrainersListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
@@ -73,6 +73,10 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
         return true;
     }
 
@@ -104,6 +108,9 @@ public class HomeActivity extends AppCompatActivity {
         if (id == R.id.action_map) {
             launchMap();
         }
+        if(id == R.id.miActionProgress){
+            showProgressBar();
+        }
 
 
         return super.onOptionsItemSelected(item);
@@ -124,6 +131,7 @@ public class HomeActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Trainer>() {
             public void done(List<Trainer> trainers, ParseException e) {
                 if (e == null) {
+                    hideProgressBar();
                     Log.d("DEBUG", "Retrieved " + trainers.size() + " trainers");
                     refreshFragment(trainers);
                 } else {
@@ -140,6 +148,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // If userId is found; user has already signed up
         if (!currentUserId.equals("")) {
+
             ParseQuery<SimpleUser> query = ParseQuery.getQuery("SimpleUser");
             query.whereEqualTo("objectId", currentUserId);
             query.getFirstInBackground(new GetCallback<SimpleUser>() {
@@ -153,6 +162,7 @@ public class HomeActivity extends AppCompatActivity {
             // Ask the user to sign up
             launchLoginActivity(LOGIN_FOR_FAVORITES);
         }
+        hideProgressBar();
     }
 
     public void launchLoginActivity(final int IDENTIFIER) {
@@ -241,9 +251,11 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Loaded trainers from " + gymName, Toast.LENGTH_SHORT).show();
                     ArrayList<Trainer> trainers = gym.getTrainers();
                     refreshFragment(trainers);
+
                 } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
+                hideProgressBar();
             }
         });
     }
@@ -255,6 +267,7 @@ public class HomeActivity extends AppCompatActivity {
         ft.attach(fragment);
         ft.commit();
         fragment.setItems(trainers);
+        hideProgressBar();
     }
 
     public void SignOut() {
@@ -264,4 +277,25 @@ public class HomeActivity extends AppCompatActivity {
         edit.clear();
         edit.commit();
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
+
 }
