@@ -80,7 +80,7 @@ public class BlockSlotActivity extends ActionBarActivity{
         bSelectSlot = (Button) findViewById(R.id.bSelectSlot);
 
         if(addToCartCount > 0){
-            bProceedToPayment.setText(Html.fromHtml("CheckOut ("+addToCartCount+")"));
+            bProceedToPayment.setText(Html.fromHtml("Checkout ("+addToCartCount+")"));
         }
 
         name =  getIntent().getStringExtra("etName");
