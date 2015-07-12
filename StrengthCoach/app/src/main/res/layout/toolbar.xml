@@ -7,9 +7,24 @@
     android:minHeight="?attr/actionBarSize"
     app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="?attr/actionBarSize"
-        android:layout_height="?attr/actionBarSize"
-        android:id="@+id/ivToolbarImage"
-        android:layout_gravity="right" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/ivToolbarImage"
+            android:layout_gravity="start" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTrainerName"
+            android:layout_marginLeft="8dp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@+id/ivToolbarImage"/>
+    </RelativeLayout>
 </android.support.v7.widget.Toolbar>

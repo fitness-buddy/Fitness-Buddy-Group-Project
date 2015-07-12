@@ -101,7 +101,7 @@
         </activity>
         <activity
             android:name=".activities.ChatActivity"
-            android:label="@string/title_activity_chat" >
+            android:label="@string/title_activity_chat">
         </activity>
         <activity
             android:name=".activities.PaymentActivity"

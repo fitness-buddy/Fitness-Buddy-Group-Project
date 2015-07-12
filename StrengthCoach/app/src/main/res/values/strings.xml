@@ -28,7 +28,7 @@
     <string name="cc_expiry">Expiry</string>
     <string name="cc_expiry_hint">mm / yy</string>
     <string name="scan_card">Scan card</string>
-    <string name="enter_manually">Enter your credit card details</string>
+    <string name="enter_manually">Enter credit card details</string>
     <string name="ok">OK</string>
     <string name="validationErrors">Validation Errors</string>
     <string name="progressMessage">Creating Token</string>

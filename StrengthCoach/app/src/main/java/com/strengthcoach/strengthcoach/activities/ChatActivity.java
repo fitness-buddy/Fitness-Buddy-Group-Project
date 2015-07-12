@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.parse.FindCallback;
@@ -37,14 +38,12 @@ public class ChatActivity extends ActionBarActivity {
 
     ChatPerson m_me;
     ChatPerson m_other;
-
     ArrayList<Message> m_messages;
     ChatItemAdapter messagesAdapter;
     ListView lvMessages;
-
     EditText etMessage;
-
     Toolbar mToolbar;
+    TextView tvTrainerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,7 @@ public class ChatActivity extends ActionBarActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -67,15 +67,17 @@ public class ChatActivity extends ActionBarActivity {
         m_me = (ChatPerson)getIntent().getSerializableExtra("me");
         m_other = (ChatPerson)getIntent().getSerializableExtra("other");
 
-        getSupportActionBar().setTitle(m_other.name);
         ImageView ivToolbarImage = (ImageView) mToolbar.findViewById(R.id.ivToolbarImage);
-
         if (m_other.imageUrl != null && !m_other.imageUrl.equals("")) {
             Picasso.with(this).load(m_other.imageUrl).into(ivToolbarImage);
         }
         else {
             ivToolbarImage.setImageResource(R.drawable.default_profile_image);
         }
+
+        // Set the title of toolbar
+        tvTrainerName = (TextView) mToolbar.findViewById(R.id.tvTrainerName);
+        tvTrainerName.setText(m_other.name);
 
         m_messages = new ArrayList<>();
         messagesAdapter = new ChatItemAdapter(this, m_messages, m_me, m_other);
@@ -128,7 +130,6 @@ public class ChatActivity extends ActionBarActivity {
         lvMessages.setSelection(lvMessages.getCount() - 1);
 
         try {
-
             ChatNotification notification = new ChatNotification();
             notification.from = m_me;
             notification.to = m_other;
@@ -146,7 +147,6 @@ public class ChatActivity extends ActionBarActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         etMessage.setText("");
     }
 
