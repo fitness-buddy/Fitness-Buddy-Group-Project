@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +57,7 @@ public class BlockSlotActivity extends ActionBarActivity{
     boolean flag;
     Toolbar mToolbar;
     Button bSelectSlot;
+    public static int addToCartCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +76,12 @@ public class BlockSlotActivity extends ActionBarActivity{
             }
         });
 
-
         bProceedToPayment = (Button)findViewById(R.id.bProceedToPayment);
         bSelectSlot = (Button) findViewById(R.id.bSelectSlot);
+
+        if(addToCartCount > 0){
+            bProceedToPayment.setText(Html.fromHtml("CheckOut ("+addToCartCount+")"));
+        }
 
         name =  getIntent().getStringExtra("etName");
         phoneno =  getIntent().getStringExtra("etPhoneNumber");
@@ -204,6 +209,8 @@ public class BlockSlotActivity extends ActionBarActivity{
                                     public void done(ParseException e) {
                                         if (e == null) {
                                             Log.d("DEBUG!!!", "Slot Saved Successfully ");
+                                            ++addToCartCount;
+                                            bProceedToPayment.setText(Html.fromHtml("CheckOut ("+addToCartCount+")"));
                                             alreadyBookedSlots(Trainer.currentTrainerObjectId, simpleDayFormat.format(userSelectedDate), simpleDateStrFormat.format(userSelectedDate), context);
                                         } else {
                                             Log.d("DEBUG!!!", "Slot Not Saved");
@@ -211,6 +218,10 @@ public class BlockSlotActivity extends ActionBarActivity{
                                     }
                                 });
                                 bProceedToPayment.setVisibility(View.VISIBLE);
+                                Log.v("payment", "Proceed to PAyment " + addToCartCount);
+                                if (addToCartCount>0){
+                                    bProceedToPayment.setText(Html.fromHtml("CheckOut ("+addToCartCount+")"));
+                                }
                                 return true;
                             }
                         })
