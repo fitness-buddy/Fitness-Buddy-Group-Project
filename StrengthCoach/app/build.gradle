@@ -71,6 +71,8 @@ dependencies {
 	
 	compile 'com.balysv:material-ripple:1.0.2' // adding ripple effect for buttons
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+    // Progress wheel
+    compile 'com.pnikosis:materialish-progress:1.5'
 }
 
 repositories {

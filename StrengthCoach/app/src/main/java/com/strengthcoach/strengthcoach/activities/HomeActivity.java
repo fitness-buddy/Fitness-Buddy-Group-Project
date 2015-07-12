@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -28,6 +27,8 @@ import com.strengthcoach.strengthcoach.models.SimpleUser;
 import com.strengthcoach.strengthcoach.models.Trainer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -128,7 +129,7 @@ public class HomeActivity extends AppCompatActivity  {
         final TrainersListFragment finalFragment = fragment;
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.include("favorited_by");
-        query.orderByDescending("createdAt");
+        query.orderByDescending("name");
         query.findInBackground(new FindCallback<Trainer>() {
             public void done(List<Trainer> trainers, ParseException e) {
                 if (e == null) {
@@ -251,6 +252,13 @@ public class HomeActivity extends AppCompatActivity  {
                     Log.d("DEBUG", "Retrieved " + gym.getTrainers().size() + " gyms");
                     Toast.makeText(getBaseContext(), "Loaded trainers from " + gymName, Toast.LENGTH_SHORT).show();
                     ArrayList<Trainer> trainers = gym.getTrainers();
+                    Collections.sort(trainers, new Comparator<Trainer>(){
+                        public int compare(Trainer o1, Trainer o2){
+                            if(o1.getName() == o2.getName())
+                                return 0;
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    });
                     refreshFragment(trainers);
 
                 } else {
@@ -260,6 +268,8 @@ public class HomeActivity extends AppCompatActivity  {
             }
         });
     }
+
+
 
     public void refreshFragment(List<Trainer> trainers) {
         fragment.setItems(new ArrayList<Trainer>());

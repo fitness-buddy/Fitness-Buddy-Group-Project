@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -20,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -54,7 +53,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import io.card.payment.CardIOActivity;
-import io.card.payment.CreditCard;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -407,21 +405,26 @@ public class PaymentActivity extends AppCompatActivity {
         if (requestCode == Constants.SCAN_REQUEST_CODE) {
             String resultStr;
             if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
-                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
-
-                // Never log a raw card number. Avoid displaying it, but if necessary use getFormattedCardNumber()
-                resultStr = scanResult.getRedactedCardNumber();
-                cardNumber = scanResult.getFormattedCardNumber();
-
-                etCCNumber.setText(resultStr);
-
-                // Do something with the raw number, e.g.:
-                // myService.setCardNumber( scanResult.cardNumber );
-
-                if (scanResult.isExpiryValid()) {
-                    resultStr = scanResult.expiryMonth + "/" + scanResult.expiryYear;
-                    etExpiry.setText(resultStr);
-                }
+//                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+//
+//                // Never log a raw card number. Avoid displaying it, but if necessary use getFormattedCardNumber()
+//                resultStr = scanResult.getRedactedCardNumber();
+//                cardNumber = scanResult.getFormattedCardNumber();
+//
+//                etCCNumber.setText(resultStr);
+//
+//                // Do something with the raw number, e.g.:
+//                // myService.setCardNumber( scanResult.cardNumber );
+//
+//                if (scanResult.isExpiryValid()) {
+//                    resultStr = scanResult.expiryMonth + "/" + scanResult.expiryYear;
+//                    etExpiry.setText(resultStr);
+//                }
+                final Intent intent;
+                intent = new Intent(PaymentActivity.this, UpcomingEventsActivity.class);
+                intent.putExtra("trainerId", Trainer.currentTrainerObjectId);
+                PaymentActivity.this.startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_bottom, R.anim.exit_to_top);
             } else {
                 etCCNumber.setText(Constants.CC);
                 etExpiry.setText(Constants.EXPIRY_DATE);
