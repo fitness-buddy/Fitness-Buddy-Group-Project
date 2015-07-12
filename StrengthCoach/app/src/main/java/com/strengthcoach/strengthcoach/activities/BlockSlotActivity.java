@@ -210,7 +210,7 @@ public class BlockSlotActivity extends ActionBarActivity{
                                         if (e == null) {
                                             Log.d("DEBUG!!!", "Slot Saved Successfully ");
                                             ++addToCartCount;
-                                            bProceedToPayment.setText(Html.fromHtml("CheckOut ("+addToCartCount+")"));
+                                            bProceedToPayment.setText(Html.fromHtml("Checkout ("+addToCartCount+")"));
                                             alreadyBookedSlots(Trainer.currentTrainerObjectId, simpleDayFormat.format(userSelectedDate), simpleDateStrFormat.format(userSelectedDate), context);
                                         } else {
                                             Log.d("DEBUG!!!", "Slot Not Saved");
