@@ -174,7 +174,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     private void animate(TrainerViewHolder holder) {
         YoYo.with(Techniques.BounceInUp)
-                .duration(2000)
+                .duration(1700)
                 .playOn(holder.itemView);
     }
 

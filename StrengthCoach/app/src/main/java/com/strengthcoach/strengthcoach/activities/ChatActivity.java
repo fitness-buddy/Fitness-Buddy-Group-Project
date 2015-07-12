@@ -1,6 +1,7 @@
 package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -49,6 +50,9 @@ public class ChatActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.navigationBarColor));
+        }
 
         // setup Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);

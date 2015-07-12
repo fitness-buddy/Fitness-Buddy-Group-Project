@@ -2,6 +2,7 @@ package com.strengthcoach.strengthcoach.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
@@ -40,6 +41,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // Later refactor this logic and move to nav drawer
 //        SignOut();
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.navigationBarColor));
+        }
 
         fragment = (TrainersListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
