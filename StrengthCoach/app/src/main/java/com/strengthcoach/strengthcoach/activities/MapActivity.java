@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -130,7 +129,7 @@ public class MapActivity extends ActionBarActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
     }
 
