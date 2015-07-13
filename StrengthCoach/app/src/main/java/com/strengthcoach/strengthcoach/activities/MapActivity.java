@@ -15,6 +15,7 @@ import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.models.Gym;
 
@@ -52,6 +54,8 @@ public class MapActivity extends ActionBarActivity {
         }
 
         SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+        final ProgressWheel progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
@@ -76,16 +80,18 @@ public class MapActivity extends ActionBarActivity {
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(point)      // Sets the center of the map to Mountain View
                             .zoom(14)                   // Sets the zoom
+                            .tilt(45)
                             .build();                   // Creates a CameraPosition from the builder
                     m_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), new GoogleMap.CancelableCallback() {
                         @Override
                         public void onFinish() {
-
+                            progressWheel.setVisibility(View.VISIBLE);
                             ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
                             query.include("address");
                             query.include("trainers");
                             query.findInBackground(new FindCallback<Gym>() {
                                 public void done(List<Gym> gyms, com.parse.ParseException e) {
+                                    progressWheel.setVisibility(View.INVISIBLE);
                                     for (int i = 0; i < gyms.size(); i++) {
 
                                         int count = gyms.get(i).getTrainers().size();
@@ -167,6 +173,7 @@ public class MapActivity extends ActionBarActivity {
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(point)      // Sets the center of the map to Mountain View
                         .zoom(15)                   // Sets the zoom
+                        .tilt(67.5f)
                         .build();                   // Creates a CameraPosition from the builder
                 m_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }

@@ -239,6 +239,9 @@ public class HomeActivity extends AppCompatActivity  {
     }
 
     private void populateTrainersFromGymName(final String gymName) {
+        // Empty the list of all trainers previously loaded in the home activity
+        fragment.setItems(new ArrayList<Trainer>());
+
         final TrainersListFragment trainersListFragment = fragment;
         ParseQuery<Gym> query = ParseQuery.getQuery("Gym");
         query.include("trainers");
@@ -269,9 +272,7 @@ public class HomeActivity extends AppCompatActivity  {
     }
 
 
-
     public void refreshFragment(List<Trainer> trainers) {
-        fragment.setItems(new ArrayList<Trainer>());
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.detach(fragment);
         ft.attach(fragment);
