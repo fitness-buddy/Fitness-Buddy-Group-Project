@@ -4,12 +4,4 @@
 
     <item android:id="@+id/action_map" android:title="Map" android:icon="@drawable/ic_map_white"
         android:orderInCategory="100" app:showAsAction="always" />
-    <item
-        android:id="@+id/miActionProgress"
-        android:title="Loading..."
-        android:visible="true"
-        android:orderInCategory="90"
-        app:showAsAction="always"
-        app:actionLayout="@layout/action_view_progress"
-        />
 </menu>

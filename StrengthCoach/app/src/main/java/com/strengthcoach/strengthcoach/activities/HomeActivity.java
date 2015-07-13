@@ -6,12 +6,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -39,7 +38,6 @@ public class HomeActivity extends AppCompatActivity  {
     private final int LOGIN_FOR_FAVORITES = 122;
     private final int LOGIN_FOR_MARKING_FAVORITES = 117;
     private TrainersListFragment fragment;
-    MenuItem miActionProgressItem;
     ProgressWheel progressWheel;
 
     @Override
@@ -49,10 +47,12 @@ public class HomeActivity extends AppCompatActivity  {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.navigationBarColor));
         }
+
         // Later refactor this logic and move to nav drawer
 //        SignOut();
 
         fragment = (TrainersListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
 
         String currentUserId = getLoggedInUserId();
         // If the user is already logged in get the user object
@@ -62,6 +62,7 @@ public class HomeActivity extends AppCompatActivity  {
             query.findInBackground(new FindCallback<SimpleUser>() {
                 public void done(List<SimpleUser> users, ParseException e) {
                     if (e == null) {
+                        hideProgressWheel();
                         // Set the value of global current user object
                         SimpleUser.currentUserObject = users.get(0);
                         populateTrainers();
@@ -79,10 +80,6 @@ public class HomeActivity extends AppCompatActivity  {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
-        // Store instance of the menu item containing progress
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        // Extract the action-view from the menu item
-        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
         return true;
     }
 
@@ -114,11 +111,6 @@ public class HomeActivity extends AppCompatActivity  {
         if (id == R.id.action_map) {
             launchMap();
         }
-        if(id == R.id.miActionProgress){
-            showProgressBar();
-        }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -136,8 +128,9 @@ public class HomeActivity extends AppCompatActivity  {
         query.orderByDescending("name");
         query.findInBackground(new FindCallback<Trainer>() {
             public void done(List<Trainer> trainers, ParseException e) {
+                hideProgressWheel();
                 if (e == null) {
-                    hideProgressBar();
+                    hideProgressWheel();
                     Log.d("DEBUG", "Retrieved " + trainers.size() + " trainers");
                     refreshFragment(trainers);
                 } else {
@@ -149,6 +142,7 @@ public class HomeActivity extends AppCompatActivity  {
 
     // Pass the list of trainers to fragment
     public void populateFavoriteTrainers() {
+        showProgressWheel();
         final TrainersListFragment finalFragment = fragment;
         String currentUserId = getLoggedInUserId();
 
@@ -168,7 +162,6 @@ public class HomeActivity extends AppCompatActivity  {
             // Ask the user to sign up
             launchLoginActivity(LOGIN_FOR_FAVORITES);
         }
-        hideProgressBar();
     }
 
     public void launchLoginActivity(final int IDENTIFIER) {
@@ -206,6 +199,7 @@ public class HomeActivity extends AppCompatActivity  {
         query.whereEqualTo("favorited_by", SimpleUser.currentUserObject);
         query.findInBackground(new FindCallback<Trainer>() {
             public void done(List<Trainer> trainers, ParseException e) {
+                hideProgressWheel();
                 if (e == null) {
                     Log.d("DEBUG", "Retrieved " + trainers.size() + " trainers");
                     refreshFragment(trainers);
@@ -228,6 +222,7 @@ public class HomeActivity extends AppCompatActivity  {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case LOAD_TRAINERS_FOR_GYM:
+                    showProgressWheel();
                     // Get the name of gym from map activity
                     String gymName = data.getExtras().getString("gymName");
                     populateTrainersFromGymName(gymName);
@@ -250,15 +245,16 @@ public class HomeActivity extends AppCompatActivity  {
         query.whereEqualTo("name", gymName);
         query.findInBackground(new FindCallback<Gym>() {
             public void done(List<Gym> gyms, ParseException e) {
+                hideProgressWheel();
                 if (e == null) {
                     Log.d("DEBUG", "Retrieved " + gyms.size() + " gyms");
                     Gym gym = gyms.get(0);
                     Log.d("DEBUG", "Retrieved " + gym.getTrainers().size() + " gyms");
                     Toast.makeText(getBaseContext(), "Loaded trainers from " + gymName, Toast.LENGTH_SHORT).show();
                     ArrayList<Trainer> trainers = gym.getTrainers();
-                    Collections.sort(trainers, new Comparator<Trainer>(){
-                        public int compare(Trainer o1, Trainer o2){
-                            if(o1.getName() == o2.getName())
+                    Collections.sort(trainers, new Comparator<Trainer>() {
+                        public int compare(Trainer o1, Trainer o2) {
+                            if (o1.getName() == o2.getName())
                                 return 0;
                             return o1.getName().compareTo(o2.getName());
                         }
@@ -268,7 +264,6 @@ public class HomeActivity extends AppCompatActivity  {
                 } else {
                     Log.d("DEBUG", "Error: " + e.getMessage());
                 }
-                hideProgressBar();
             }
         });
     }
@@ -282,7 +277,6 @@ public class HomeActivity extends AppCompatActivity  {
         ft.attach(fragment);
         ft.commit();
         fragment.setItems(trainers);
-        hideProgressBar();
     }
 
     public void SignOut() {
@@ -354,22 +348,18 @@ public class HomeActivity extends AppCompatActivity  {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // Store instance of the menu item containing progress
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        // Extract the action-view from the menu item
-        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
     }
-    public void showProgressBar() {
-        // Show progress item
-        miActionProgressItem.setVisible(true);
-    }
 
-    public void hideProgressBar() {
+    public void hideProgressWheel() {
         // Hide progress item
-        miActionProgressItem.setVisible(false);
+        progressWheel.setVisibility(View.INVISIBLE);
     }
 
+    public void showProgressWheel() {
+        // Hide progress item
+        progressWheel.setVisibility(View.VISIBLE);
+    }
 
 }
