@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity  {
         final TrainersListFragment finalFragment = fragment;
         ParseQuery<Trainer> query = ParseQuery.getQuery("Trainer");
         query.include("favorited_by");
-        query.orderByDescending("name");
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Trainer>() {
             public void done(List<Trainer> trainers, ParseException e) {
                 hideProgressWheel();
@@ -254,9 +254,9 @@ public class HomeActivity extends AppCompatActivity  {
                     ArrayList<Trainer> trainers = gym.getTrainers();
                     Collections.sort(trainers, new Comparator<Trainer>() {
                         public int compare(Trainer o1, Trainer o2) {
-                            if (o1.getName() == o2.getName())
+                            if (o1.getUpdatedAt() == o2.getUpdatedAt())
                                 return 0;
-                            return o1.getName().compareTo(o2.getName());
+                            return o1.getUpdatedAt().compareTo(o2.getUpdatedAt()) * -1;
                         }
                     });
                     refreshFragment(trainers);
