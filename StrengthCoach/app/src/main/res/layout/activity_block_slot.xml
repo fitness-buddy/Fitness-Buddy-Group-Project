@@ -96,7 +96,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/checkout"
                     style="@style/activityTransitionButton"
-                    android:background="@color/checkoutBtnColor"
+                    android:background="@color/book_slot"
                     android:visibility="gone"
                     />
             </com.balysv.materialripple.MaterialRippleLayout>

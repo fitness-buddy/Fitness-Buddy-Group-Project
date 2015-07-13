@@ -58,7 +58,7 @@ public class BlockSlotActivity extends ActionBarActivity{
     boolean flag;
     Toolbar mToolbar;
     Button bSelectSlot;
-    public static int addToCartCount;
+    public int addToCartCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +84,7 @@ public class BlockSlotActivity extends ActionBarActivity{
         bProceedToPayment = (Button)findViewById(R.id.bProceedToPayment);
         bSelectSlot = (Button) findViewById(R.id.bSelectSlot);
 
+        addToCartCount = 0;
         if(addToCartCount > 0){
             bProceedToPayment.setText(Html.fromHtml("Checkout ("+addToCartCount+")"));
         }
