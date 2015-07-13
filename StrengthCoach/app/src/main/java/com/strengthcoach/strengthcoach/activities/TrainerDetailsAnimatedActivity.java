@@ -3,6 +3,7 @@ package com.strengthcoach.strengthcoach.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -325,6 +326,14 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
                 @Override
                 public void onMapReady(GoogleMap map) {
                     m_map = map;
+                    m_map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            openLyftApp();
+                            //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        }
+                    });
+
                     ParseGeoPoint parseGeoPoint = m_trainer.getGym().point();
                     LatLng point = new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
                     m_map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
@@ -551,5 +560,16 @@ public class TrainerDetailsAnimatedActivity extends AppCompatActivity implements
         Intent returnIntent = new Intent();
         setResult(RESULT_CANCELED, returnIntent);
         supportFinishAfterTransition();
+    }
+
+    public boolean openLyftApp() {
+        PackageManager manager = this.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage("me.lyft.android");
+        if (i == null) {
+            return false;
+        }
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        this.startActivity(i);
+        return true;
     }
 }
