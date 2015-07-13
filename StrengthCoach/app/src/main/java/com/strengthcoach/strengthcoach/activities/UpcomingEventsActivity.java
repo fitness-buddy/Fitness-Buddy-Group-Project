@@ -19,6 +19,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.strengthcoach.strengthcoach.R;
 import com.strengthcoach.strengthcoach.adapters.UpcomingEventsAdapter;
 import com.strengthcoach.strengthcoach.helpers.Constants;
@@ -88,6 +89,7 @@ public class UpcomingEventsActivity extends AppCompatActivity {
     private void populateEvents() {
 
         String currentUser;
+        final ProgressWheel progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
         currentDate = Calendar.getInstance().getTime();// get current date
         final SimpleDateFormat simpleDateStrFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
         final String strCurrentDate = simpleDateStrFormat.format(currentDate);
@@ -124,10 +126,12 @@ public class UpcomingEventsActivity extends AppCompatActivity {
                         } catch (java.text.ParseException e1) {
                             e1.printStackTrace();
                         }
+                        progressWheel.setVisibility(View.INVISIBLE);
                         adSlots.notifyDataSetChanged();
                     }
                 } else {
                     Log.v("DEBUG!!!!!!!!!!!!!", "Error occured >>>>>>>>>>>>>>>>>>         " + e);
+                    progressWheel.setVisibility(View.INVISIBLE);
                 }
             }
         });
