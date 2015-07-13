@@ -1,6 +1,8 @@
 package com.strengthcoach.strengthcoach.activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -100,6 +102,16 @@ public class ChatActivity extends ActionBarActivity {
                 handler.postDelayed(this, delay);
             }
         }, delay);
+
+        ImageView ivPhone = (ImageView) mToolbar.findViewById(R.id.ivPhone);
+        ivPhone.setImageResource(R.drawable.phone);
+        ivPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callSkype("jason.khalipha");
+            }
+        });
+
     }
 
     @Override
@@ -184,5 +196,19 @@ public class ChatActivity extends ActionBarActivity {
         setResult(RESULT_CANCELED, returnIntent);
         finish();
         overridePendingTransition(R.anim.stay_in_place, R.anim.exit_to_bottom);
+    }
+
+    public void callSkype(String number) {
+        try {
+            //Intent sky = new Intent("android.intent.action.CALL_PRIVILEGED");
+            //the above line tries to create an intent for which the skype app doesn't supply public api
+
+            Intent sky = new Intent("android.intent.action.VIEW");
+            sky.setData(Uri.parse("skype:" + number));
+            Log.d("UTILS", "tel:" + number);
+            this.startActivity(sky);
+        } catch (ActivityNotFoundException e) {
+            Log.e("SKYPE CALL", "Skype failed", e);
+        }
     }
 }
