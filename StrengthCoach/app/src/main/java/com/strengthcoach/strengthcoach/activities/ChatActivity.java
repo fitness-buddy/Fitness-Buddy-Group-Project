@@ -102,22 +102,13 @@ public class ChatActivity extends ActionBarActivity {
                 handler.postDelayed(this, delay);
             }
         }, delay);
-
-        ImageView ivPhone = (ImageView) mToolbar.findViewById(R.id.ivPhone);
-        ivPhone.setImageResource(R.drawable.phone);
-        ivPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callSkype("jason.khalipha");
-            }
-        });
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chat, menu);
+
         return true;
     }
 
@@ -131,6 +122,9 @@ public class ChatActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.phone) {
+            callSkype("jason.khalipha");
         }
 
         return super.onOptionsItemSelected(item);
